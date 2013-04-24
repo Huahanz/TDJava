@@ -8,7 +8,7 @@ import Helpers.TestHelper;
 public class DTowerBall extends TowerBall {
 
 	final static int mapID = 2;
-	protected int scope = 3;
+	protected int scope = 6;
 	protected int attack = 10;
 	protected String bulletName = "SilverBulletBall";
 

@@ -3,6 +3,7 @@ package FrontEnd.Balls;
 import FrontEnd.GameInfo;
 import Helpers.Config;
 import Helpers.GameManager;
+import Helpers.TestHelper;
 
 public class SilverBulletBall extends BulletBall {
 
@@ -10,7 +11,7 @@ public class SilverBulletBall extends BulletBall {
 	int y;
 	int targetX;
 	int targetY;
-	int damage = 100;
+	int damage = 60;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, ball, Config.silverBulletBallImagePath);
@@ -23,6 +24,7 @@ public class SilverBulletBall extends BulletBall {
 		if (hit) {
 			Ball target = this.getTarget();
 			if (target instanceof ActiveBall) {
+				TestHelper.print("shooting");
 				((ActiveBall) target).setHealth(((ActiveBall) target)
 						.getHealth() - this.getDamage());
 				if(((ActiveBall) target).getHealth() <= 0){

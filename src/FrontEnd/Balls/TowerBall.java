@@ -64,8 +64,9 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean defend() {
-		for (Ball ball : GameInfo.balls) {
-			if (ball instanceof ActiveBall) {
+		for(int i =0; i < GameInfo.balls.size(); i++){
+			Ball ball = GameInfo.balls.get(i);
+			if (ball instanceof ActiveBall && !(ball instanceof BulletBall)) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {
@@ -88,9 +89,9 @@ public abstract class TowerBall extends Ball {
 		int x = this.getX();
 		int y = this.getY();
 		return (ballX < x + Config.slotWidth * scope
-				&& ballX > x - Config.slotWidth
-				&& ballY < y + Config.slotHeight && ballY > y
-				- Config.slotHeight);
+				&& ballX > x - Config.slotWidth * scope
+				&& ballY < y + Config.slotHeight * scope && ballY > y
+				- Config.slotHeight * scope);
 	}
 	
 	public Object getShape() {

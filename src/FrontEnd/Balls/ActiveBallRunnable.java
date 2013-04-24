@@ -9,7 +9,8 @@ public class ActiveBallRunnable extends BallRunnable implements Runnable {
 
 	public void run() {
 		while (true) {
-			for(Ball ball : GameInfo.balls){
+			for(int i =0; i < GameInfo.balls.size(); i++){
+				Ball ball = GameInfo.balls.get(i);
 				if(ball instanceof FastBall)
 					((FastBall) ball).randomWalk();
 			}

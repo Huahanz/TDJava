@@ -9,8 +9,9 @@ public class TowerBallRunnable extends BallRunnable implements Runnable {
 
 	public void run() {
 		while (true) {
-			for(Ball ball : GameInfo.balls){
-				if(ball instanceof TowerBall)
+			for (int i = 0; i < GameInfo.balls.size(); i++) {
+				Ball ball = GameInfo.balls.get(i);
+				if (ball instanceof TowerBall)
 					((TowerBall) ball).defend();
 			}
 			try {

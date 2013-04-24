@@ -12,7 +12,7 @@ public abstract class BulletBall extends ActiveBall {
 	int damage;
 
 	public BulletBall(int x, int y, Ball ball, String imagePath) {
-		super(x, y, 1, 1, 100, imagePath);
+		super(x, y, 10, 10, 10, imagePath);
 		this.setTarget(ball);
 	}
 

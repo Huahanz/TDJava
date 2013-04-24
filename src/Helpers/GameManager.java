@@ -40,7 +40,7 @@ public class GameManager {
 				ball = new DTowerBall(x, y);
 			break;
 		case "SilverBulletBall":
-			if (obj0 != null) 
+			if (obj0 != null)
 				ball = new SilverBulletBall(x, y, (Ball) obj0);
 			break;
 		default:
@@ -52,10 +52,15 @@ public class GameManager {
 		}
 	}
 
-	public boolean killBall(Ball ball){
-		ball = null;
+	public synchronized boolean killBall(Ball ball) {
+		TestHelper.print("killing ball");
+		if (GameInfo.balls.contains(ball)) {
+			//GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
+			GameInfo.balls.remove(ball);
+		}
 		return true;
 	}
+
 	public void loadServerBalls() {
 		String ballsJson = HttpManager.readTestOneSlotBalls();
 

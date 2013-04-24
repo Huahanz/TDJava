@@ -1,0 +1,258 @@
+package FrontEnd;
+
+import java.awt.BorderLayout;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+import Controller.PostMan;
+import FrontEnd.Balls.*;
+import Helpers.Config;
+import Helpers.GameManager;
+import Helpers.MapData;
+import Helpers.TestHelper;
+
+public class GameInfo {
+	public static SwingPanel swingPanel;
+	public static ArrayList<Ball> balls = new ArrayList<Ball>();
+	public static Rectangle2D Bounds;
+	public static PostMan postMan;
+	public static byte[][][][] mapDir; // the shortest path move direction
+	public static float[][][][] mapPath; // the shortest path length
+	public static byte[][] TDDirMap;
+	public static float[][] TDPathMap;
+	public static int[][] currentMap; // the map
+	public static boolean[][][][] marks; // temp marks
+	static int m = 0;
+	static int n = 0;
+
+	public static boolean load(SwingFrame swingFrame) {
+		swingFrame.setSize(Config.defaultOneSlotWidth,
+				Config.defaultOneSlotHeight);
+		GameInfo.swingPanel = new SwingPanel();
+		GameInfo.Bounds = GameInfo.swingPanel.getBounds();
+		swingFrame.add(GameInfo.swingPanel, BorderLayout.CENTER);
+		GameInfo.postMan = new PostMan();
+		loadMap();
+		Thread painterThread = new Thread(new PainterRunnable());
+		painterThread.start();
+		swingFrame.addComponents();
+		GameManager gameManager = GameManager.getInstance();
+		gameManager.loadServerBalls();
+		return true;
+	}
+
+	public static void loadMap() {
+		// if not in db
+		calculateMap();
+		TDDirMap = mapDir[n - 1][m - 1];
+		TDPathMap = mapPath[n - 1][m - 1];
+	}
+
+	public static void calculateTDMap() {
+		calculateMap();
+		TDDirMap = mapDir[n - 1][m - 1];
+		TDPathMap = mapPath[n - 1][m - 1];
+	}
+
+	public static void calculateMap() {
+		currentMap = MapData.loadMap(Config.defaultTestMapNum);
+		if (currentMap == null || currentMap.length == 0
+				|| currentMap[0].length == 0)
+			return;
+		m = currentMap[0].length;
+		n = currentMap.length;
+		mapDir = new byte[n][m][n][m];
+		mapPath = new float[n][m][n][m];
+		// marks = new boolean[n][m][n][m];
+		// for (int a = 0; a < n; a++) {
+		// for (int b = 0; b < m; b++) {
+		// for (int c = 0; c < n; c++) {
+		// for (int d = 0; d < m; d++) {
+		// if (currentMap[a][b] == 0 && currentMap[c][d] == 0) {
+		// fun(a, b, c, d);
+		// }
+		// }
+		// }
+		// }
+		// }
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				funLazy(i, j);
+		TestHelper.printTwoDArray(mapDir[n - 1][m - 1], n, m);
+		// TestHelper.printFourDArray(mapDir, n, m);
+		// TestHelper.printTwoDArray(mapPath[0][0], n, m);
+	}
+
+	public static void funLazy(int a, int b) {
+		if (currentMap[a][b] == 1)
+			return;
+		float[][] mp = mapPath[a][b];
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++)
+				mp[i][j] = Integer.MAX_VALUE;
+		mp[a][b] = 0;
+
+		boolean[][] visited = new boolean[n][m];
+		while (true) {
+			int mina = 0, minb = 0;
+			float min = Integer.MAX_VALUE;
+			for (int i = 0; i < n; i++)
+				for (int j = 0; j < m; j++)
+					if (currentMap[i][j] == 0 && !visited[i][j])
+						if (mp[i][j] < min) {
+							min = mp[i][j];
+							mina = i;
+							minb = j;
+						}
+			if (min == Integer.MAX_VALUE)
+				return;
+
+			// Upper left corner is (0 ,0).
+			// up = 1, upright = 2, right = 3, rightdown = 4, down = 5, downleft
+			// = 6 left = 7, upleft = 8
+
+			// from down
+			if (mina - 1 >= 0 && mp[mina - 1][minb] > mp[mina][minb] + 1
+					&& currentMap[mina - 1][minb] == 0) {
+				mp[mina - 1][minb] = mp[mina][minb] + 1;
+				mapDir[mina - 1][minb][a][b] = 5;
+			}
+
+			// up
+			if (mina + 1 < n && mp[mina + 1][minb] > mp[mina][minb] + 1
+					&& currentMap[mina + 1][minb] == 0) {
+				mp[mina + 1][minb] = mp[mina][minb] + 1;
+				mapDir[mina + 1][minb][a][b] = 1;
+			}
+
+			// right
+			if (minb - 1 >= 0 && mp[mina][minb - 1] > mp[mina][minb] + 1
+					&& currentMap[mina][minb - 1] == 0) {
+				mp[mina][minb - 1] = mp[mina][minb] + 1;
+				mapDir[mina][minb - 1][a][b] = 3;
+			}
+
+			// left
+			if (minb + 1 < m && mp[mina][minb + 1] > mp[mina][minb] + 1
+					&& currentMap[mina][minb + 1] == 0) {
+				mp[mina][minb + 1] = mp[mina][minb] + 1;
+				mapDir[mina][minb + 1][a][b] = 7;
+			}
+
+			// down left
+			if (mina - 1 >= 0 && minb + 1 < m
+					&& mp[mina - 1][minb + 1] > mp[mina][minb] + 1.41
+					&& currentMap[mina - 1][minb + 1] == 0
+					&& currentMap[mina][minb + 1] == 0
+					&& currentMap[mina - 1][minb] == 0
+
+			) {
+				mp[mina - 1][minb + 1] = (float) (mp[mina][minb] + 1.41);
+				mapDir[mina - 1][minb + 1][a][b] = 6;
+			}
+
+			// down right
+			if (mina - 1 >= 0 && minb - 1 >= 0
+					&& mp[mina - 1][minb - 1] > mp[mina][minb] + 1.41
+					&& currentMap[mina - 1][minb - 1] == 0
+					&& currentMap[mina][minb - 1] == 0
+					&& currentMap[mina - 1][minb] == 0) {
+				mp[mina - 1][minb - 1] = (float) (mp[mina][minb] + 1.41);
+				mapDir[mina - 1][minb - 1][a][b] = 4;
+			}
+
+			// upper left
+			if (mina + 1 < n && minb + 1 < m
+					&& mp[mina + 1][minb + 1] > mp[mina][minb] + 1.41
+					&& currentMap[mina + 1][minb + 1] == 0
+					&& currentMap[mina][minb + 1] == 0
+					&& currentMap[mina + 1][minb] == 0) {
+				mp[mina + 1][minb + 1] = (float) (mp[mina][minb] + 1.41);
+				mapDir[mina + 1][minb + 1][a][b] = 8;
+			}
+
+			// upper right
+			if (mina + 1 < n && minb - 1 >= 0
+					&& mp[mina + 1][minb - 1] > mp[mina][minb] + 1.41
+					&& currentMap[mina + 1][minb - 1] == 0
+					&& currentMap[mina][minb - 1] == 0
+					&& currentMap[mina + 1][minb] == 0) {
+				mp[mina + 1][minb - 1] = (float) (mp[mina][minb] + 1.41);
+				mapDir[mina + 1][minb - 1][a][b] = 2;
+			}
+
+			visited[mina][minb] = true;
+		}
+	}
+
+	public static void startTD() {
+		GameInfo.loadMap();
+
+		Thread ballThread = new Thread(new FastBallRunnable());
+		ballThread.start();
+
+	}
+
+	// public static void fun(int a, int b, int c, int d) {
+	// if (a < 0 || a >= n || b < 0 || b >= m || c < 0 || c >= n || d < 0
+	// || d >= m)
+	// return;
+	// if (currentMap[a][b] == 1 || currentMap[c][d] == 1)
+	// return;
+	// if (a == c && b == d)
+	// return;
+	// if (mapDir[a][b][c][d] != 0 || marks[a][b][c][d])
+	// return;
+	// marks[a][b][c][d] = true;
+	// byte minDir = 0;
+	// int minPath = Integer.MAX_VALUE;
+	//
+	// if (a == c && b == d - 1) {
+	// minDir = 2;
+	// } else if (a == c && d == b - 1) {
+	// minDir = 4;
+	// } else if (d == b && a == c - 1) {
+	// minDir = 3;
+	// } else if (d == b && c == a - 1) {
+	// minDir = 1;
+	// } else {
+	// if (a + 1 < n && !marks[a + 1][b][c][d]
+	// && currentMap[a + 1][b] == 0) {
+	// fun(a + 1, b, c, d);
+	// if (minPath > mapPath[a + 1][b][c][d] + 1) {
+	// minPath = mapPath[a + 1][b][c][d] + 1;
+	// minDir = 3;
+	// }
+	// }
+	// if (a - 1 >= 0 && !marks[a - 1][b][c][d]
+	// && currentMap[a - 1][b] == 0) {
+	// fun(a - 1, b, c, d);
+	// if (minPath > mapPath[a - 1][b][c][d] + 1) {
+	// minPath = mapPath[a - 1][b][c][d] + 1;
+	// minDir = 1;
+	// }
+	// }
+	// if (b + 1 < m && !marks[a][b + 1][c][d]
+	// && currentMap[a][b + 1] == 0) {
+	// fun(a, b + 1, c, d);
+	// if (minPath > mapPath[a][b + 1][c][d] + 1) {
+	// minPath = mapPath[a][b + 1][c][d] + 1;
+	// minDir = 2;
+	// }
+	// }
+	// if (b - 1 >= 0 && !marks[a][b - 1][c][d]
+	// && currentMap[a][b - 1] == 0) {
+	// fun(a, b - 1, c, d);
+	// if (minPath > mapPath[a][b - 1][c][d] + 1) {
+	// minPath = mapPath[a][b - 1][c][d] + 1;
+	// minDir = 4;
+	// }
+	// }
+	// }
+	// mapDir[a][b][c][d] = minDir;
+	// mapPath[a][b][c][d] = (minPath == Integer.MAX_VALUE) ? 1 : minPath;
+	// return;
+	// }
+}

@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import FrontEnd.GameInfo;
 import Helpers.Config;
+import Helpers.GameManager;
 import Helpers.ImageHelper;
 import Helpers.MapData;
 import Helpers.TestHelper;
@@ -21,6 +22,7 @@ public abstract class TowerBall extends Ball {
 	protected int size;
 	protected int scope;
 	protected int attack;
+	protected String bulletName;
 	static int mapID;
 
 	public TowerBall(int x, int y, int size) {
@@ -62,12 +64,13 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean defend() {
-		for (Ball ball : GameInfo.balls) {
-			if (ball instanceof ActiveBall) {
+		for(int i =0; i < GameInfo.balls.size(); i++){
+			Ball ball = GameInfo.balls.get(i);
+			if (ball instanceof ActiveBall && !(ball instanceof BulletBall)) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {
-					this.attack(ball);
+					return this.attack(ball);
 				}
 			}
 		}
@@ -76,7 +79,8 @@ public abstract class TowerBall extends Ball {
 
 	public boolean attack(Ball ball) {
 		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + ball.getY());
-		((ActiveBall)ball).setHealth(((ActiveBall)ball).getHealth() - this.getAttack());
+		GameManager gameManager = GameManager.getInstance();
+		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(), ball);
 		return true;
 	}
 
@@ -85,9 +89,9 @@ public abstract class TowerBall extends Ball {
 		int x = this.getX();
 		int y = this.getY();
 		return (ballX < x + Config.slotWidth * scope
-				&& ballX > x - Config.slotWidth
-				&& ballY < y + Config.slotHeight && ballY > y
-				- Config.slotHeight);
+				&& ballX > x - Config.slotWidth * scope
+				&& ballY < y + Config.slotHeight * scope && ballY > y
+				- Config.slotHeight * scope);
 	}
 	
 	public Object getShape() {
@@ -115,6 +119,13 @@ public abstract class TowerBall extends Ball {
 
 	public void setAttack(int attack) {
 		this.attack = attack;
+	}
+	public String getBulletName() {
+		return bulletName;
+	}
+
+	public void setBulletName(String bulletName) {
+		this.bulletName = bulletName;
 	}
 
 }

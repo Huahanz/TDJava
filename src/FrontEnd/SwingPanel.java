@@ -28,11 +28,14 @@ public class SwingPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		for (Ball ball : GameInfo.balls) {
-			g2.fill((Shape) ball.getShape());
-			BufferedImage image = ball.getImage();
-			if (image != null) {
-				g.drawImage(image, ball.getX(), ball.getY(), null);
+		for (int i = 0; i < GameInfo.balls.size(); i++) {
+			Ball ball = GameInfo.balls.get(i);
+			if (ball != null) {
+				g2.fill((Shape) ball.getShape());
+				BufferedImage image = ball.getImage();
+				if (image != null) {
+					g.drawImage(image, ball.getX(), ball.getY(), null);
+				}
 			}
 			BufferedImage healthImage = null;
 			if(ball instanceof ActiveBall){

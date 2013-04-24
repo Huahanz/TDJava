@@ -117,7 +117,7 @@ public abstract class ActiveBall extends Ball {
 		return health;
 	}
 
-	public void setHealth(int health) {
+	public synchronized void setHealth(int health) {
 		this.health = health;
 	}
 
@@ -125,7 +125,7 @@ public abstract class ActiveBall extends Ball {
 		return stepLength;
 	}
 
-	public void setStepLength(int stepLength) {
+	public synchronized void setStepLength(int stepLength) {
 		this.stepLength = stepLength;
 	}
 

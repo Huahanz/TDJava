@@ -2,14 +2,15 @@ package FrontEnd.Balls;
 
 import FrontEnd.GameInfo;
 
-public class FastBallRunnable extends BallRunnable implements Runnable {
+public class ActiveBallRunnable extends BallRunnable implements Runnable {
 
-	public FastBallRunnable() {
+	public ActiveBallRunnable() {
 	}
 
 	public void run() {
 		while (true) {
-			for(Ball ball : GameInfo.balls){
+			for(int i =0; i < GameInfo.balls.size(); i++){
+				Ball ball = GameInfo.balls.get(i);
 				if(ball instanceof FastBall)
 					((FastBall) ball).randomWalk();
 			}

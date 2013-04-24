@@ -27,7 +27,8 @@ public class FastBall extends ActiveBall{
 		this(0, 0);
 	}
 	public void randomWalk() {
-		for(Ball ball : GameInfo.balls){
+		for(int i =0; i < GameInfo.balls.size(); i++){
+			Ball ball = GameInfo.balls.get(i);
 			if(ball instanceof SlowBall){
 				this.move(ball);
 				return;

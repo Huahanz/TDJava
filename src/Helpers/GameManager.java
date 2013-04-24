@@ -19,15 +19,13 @@ public class GameManager {
 	}
 
 	public synchronized void addBall(String ballName, int x, int y) {
-		if (x >= Config.defaultOneSlotHeight || x <= 0
-				|| y >= Config.defaultOneSlotWidth || y <= 0)
+		if (x >= Config.defaultOneSlotWidth || x <= 0
+				|| y >= Config.defaultOneSlotHeight || y <= 0)
 			return;
 		Ball ball = null;
-		Thread ballThread = null;
 		switch (ballName) {
 		case "Fast":
 	  		ball = new FastBall(x, y);
-//			ballThread = new Thread(new FastBallRunnable(ball));
 			break;
 		case "Slow":
 			ball = new SlowBall(x, y);

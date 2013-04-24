@@ -27,15 +27,15 @@ public class FastBall extends ActiveBall{
 		this(0, 0);
 	}
 	public void randomWalk() {
-//		for(Ball ball : GameInfo.balls){
-//			if(ball instanceof SlowBall){
-//				this.move(ball);
-//				return;
-//			}
-//		}
+		for(Ball ball : GameInfo.balls){
+			if(ball instanceof SlowBall){
+				this.move(ball);
+				return;
+			}
+		}
 	}
 	public void moveToExit(){
-		this.move(Config.defaultOneSlotWidth-10, Config.defaultOneSlotHeight-10);
+		this.move(Config.defaultOneSlotWidth-1, Config.defaultOneSlotHeight-1);
 	}
 	
 	public int getX() {

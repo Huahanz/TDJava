@@ -87,24 +87,24 @@ public class SwingFrame extends JFrame {
 		button.addActionListener(listener);
 	}
 
-	private void lazyAddMouseListener() {
-		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-			public void eventDispatched(AWTEvent event) {
-				if (event instanceof MouseEvent) {
-					MouseEvent evt = (MouseEvent) event;
-					if (evt.getID() == MouseEvent.MOUSE_CLICKED) {
-						if (buttonName == null)
-							return;
-						GameManager gameManager = GameManager.getInstance();
-						gameManager.addBall(buttonName, (int) evt.getPoint()
-								.getX(), (int) evt.getPoint().getY());
-
-					}
-				}
-			}
-		}, AWTEvent.MOUSE_EVENT_MASK);
-
-	}
+//	private void lazyAddMouseListener() {
+//		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+//			public void eventDispatched(AWTEvent event) {
+//				if (event instanceof MouseEvent) {
+//					MouseEvent evt = (MouseEvent) event;
+//					if (evt.getID() == MouseEvent.MOUSE_CLICKED) {
+//						if (buttonName == null)
+//							return;
+//						GameManager gameManager = GameManager.getInstance();
+//						gameManager.addBall(buttonName, (int) evt.getPoint()
+//								.getX(), (int) evt.getPoint().getY());
+//
+//					}
+//				}
+//			}
+//		}, AWTEvent.MOUSE_EVENT_MASK);
+//
+//	}
 
 	private class MouseHandler extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
@@ -115,6 +115,8 @@ public class SwingFrame extends JFrame {
 		}
 
 		public void mouseClicked(MouseEvent event) {
+			MouseEvent evt = (MouseEvent) event;
+			System.out.println((int) evt.getPoint().getX() + "   "  +  (int) evt.getPoint().getY());
 		}
 	}
 

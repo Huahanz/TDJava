@@ -11,7 +11,7 @@ public class FastBallRunnable extends BallRunnable implements Runnable {
 		while (true) {
 			for(Ball ball : GameInfo.balls){
 				if(ball instanceof FastBall)
-					((FastBall) ball).moveToExit();
+					((FastBall) ball).randomWalk();
 			}
 			try {
 				Thread.sleep(150);

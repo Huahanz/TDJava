@@ -22,7 +22,8 @@ public abstract class ActiveBall extends Ball {
 	public BufferedImage image = null;
 	public BufferedImage healthImage = null;
 
-	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength, String imagePath) {
+	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+			String imagePath) {
 		super(x, y, XIZE, YSIZE, imagePath);
 		this.setStepLength(stepLength);
 		this.setX(x);
@@ -32,7 +33,7 @@ public abstract class ActiveBall extends Ball {
 	public boolean move(Ball to) {
 		return this.move(to.getX(), to.getY());
 	}
-	
+
 	public boolean move(int x, int y) {
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
@@ -41,13 +42,13 @@ public abstract class ActiveBall extends Ball {
 		if (thisXSlot == toXSlot & thisYSlot == toYSlot)
 			return moveInSlot(x, y);
 		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
-		
+
 		int step = this.getStepLength();
-		if((dir & 1) == 0)
+		if ((dir & 1) == 0)
 			step >>= 1;
 		if (dir == 1 || dir == 2 || dir == 8)
 			this.setY(this.getY() - step);
-		if (dir >= 2 &&  dir <= 4)
+		if (dir >= 2 && dir <= 4)
 			this.setX(this.getX() + step);
 		if (dir >= 4 && dir <= 6)
 			this.setY(this.getY() + step);
@@ -55,19 +56,19 @@ public abstract class ActiveBall extends Ball {
 			this.setX(this.getX() - step);
 		return false;
 	}
-	
-	public boolean moveInSlot(Ball to){
+
+	public boolean moveInSlot(Ball to) {
 		return this.moveInSlot(to.getX(), to.getY());
 	}
 
-	public boolean moveInSlot(int x, int y){
+	public boolean moveInSlot(int x, int y) {
 		int boundMinX = 0;
 		int boundMinY = 0;
 		int boundMaxX = Config.defaultOneSlotWidth;
 		int boundMaxY = Config.defaultOneSlotHeight;
 
 		int dx = Math.abs(x - this.getX());
-		int dy = Math.abs(y- this.getY());
+		int dy = Math.abs(y - this.getY());
 		int dis = dx + dy;
 		if (this.getStepLength() > dis) {
 			this.setX(x);
@@ -109,6 +110,7 @@ public abstract class ActiveBall extends Ball {
 
 		return false;
 	}
+
 	public int walkWay(int n) {
 		return n;
 	}
@@ -129,36 +131,38 @@ public abstract class ActiveBall extends Ball {
 		this.stepLength = stepLength;
 	}
 
-	public BufferedImage getImage(){
-		if(this.getImagePath() == null)
+	public BufferedImage getImage() {
+		if (this.getImagePath() == null)
 			return null;
-		if(this.image == null){
+		if (this.image == null) {
 			try {
-				BufferedImage originalImage = ImageIO.read(new File(this.getImagePath()));
-				this.image = ImageHelper.resizeImage(40, 40, originalImage, originalImage.getType());
+				BufferedImage originalImage = ImageIO.read(new File(this
+						.getImagePath()));
+				this.image = ImageHelper.resizeImage(40, 40, originalImage,
+						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return this.image;
 	}
-	
-	public BufferedImage getHealthImage(){
-		if(Config.HealthBarImagePath == null)
+
+	public BufferedImage getHealthImage() {
+		if (Config.HealthBarImagePath == null)
 			return null;
-		if(this.healthImage == null){
-			try {
-				BufferedImage originalImage = ImageIO.read(new File(Config.HealthBarImagePath));
-				this.healthImage = ImageHelper.resizeImage((int) (40 * ((float)this.health / 100)), 10, originalImage, originalImage.getType());
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		try {
+			BufferedImage originalImage = ImageIO.read(new File(Config.HealthBarImagePath));
+			this.healthImage = ImageHelper.resizeImage(
+					(int) (40 * ((float) this.getHealth() / 100)), 10,
+					originalImage, originalImage.getType());
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
+
 		return this.healthImage;
 	}
-	
+
 	public void setHealthImage(BufferedImage healthImage) {
 		this.healthImage = healthImage;
 	}

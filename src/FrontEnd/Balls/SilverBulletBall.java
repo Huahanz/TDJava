@@ -11,7 +11,7 @@ public class SilverBulletBall extends BulletBall {
 	int y;
 	int targetX;
 	int targetY;
-	int damage = 60;
+	int damage = 3;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, ball, Config.silverBulletBallImagePath);
@@ -23,18 +23,16 @@ public class SilverBulletBall extends BulletBall {
 		boolean hit = super.moveInSlot(this.getTargetX(), this.getTargetY());
 		if (hit) {
 			Ball target = this.getTarget();
-			if (target instanceof ActiveBall) {
+			if (target instanceof DragonBall) {
 				TestHelper.print("shooting");
 				((ActiveBall) target).setHealth(((ActiveBall) target)
 						.getHealth() - this.getDamage());
 				if(((ActiveBall) target).getHealth() <= 0){
-					//GameInfo.balls.remove(target);
 					GameManager gm = GameManager.getInstance();
 					gm.killBall(target);
+					gm.killBall(this);
 				}
 			}
-			GameManager gm = GameManager.getInstance();
-			gm.killBall(this);
 			return true;
 		}
 		return false;

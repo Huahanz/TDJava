@@ -15,7 +15,7 @@ public class TowerBallRunnable extends BallRunnable implements Runnable {
 					((TowerBall) ball).defend();
 			}
 			try {
-				Thread.sleep(150);
+				Thread.sleep(550);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

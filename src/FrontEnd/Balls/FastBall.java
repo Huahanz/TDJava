@@ -12,7 +12,7 @@ import Helpers.Config;
 import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
-public class FastBall extends ActiveBall{
+public class FastBall extends DragonBall{
 	public int health = 80;
 	public int stepLength = 20;
 	public int x;
@@ -55,6 +55,7 @@ public class FastBall extends ActiveBall{
 		return health;
 	}
 	public void setHealth(int health) {
+		TestHelper.print("health setting to " + health);
 		this.health = health;
 	}
 }

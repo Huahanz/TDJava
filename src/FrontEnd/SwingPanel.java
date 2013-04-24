@@ -38,8 +38,8 @@ public class SwingPanel extends JPanel {
 				}
 			}
 			BufferedImage healthImage = null;
-			if(ball instanceof ActiveBall){
-				healthImage = ((ActiveBall) ball).getHealthImage();
+			if(ball instanceof DragonBall){
+				healthImage = ((DragonBall) ball).getHealthImage();
 				if (healthImage != null) {
 					g.drawImage(healthImage, ball.getX(), ball.getY() - 5, null);
 				}

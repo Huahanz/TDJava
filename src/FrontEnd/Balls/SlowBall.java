@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import Helpers.Config;
 import Helpers.ImageHelper;
 
-public class SlowBall extends ActiveBall {
+public class SlowBall extends DragonBall {
 	public SlowBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);

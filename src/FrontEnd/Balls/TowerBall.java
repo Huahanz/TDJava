@@ -1,6 +1,7 @@
 package FrontEnd.Balls;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -87,6 +88,10 @@ public abstract class TowerBall extends Ball {
 				&& ballX > x - Config.slotWidth
 				&& ballY < y + Config.slotHeight && ballY > y
 				- Config.slotHeight);
+	}
+	
+	public Object getShape() {
+		return new Ellipse2D.Double(getX(), getY(), 1, 1);
 	}
 
 	public int getMapID() {

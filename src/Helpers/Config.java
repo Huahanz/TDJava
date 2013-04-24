@@ -7,7 +7,7 @@ public class Config
 	public static String FastBallImagePath = "Asset/FastBall.gif";
 	public static String SlowBallImagePath = "Asset/SlowBall.gif";
 	public static int defaultOneSlotWidth = 1000;
-	public static int defaultOneSlotHeight = 600;
+	public static int defaultOneSlotHeight = 750;
 	public static int slotWidth = 100;
 	public static int slotHeight = 60;
 	public static int slotWidthNumber = 10;

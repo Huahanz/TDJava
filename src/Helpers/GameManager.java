@@ -31,6 +31,8 @@ public class GameManager {
 			ball = new SlowBall(x, y);
 			break;
 		case "DTower":
+			int xslot = x/Config.slotWidth;
+			int yslow = y/Config.slotHeight;
 			ball = new DTowerBall(x, y);
 			break;
 		default:

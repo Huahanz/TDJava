@@ -37,6 +37,13 @@ public class SwingPanel extends JPanel {
 					g.drawImage(image, ball.getX(), ball.getY(), null);
 				}
 			}
+			BufferedImage healthImage = null;
+			if(ball instanceof ActiveBall){
+				healthImage = ((ActiveBall) ball).getHealthImage();
+				if (healthImage != null) {
+					g.drawImage(healthImage, ball.getX(), ball.getY() - 5, null);
+				}
+			}
 		}
 		this.paintMap(g);
 	}

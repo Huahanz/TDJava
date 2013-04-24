@@ -19,7 +19,9 @@ public abstract class ActiveBall extends Ball {
 	public int x;
 	public int y;
 	public String imagePath = null;
+	public String healthImagePath = null;
 	public BufferedImage image = null;
+	public BufferedImage healthImage = null;
 
 	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength, String imagePath) {
 		super(x, y, XIZE, YSIZE, imagePath);
@@ -141,6 +143,33 @@ public abstract class ActiveBall extends Ball {
 		}
 		
 		return this.image;
+	}
+	
+	public BufferedImage getHealthImage(){
+		if(this.getHealthImagePath() == null)
+			return null;
+		if(this.healthImage == null){
+			try {
+				BufferedImage originalImage = ImageIO.read(new File(this.getImagePath()));
+				this.image = ImageHelper.resizeImage(40, 10, originalImage, originalImage.getType());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return this.image;
+	}
+	
+	public void setHealthImage(BufferedImage image) {
+		this.healthImage = image;
+	}
+
+	public String getHealthImagePath() {
+		return imagePath;
+	}
+
+	public void setHealthImagePath(String imagePath) {
+		this.healthImagePath = imagePath;
 	}
 
 }

@@ -13,7 +13,7 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public class FastBall extends ActiveBall{
-	public int health;
+	public int health = 80;
 	public int stepLength = 20;
 	public int x;
 	public int y;
@@ -49,5 +49,11 @@ public class FastBall extends ActiveBall{
 	}
 	public void setY(int y) {
 		this.y = y;
+	}
+	public int getHealth() {
+		return health;
+	}
+	public void setHealth(int health) {
+		this.health = health;
 	}
 }

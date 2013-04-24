@@ -14,7 +14,7 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public abstract class ActiveBall extends Ball {
-	public int health;
+	public int health = 100;
 	public int stepLength;
 	public int x;
 	public int y;

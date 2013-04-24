@@ -5,7 +5,8 @@ import FrontEnd.GameInfo;
 import FrontEnd.Balls.Ball;
 import FrontEnd.Balls.DTowerBall;
 import FrontEnd.Balls.FastBall;
-import FrontEnd.Balls.FastBallRunnable;
+import FrontEnd.Balls.ActiveBallRunnable;
+import FrontEnd.Balls.SilverBulletBall;
 import FrontEnd.Balls.SlowBall;
 
 public class GameManager {
@@ -19,21 +20,28 @@ public class GameManager {
 	}
 
 	public synchronized void addBall(String ballName, int x, int y) {
+		this.addBall(ballName, x, y, null);
+	}
+
+	public synchronized void addBall(String ballName, int x, int y, Object obj0) {
 		if (x >= Config.defaultOneSlotWidth || x <= 0
 				|| y >= Config.defaultOneSlotHeight || y <= 0)
 			return;
 		Ball ball = null;
 		switch (ballName) {
 		case "Fast":
-	  		ball = new FastBall(x, y);
+			ball = new FastBall(x, y);
 			break;
 		case "Slow":
 			ball = new SlowBall(x, y);
 			break;
 		case "DTower":
-			int xSlotNum = x/Config.slotWidth;
-			int ySlotNum = y/Config.slotHeight;
-			ball = new DTowerBall(x, y);
+			if (this.canBuildTower(x, y))
+				ball = new DTowerBall(x, y);
+			break;
+		case "SilverBulletBall":
+			if (obj0 != null) 
+				ball = new SilverBulletBall(x, y, (Ball) obj0);
 			break;
 		default:
 			return;
@@ -43,12 +51,28 @@ public class GameManager {
 			GameInfo.balls.add(ball);
 		}
 	}
-	
-	public void loadServerBalls(){
+
+	public boolean killBall(Ball ball){
+		ball = null;
+		return true;
+	}
+	public void loadServerBalls() {
 		String ballsJson = HttpManager.readTestOneSlotBalls();
-		
-//		for(Ball ball : balls){
-//			this.addBall(ballName, x, y);
-//		}
+
+		// for(Ball ball : balls){
+		// this.addBall(ballName, x, y);
+		// }
+	}
+
+	public boolean canBuildTower(int x, int y) {
+		int xSlotNum = x / Config.slotWidth;
+		int ySlotNum = y / Config.slotHeight;
+		int m = GameInfo.currentMap[0].length;
+		int n = GameInfo.currentMap.length;
+		if (xSlotNum >= m || xSlotNum < 0 || ySlotNum >= n || ySlotNum < 0)
+			return false;
+		if (GameInfo.currentMap[ySlotNum][xSlotNum] != 0)
+			return false;
+		return true;
 	}
 }

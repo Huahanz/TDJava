@@ -190,11 +190,14 @@ public class GameInfo {
 	public static void startTD() {
 		GameInfo.loadMap();
 
-		Thread fastBallThread = new Thread(new FastBallRunnable());
+		Thread fastBallThread = new Thread(new ActiveBallRunnable());
 		fastBallThread.start();
 
-		Thread dTowerThread = new Thread(new DTowerRunnable());
-		dTowerThread.start();
+		Thread towerThread = new Thread(new TowerBallRunnable());
+		towerThread.start();
+		
+		Thread bulletThread = new Thread(new BulletBallRunnable());
+		bulletThread.start();
 	}
 
 	// public static void fun(int a, int b, int c, int d) {

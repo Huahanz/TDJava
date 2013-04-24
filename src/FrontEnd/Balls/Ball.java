@@ -10,7 +10,7 @@ public abstract class Ball {
 	public int YSIZE;
 	public String imagePath = null;
 	public BufferedImage image = null;
-	
+
 	public Ball(int x, int y, int XSIZE, int YSIZE, String imagePath) {
 		this.x = x;
 		this.y = y;
@@ -20,13 +20,13 @@ public abstract class Ball {
 	}
 
 	public Ball(int xSlotNum, int ySlotNum, String imagePath) {
-		
+
 	}
-	
+
 	public Ball(int xSlotNum, int ySlotNum) {
-		
+
 	}
-	
+
 	public int getXSIZE() {
 		return XSIZE;
 	}
@@ -51,11 +51,12 @@ public abstract class Ball {
 		this.y = y;
 	}
 
-	public Object getShape(){
+	public Object getShape() {
 		return new Ellipse2D.Double(getX(), getY(), XSIZE, YSIZE);
 	}
-	
+
 	public abstract BufferedImage getImage();
+
 	public void setImage(BufferedImage image) {
 		this.image = image;
 	}
@@ -68,10 +69,11 @@ public abstract class Ball {
 		this.imagePath = imagePath;
 	}
 
-	public int getX(){
+	public int getX() {
 		return x;
 	}
-	public int getY(){
+
+	public int getY() {
 		return y;
 	}
 }

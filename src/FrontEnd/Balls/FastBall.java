@@ -21,7 +21,7 @@ public class FastBall extends ActiveBall{
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 	public FastBall(int x, int y){
-		this(x, y, 12, 15, 20, "/Users/huahan/Pictures/FastBall.gif");
+		this(x, y, 12, 15, 20, Config.FastBallImagePath);
 	}
 	public FastBall(){
 		this(0, 0);

@@ -60,7 +60,7 @@ public class MapData{
 	};
 	
 	public static String[] mapImagePath = {
-		"", "", "/Users/huahan/Pictures/PurpleD.jpg", "/Users/huahan/Pictures/PurpleRedS.jpg"
+		"", "", Config.MapPath0, Config.MapPath1
 	};
 	
 	public static int[] towerSize = {0, 0, 1, 1, 1, 1, 1, 1, 1};	

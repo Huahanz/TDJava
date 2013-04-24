@@ -41,39 +41,40 @@ public class SwingPanel extends JPanel {
 	public void paintMap(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 
-		for(int i = 0; i<= Config.defaultOneSlotHeight; i+= Config.slotHeight){
+		for (int i = 0; i <= Config.defaultOneSlotHeight; i += Config.slotHeight) {
 			g2d.drawLine(0, i, Config.defaultOneSlotWidth, i);
 		}
-		
-		for(int i = 0; i <= Config.defaultOneSlotWidth; i+= Config.slotWidth){
+
+		for (int i = 0; i <= Config.defaultOneSlotWidth; i += Config.slotWidth) {
 			g2d.drawLine(i, 0, i, Config.defaultOneSlotHeight);
 		}
 		int[][] currentMap = GameInfo.currentMap;
-		for(int i = 0; i < currentMap.length; i++){
-			for(int j = 0; j < currentMap[0].length; j++){
-				if(currentMap[i][j] == 0){
-				}
-				else if(currentMap[i][j] == 1){
+		for (int i = 0; i < currentMap.length; i++) {
+			for (int j = 0; j < currentMap[0].length; j++) {
+				if (currentMap[i][j] == 0) {
+				} else if (currentMap[i][j] == 1) {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;
 					g2d.fillRect(width * j, height * i, width, height);
-				}else if(currentMap[i][j] < 10){
+				} else if (currentMap[i][j] < 10) {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;
-					g.drawImage(this.getMapImage(currentMap[i][j]), width*j, height * i, null);
+					g.drawImage(this.getMapImage(currentMap[i][j]), width * j,
+							height * i, null);
 				}
 			}
 		}
 	}
-	
-	public BufferedImage getMapImage(int x){
-		if(x <0 || x > MapData.mapImagePath.length)
+
+	public BufferedImage getMapImage(int x) {
+		if (x < 0 || x > MapData.mapImagePath.length)
 			return null;
-		String imagePath = MapData.mapImagePath[x]; 
+		String imagePath = MapData.mapImagePath[x];
 		if (imagePath != null) {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(imagePath));
-				return ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalImage,
+				return ImageHelper.resizeImage(Config.slotWidth,
+						Config.slotHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();

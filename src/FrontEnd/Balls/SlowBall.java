@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Helpers.Config;
 import Helpers.ImageHelper;
 
 public class SlowBall extends ActiveBall {
@@ -15,7 +16,7 @@ public class SlowBall extends ActiveBall {
 	}
 
 	public SlowBall(int x, int y) {
-		this(x, y, 20, 25, 10, "/Users/huahan/Pictures/SlowBall.jpg");
+		this(x, y, 20, 25, 10, Config.SlowBallImagePath);
 	}
 	public SlowBall(){
 		this(550, 330);

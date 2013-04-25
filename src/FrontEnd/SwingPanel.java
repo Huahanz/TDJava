@@ -1,5 +1,6 @@
 package FrontEnd;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -48,6 +49,14 @@ public class SwingPanel extends JPanel {
 				healthImage = ((DragonBall) ball).getHealthImage();
 				if (healthImage != null) {
 					g.drawImage(healthImage, ball.getX(), ball.getY() - 5, null);
+				}
+			}
+			if(ball instanceof TowerBall){
+				if(((TowerBall) ball).createFlag == 0){
+					((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+					g.drawOval(((TowerBall) ball).getX() - ((TowerBall) ball).getScope(), ((TowerBall) ball).getY() - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+					g.fillOval(((TowerBall) ball).getX() - ((TowerBall) ball).getScope(), ((TowerBall) ball).getY() - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+					((TowerBall) ball).createFlag = 1;
 				}
 			}
 		}

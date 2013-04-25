@@ -17,6 +17,7 @@ import Helpers.TestHelper;
 
 public abstract class TowerBall extends Ball {
 
+	public int createFlag = 0;
 	protected int xSlotNum;
 	protected int ySlotNum;
 	protected int size;

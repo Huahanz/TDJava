@@ -10,6 +10,8 @@ import Helpers.Config;
 import Helpers.ImageHelper;
 
 public class SlowBall extends DragonBall {
+	int stepLength = 30;
+
 	public SlowBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
@@ -18,9 +20,11 @@ public class SlowBall extends DragonBall {
 	public SlowBall(int x, int y) {
 		this(x, y, 20, 25, 10, Config.SlowBallImagePath);
 	}
-	public SlowBall(){
+
+	public SlowBall() {
 		this(550, 330);
 	}
+
 	public void randomWalk() {
 	}
 
@@ -39,4 +43,13 @@ public class SlowBall extends DragonBall {
 		}
 		return this.image;
 	}
+
+	public int getStepLength() {
+		return stepLength;
+	}
+
+	public void setStepLength(int stepLength) {
+		this.stepLength = stepLength;
+	}
+
 }

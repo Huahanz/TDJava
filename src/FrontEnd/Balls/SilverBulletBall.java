@@ -8,7 +8,7 @@ import Helpers.TestHelper;
 public class SilverBulletBall extends BulletBall {
 	int targetX;
 	int targetY;
-	int damage = 8;
+	int damage = 2;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, 10, 10, 500, ball, Config.silverBulletBallImagePath);

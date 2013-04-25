@@ -96,6 +96,8 @@ public class MapData{
 		}else if(mapNum == 4){
 			r = map4;
 		}
+		Config.slotWidthNumber = r[0].length;
+		Config.slotHeightNumber = r.length;
 		Config.slotWidth = Config.defaultOneSlotWidth / r[0].length;
 		Config.slotHeight = Config.defaultOneSlotHeight / r.length;
 		return r;

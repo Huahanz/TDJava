@@ -33,6 +33,7 @@ import Helpers.TestHelper;
 public class SwingFrame extends JFrame {
 
 	private static String buttonName = null;
+	public static MouseEvent lastMouseClickedEvent;
 	public static JLabel goldLabel = null;
 
 	public static void main(String[] args) {
@@ -114,24 +115,42 @@ public class SwingFrame extends JFrame {
 	private class MouseHandler extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
 			if (SwingFrame.buttonName != null) {
-				GameManager gameManager = new GameManager();
+				GameManager gameManager = GameManager.getInstance();
 				gameManager.addBall(SwingFrame.buttonName, event.getX(),
 						event.getY());
 			}
 		}
 
 		public void mouseClicked(MouseEvent event) {
-			MouseEvent evt = (MouseEvent) event;
-			System.out.println((int) evt.getPoint().getX() + "   "
-					+ (int) evt.getPoint().getY());
+			// TestHelper.print("pressed " + event.getX() + " " + event.getY());
+			SwingFrame.lastMouseClickedEvent = event;
 		}
+
+		public void mouseReleased(MouseEvent event) {
+//			if (SwingFrame.lastMouseClickedEvent != null) {
+//				GameManager gameManager = GameManager.getInstance();
+//				gameManager.addDrag(SwingFrame.buttonName,
+//						SwingFrame.lastMouseClickedEvent, event);
+//			}
+
+		}
+
 	}
 
 	private class MouseMotionHandler implements MouseMotionListener {
 		public void mouseMoved(MouseEvent event) {
+			// TestHelper.print("moving " + event.getX() + " " + event.getY());
+
 		}
 
 		public void mouseDragged(MouseEvent event) {
+			// TestHelper.print("dragging " + event.getX() + " " +
+			// event.getY());
+			if (SwingFrame.buttonName != null) {
+				GameManager gameManager = GameManager.getInstance();
+				gameManager.addBall(SwingFrame.buttonName, event.getX(),
+						event.getY());
+			}
 		}
 	}
 

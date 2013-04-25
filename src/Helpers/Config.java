@@ -2,6 +2,7 @@ package Helpers;
 
 public class Config
 {
+	public static String destinationImagePath = "Asset/Destination.png";
 	public static String scopeCircleImagePath = "Asset/scopeCircle.png";
 	public static String backgroundImagePath = "Asset/backgroundGrass.png";
 	public static String wallImagePath = "Asset/wall.png";

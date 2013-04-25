@@ -1,13 +1,14 @@
 package FrontEnd;
 
 import java.awt.BorderLayout;
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 import Controller.PostMan;
-import FrontEnd.Balls.*;
+import FrontEnd.Balls.ActiveBallRunnable;
+import FrontEnd.Balls.Ball;
+import FrontEnd.Balls.BulletBallRunnable;
+import FrontEnd.Balls.TowerBallRunnable;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
@@ -86,8 +87,8 @@ public class GameInfo {
 				funLazy(i, j);
 				funLazyBreak(i, j);
 			}
-		// TestHelper.printTwoDArray(mapDir[n - 1][m - 1], n, m);
-		// TestHelper.printFourDArray(mapDir, n, m);
+		 TestHelper.printTwoDArray(breakDir[n - 1][m - 1], n, m);
+		// TestHelper.printFourDArray(maheapDir, n, m);
 		// TestHelper.printTwoDArray(mapPath[0][0], n, m);
 	}
 

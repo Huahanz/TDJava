@@ -4,7 +4,7 @@ import FrontEnd.GameInfo;
 
 public class STowerBall extends TowerBall {
 	public static int mapID = 3;
-	protected int scope = 26;
+	protected int scope = 400;
 	protected int attack = 10;
 	protected String bulletName = "StalkBulletBall";
 

@@ -1,5 +1,6 @@
 package FrontEnd.Balls;
 
+import FrontEnd.GameInfo;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
@@ -8,7 +9,7 @@ import Helpers.TestHelper;
 public class DTowerBall extends TowerBall {
 
 	final static int mapID = 2;
-	protected int scope = 6;
+	protected int scope = 26;
 	protected int attack = 10;
 	protected String bulletName = "SilverBulletBall";
 
@@ -17,7 +18,7 @@ public class DTowerBall extends TowerBall {
 	}
 
 	public DTowerBall(int x, int y) {
-		super(x, y, DTowerBall.mapID);
+		super(x, y, 1);
 		TestHelper.print(Config.slotWidth + " || " + Config.slotHeight + " "
 				+ x + " " + y);
 	}
@@ -25,7 +26,9 @@ public class DTowerBall extends TowerBall {
 	public boolean defend() {
 		return super.defend();
 	}
-
+	public void drawTower() {
+		GameInfo.currentMap[ySlotNum][xSlotNum] = DTowerBall.mapID;
+	}
 	public int getScope() {
 		return scope;
 	}
@@ -48,10 +51,6 @@ public class DTowerBall extends TowerBall {
 
 	public void setBulletName(String bulletName) {
 		this.bulletName = bulletName;
-	}
-
-	public int getMapID() {
-		return mapID;
 	}
 
 }

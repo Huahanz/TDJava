@@ -6,54 +6,34 @@ import Helpers.GameManager;
 import Helpers.TestHelper;
 
 public class SilverBulletBall extends BulletBall {
-
-	int x;
-	int y;
 	int targetX;
 	int targetY;
-	int damage = 60;
+	int damage = 8;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, ball, Config.silverBulletBallImagePath);
+//		TestHelper.print("in sliver ball" + ball.getX() + ", "+  ball.getY() + " "+ x + " " + y + " " + this.getX() + " " + this.getY());
 		this.setTargetX(ball.getX());
 		this.setTargetY(ball.getY());
 	}
 	
 	public boolean shoot() {
-		boolean hit = super.moveInSlot(this.getTargetX(), this.getTargetY());
+		boolean hit = super.move(this.getTargetX(), this.getTargetY());
 		if (hit) {
 			Ball target = this.getTarget();
-			if (target instanceof ActiveBall) {
-				TestHelper.print("shooting");
-				((ActiveBall) target).setHealth(((ActiveBall) target)
+			if (target instanceof DragonBall) {
+				((ActiveBall) target).setHealth(((ActiveBall) target) 
 						.getHealth() - this.getDamage());
 				if(((ActiveBall) target).getHealth() <= 0){
-					//GameInfo.balls.remove(target);
+					target.setImagePath(Config.DieImagePath);
 					GameManager gm = GameManager.getInstance();
 					gm.killBall(target);
+					gm.killBall(this);
 				}
 			}
-			GameManager gm = GameManager.getInstance();
-			gm.killBall(this);
 			return true;
 		}
 		return false;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public int getTargetX() {

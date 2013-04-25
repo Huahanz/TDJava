@@ -5,36 +5,18 @@ import java.awt.image.BufferedImage;
 import Helpers.Config;
 
 public abstract class BulletBall extends ActiveBall {
-	int x;
-	int y;
 	Ball target;
 	String imagePath;
 	int damage;
 
 	public BulletBall(int x, int y, Ball ball, String imagePath) {
-		super(x, y, 10, 10, 10, imagePath);
+		super(x, y, 10, 10, 1, imagePath);
 		this.setTarget(ball);
 	}
 
 	public abstract boolean shoot();
 	public BufferedImage getImage() {
 		return null;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public Ball getTarget() {

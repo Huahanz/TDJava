@@ -78,7 +78,7 @@ public class GameManager {
 		int n = GameInfo.currentMap.length;
 		if (xSlotNum >= m || xSlotNum < 0 || ySlotNum >= n || ySlotNum < 0)
 			return false;
-		if (GameInfo.currentMap[ySlotNum][xSlotNum] != 0)
+		if (GameInfo.currentMap[ySlotNum][xSlotNum] != 1)
 			return false;
 		return true;
 	}

@@ -38,13 +38,10 @@ public abstract class TowerBall extends Ball {
 				Config.slotWidth * size, Config.slotHeight * size, imagePath);
 		this.xSlotNum = xSlotNum;
 		this.ySlotNum = ySlotNum;
-		this.setMapID(mapID);
 		drawTower();
 	}
 
-	public void drawTower() {
-		GameInfo.currentMap[ySlotNum][xSlotNum] = this.getMapID();
-	}
+	public abstract void drawTower();
 
 	public BufferedImage getImage() {
 		if (this.getImagePath() == null)
@@ -66,7 +63,7 @@ public abstract class TowerBall extends Ball {
 	public boolean defend() {
 		for(int i =0; i < GameInfo.balls.size(); i++){
 			Ball ball = GameInfo.balls.get(i);
-			if (ball instanceof ActiveBall && !(ball instanceof BulletBall)) {
+			if (ball instanceof DragonBall) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {
@@ -78,7 +75,7 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean attack(Ball ball) {
-		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + ball.getY());
+		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + " " + ball.getY() + " " + this.getX() + " " + this.getY());
 		GameManager gameManager = GameManager.getInstance();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(), ball);
 		return true;
@@ -96,14 +93,6 @@ public abstract class TowerBall extends Ball {
 	
 	public Object getShape() {
 		return new Ellipse2D.Double(getX(), getY(), 1, 1);
-	}
-
-	public int getMapID() {
-		return mapID;
-	}
-
-	public void setMapID(int mapID) {
-		this.mapID = mapID;
 	}
 
 	public int getScope() {
@@ -128,4 +117,10 @@ public abstract class TowerBall extends Ball {
 		this.bulletName = bulletName;
 	}
 
+	public int getX(){
+		return this.xSlotNum * Config.slotWidth;
+	}
+	public int getY(){
+		return this.ySlotNum * Config.slotHeight;
+	}
 }

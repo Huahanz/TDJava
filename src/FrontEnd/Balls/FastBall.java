@@ -34,17 +34,18 @@ public class FastBall extends DragonBall {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball instanceof SlowBall) {
 				if (!this.isBlocked(ball)) {
+					TestHelper.print("not blocked");
 					this.move(ball);
 					return;
 				} else {
-					this.breakBlock(ball);
+					this.moveToBreakBlock(ball);
 				}
 			}
 		}
 	}
 
 	public void moveToExit() {
-		this.move(Config.defaultOneSlotWidth - 1,
+		this.moveWithBreak(Config.defaultOneSlotWidth - 1,
 				Config.defaultOneSlotHeight - 1);
 	}
 

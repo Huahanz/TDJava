@@ -67,8 +67,8 @@ public class SwingPanel extends JPanel {
 		if(originalBackgroundImage != null){
 			backgroundImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalBackgroundImage, originalBackgroundImage.getType());
 		}
-		for (int i = 0; i <= Config.defaultOneSlotWidth; i += Config.slotWidth) {
-			for (int j = 0; j <= Config.defaultOneSlotHeight; j += Config.slotHeight){
+		for (int i = 0; i < Config.defaultOneSlotWidth; i += Config.slotWidth) {
+			for (int j = 0; j < Config.defaultOneSlotHeight; j += Config.slotHeight){
 				if(backgroundImage != null){
 					g2d.drawImage(backgroundImage, i, j, null);
 				}

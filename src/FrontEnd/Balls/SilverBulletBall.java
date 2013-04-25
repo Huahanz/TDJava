@@ -11,7 +11,7 @@ public class SilverBulletBall extends BulletBall {
 	int y;
 	int targetX;
 	int targetY;
-	int damage = 3;
+	int damage = 8;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, ball, Config.silverBulletBallImagePath);
@@ -24,10 +24,11 @@ public class SilverBulletBall extends BulletBall {
 		if (hit) {
 			Ball target = this.getTarget();
 			if (target instanceof DragonBall) {
-				TestHelper.print("shooting");
-				((ActiveBall) target).setHealth(((ActiveBall) target)
+				TestHelper.print("shooting " + target.getX() + "  " + target.getY() + " , " + this.getX() + " " + this.getY());
+				((ActiveBall) target).setHealth(((ActiveBall) target) 
 						.getHealth() - this.getDamage());
 				if(((ActiveBall) target).getHealth() <= 0){
+					target.setImagePath(Config.DieImagePath);
 					GameManager gm = GameManager.getInstance();
 					gm.killBall(target);
 					gm.killBall(this);

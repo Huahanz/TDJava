@@ -7,6 +7,7 @@ public class Config
 	public static String FastBallImagePath = "Asset/FastBall.gif";
 	public static String HealthBarImagePath = "Asset/HealthBar.png";
 	public static String SlowBallImagePath = "Asset/SlowBall.jpg";
+	public static String DieImagePath = "Asset/die1.jpeg";
 	public static String silverBulletBallImagePath = null;
 	public static int defaultOneSlotWidth = 1000;
 	public static int defaultOneSlotHeight = 750;

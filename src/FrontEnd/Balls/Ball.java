@@ -3,6 +3,8 @@ package FrontEnd.Balls;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
+import FrontEnd.GameInfo;
+
 public abstract class Ball {
 	public int x;
 	public int y;
@@ -16,7 +18,7 @@ public abstract class Ball {
 		this.y = y;
 		this.XSIZE = XSIZE;
 		this.YSIZE = YSIZE;
-		this.imagePath = imagePath;
+		this.setImagePath(imagePath);
 	}
 
 	public Ball(int xSlotNum, int ySlotNum, String imagePath) {

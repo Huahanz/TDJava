@@ -38,13 +38,10 @@ public abstract class TowerBall extends Ball {
 				Config.slotWidth * size, Config.slotHeight * size, imagePath);
 		this.xSlotNum = xSlotNum;
 		this.ySlotNum = ySlotNum;
-		this.setMapID(mapID);
 		drawTower();
 	}
 
-	public void drawTower() {
-		GameInfo.currentMap[ySlotNum][xSlotNum] = this.getMapID();
-	}
+	public abstract void drawTower();
 
 	public BufferedImage getImage() {
 		if (this.getImagePath() == null)
@@ -98,14 +95,6 @@ public abstract class TowerBall extends Ball {
 		return new Ellipse2D.Double(getX(), getY(), 1, 1);
 	}
 
-	public int getMapID() {
-		return mapID;
-	}
-
-	public void setMapID(int mapID) {
-		this.mapID = mapID;
-	}
-
 	public int getScope() {
 		return scope;
 	}
@@ -128,4 +117,10 @@ public abstract class TowerBall extends Ball {
 		this.bulletName = bulletName;
 	}
 
+	public int getX(){
+		return this.xSlotNum * Config.slotWidth;
+	}
+	public int getY(){
+		return this.ySlotNum * Config.slotHeight;
+	}
 }

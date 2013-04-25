@@ -4,7 +4,7 @@ public class InherentTest {
 	public static void main(String[] args) {
 
 		//The property is first getting from supper class. 
-		//The method first gets from local class, if not find, it then check the supper class. AND IT NEVER CHECK ITS SUBCLASS.
+		//Start from the assigned class type, the obj first check its method from local class, if not find, it then check the supper class. AND IT NEVER CHECK ITS SUBCLASS. 
 		SubClass sub0 = new SubClass();
 		System.out.println(sub0.x);
 		System.out.println(sub0.y);
@@ -64,7 +64,7 @@ class SuperClass {
 }
 
 class SubClass extends SuperClass {
-	int x = 3;
+//	int x = 3;
 	int y = 4;
 
 	int getX() {

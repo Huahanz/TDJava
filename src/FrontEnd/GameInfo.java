@@ -87,9 +87,11 @@ public class GameInfo {
 				funLazy(i, j);
 				funLazyBreak(i, j);
 			}
-		 TestHelper.printTwoDArray(breakDir[n - 1][m - 1], n, m);
+		 TestHelper.printTwoDArray(breakDir[0][0], n, m);
+		 TestHelper.printTwoDArray(breakPath[0][0], n, m);
 		// TestHelper.printFourDArray(maheapDir, n, m);
-		// TestHelper.printTwoDArray(mapPath[0][0], n, m);
+		 TestHelper.printTwoDArray(mapDir[0][0], n, m);
+		 TestHelper.printTwoDArray(mapPath[0][0], n, m);
 	}
 
 	public static void funLazyBreak(int a, int b) {
@@ -176,8 +178,8 @@ public class GameInfo {
 						&& bp[mina - 1][minb + 1] > bp[mina][minb]) {
 					bp[mina - 1][minb + 1] = (float) (bp[mina][minb]);
 					breakDir[mina - 1][minb + 1][a][b] = 6;
-				} else if (bp[mina - 1][minb + 1] > bp[mina][minb] + 1.41) {
-					bp[mina - 1][minb + 1] = (float) (bp[mina][minb] + 1.41);
+				} else if (bp[mina - 1][minb + 1] > bp[mina][minb] + 1) {
+					bp[mina - 1][minb + 1] = (float) (bp[mina][minb] + 1);
 					breakDir[mina - 1][minb + 1][a][b] = 6;
 				}
 			}
@@ -188,8 +190,8 @@ public class GameInfo {
 						&& bp[mina - 1][minb - 1] > bp[mina][minb]) {
 					bp[mina - 1][minb - 1] = (float) (bp[mina][minb]);
 					breakDir[mina - 1][minb - 1][a][b] = 4;
-				} else if (bp[mina - 1][minb - 1] > bp[mina][minb] + 1.41) {
-					bp[mina - 1][minb - 1] = (float) (bp[mina][minb] + 1.41);
+				} else if (bp[mina - 1][minb - 1] > bp[mina][minb] + 1) {
+					bp[mina - 1][minb - 1] = (float) (bp[mina][minb] + 1);
 					breakDir[mina - 1][minb - 1][a][b] = 4;
 				}
 			}
@@ -200,8 +202,8 @@ public class GameInfo {
 						&& bp[mina + 1][minb + 1] > bp[mina][minb]) {
 					bp[mina + 1][minb + 1] = (float) (bp[mina][minb]);
 					breakDir[mina + 1][minb + 1][a][b] = 8;
-				} else if (bp[mina + 1][minb + 1] > bp[mina][minb] + 1.41) {
-					bp[mina + 1][minb + 1] = (float) (bp[mina][minb] + 1.41);
+				} else if (bp[mina + 1][minb + 1] > bp[mina][minb] + 1) {
+					bp[mina + 1][minb + 1] = (float) (bp[mina][minb] + 1);
 					breakDir[mina + 1][minb + 1][a][b] = 8;
 				}
 			}
@@ -212,8 +214,8 @@ public class GameInfo {
 						&& bp[mina + 1][minb - 1] > bp[mina][minb]) {
 					bp[mina + 1][minb - 1] = (float) (bp[mina][minb]);
 					breakDir[mina + 1][minb - 1][a][b] = 2;
-				} else if (bp[mina + 1][minb - 1] > bp[mina][minb] + 1.41) {
-					bp[mina + 1][minb - 1] = (float) (bp[mina][minb] + 1.41);
+				} else if (bp[mina + 1][minb - 1] > bp[mina][minb] + 1) {
+					bp[mina + 1][minb - 1] = (float) (bp[mina][minb] + 1);
 					breakDir[mina + 1][minb - 1][a][b] = 2;
 				}
 			}

@@ -27,25 +27,56 @@ public abstract class ActiveBall extends Ball {
 		this.setX(x);
 		this.setY(y);
 	}
+	
+	public boolean moveToBreakBlock(Ball to){
+		return this.moveToBreakBlock(to.getX(), to.getY());
+	}
 
-	public boolean breakBlock(Ball to){
+	public boolean moveToBreakBlock(int x, int y) {
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
-		if(GameInfo.isXSlotValidate(thisXSlot) || GameInfo.isYSlotValidate(thisYSlot) || GameInfo.isXSlotValidate(toXSlot) || GameInfo.isYSlotValidate(toYSlot))
-			return false;
+//		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
+//			return breakBlock(thisXSlot, thisYSlot);
+
+		if(GameInfo.currentMap[thisYSlot][thisXSlot] != 0){
+			this.breakBlock(thisXSlot, thisYSlot);
+		}
+		byte dir = GameInfo.breakDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
+
+		int step = this.getStepLength();
+		if ((dir & 1) == 0)
+			step >>= 1;
+		if (dir == 1 || dir == 2 || dir == 8)
+			this.setY(this.getY() - step);
+		if (dir >= 2 && dir <= 4)
+			this.setX(this.getX() + step);
+		if (dir >= 4 && dir <= 6)
+			this.setY(this.getY() + step);
+		if (dir >= 6 && dir <= 8)
+			this.setX(this.getX() - step);
+		return false;
+
+	}
+
+	public boolean breakBlock(int xSlot, int ySlot) {
+		GameInfo.currentMap[ySlot][xSlot] = 0;
 		return true;
 	}
 
-	public boolean isBlocked(Ball to) {
+	public boolean isBlocked(Ball to){
+		return this.isBlocked(to.getX(), to.getY());
+	}
+	public boolean isBlocked(int x, int y) {
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
-		if (thisXSlot == toXSlot & thisYSlot == toYSlot)
+		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
 			return false;
 		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
+
 		return dir == 0;
 	}
 
@@ -58,7 +89,7 @@ public abstract class ActiveBall extends Ball {
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
-		if (thisXSlot == toXSlot & thisYSlot == toYSlot)
+		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
 			return moveInSlot(x, y);
 		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
 

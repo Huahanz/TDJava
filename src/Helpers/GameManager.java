@@ -81,7 +81,6 @@ public class GameManager {
 	}
 
 	public synchronized boolean killBall(Ball ball) {
-		TestHelper.print("killing ball");
 		if (GameInfo.balls.contains(ball)) {
 			// GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
 			GameInfo.balls.remove(ball);
@@ -183,8 +182,9 @@ public class GameManager {
 		}
 	}
 
-	public boolean reachDestination(FastBall fastBall) {
+	public synchronized boolean reachDestination(FastBall fastBall) {
 		this.killBall(fastBall);
 		Config.lostDragon++;
+		return true;
 	}
 }

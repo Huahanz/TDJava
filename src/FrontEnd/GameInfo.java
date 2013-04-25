@@ -31,8 +31,7 @@ public class GameInfo {
 	static int n = 0;
 
 	public static boolean load(SwingFrame swingFrame) {
-		swingFrame.setSize(Config.defaultWidth,
-				Config.defaultHeight);
+		swingFrame.setSize(Config.defaultWidth, Config.defaultHeight);
 		GameInfo.swingPanel = new SwingPanel();
 		GameInfo.Bounds = GameInfo.swingPanel.getBounds();
 		swingFrame.add(GameInfo.swingPanel, BorderLayout.CENTER);
@@ -87,11 +86,11 @@ public class GameInfo {
 				funLazy(i, j);
 				funLazyBreak(i, j);
 			}
-		 TestHelper.printTwoDArray(breakDir[0][0], n, m);
-		 TestHelper.printTwoDArray(breakPath[0][0], n, m);
+		// TestHelper.printTwoDArray(breakDir[0][0], n, m);
+		// TestHelper.printTwoDArray(breakPath[0][0], n, m);
 		// TestHelper.printFourDArray(maheapDir, n, m);
-		 TestHelper.printTwoDArray(mapDir[0][0], n, m);
-		 TestHelper.printTwoDArray(mapPath[0][0], n, m);
+		// TestHelper.printTwoDArray(mapDir[0][0], n, m);
+		// TestHelper.printTwoDArray(mapPath[0][0], n, m);
 	}
 
 	public static void funLazyBreak(int a, int b) {
@@ -352,9 +351,9 @@ public class GameInfo {
 		return slotNum >= 0 && slotNum < Config.slotHeightNumber;
 	}
 
-	public static boolean isValide(int x, int y){
-		int xSlot = x/Config.slotWidth;
-		int ySlot = y/Config.slotHeight;
+	public static boolean isValide(int x, int y) {
+		int xSlot = x / Config.slotWidth;
+		int ySlot = y / Config.slotHeight;
 		return isXSlotValide(xSlot) && isYSlotValide(ySlot);
 	}
 	// public static void fun(int a, int b, int c, int d) {

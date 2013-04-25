@@ -2,6 +2,8 @@ package Helpers;
 
 public class Config
 {
+	public static String backgroundImagePath = "Asset/backgroundGrass.png";
+	public static String wallImagePath = "Asset/wall.png";
 	public static int gold = 1000;
 	public static int DTowerBallCost = 100;
 	public static int DragonBallReward = 25;

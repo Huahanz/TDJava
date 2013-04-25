@@ -36,13 +36,16 @@ public class GameManager {
 		Ball ball = null;
 		switch (ballName) {
 		case "Fast":
-			ball = new FastBall(x, y);
+			if(this.canBuildBall(x, y))
+				ball = new FastBall(x, y);
 			break;
 		case "Slow":
-			ball = new SlowBall(x, y);
+			if(this.canBuildBall(x, y))
+				ball = new SlowBall(x, y);
 			break;
 		case "DTower":
-			if (this.canBuildTower(x, y) && Config.gold >= Config.DTowerBallCost){
+			if (this.canBuildTower(x, y)
+					&& Config.gold >= Config.DTowerBallCost) {
 				ball = new DTowerBall(x, y);
 				Config.gold -= Config.DTowerBallCost;
 			}
@@ -83,8 +86,8 @@ public class GameManager {
 			// GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
 			GameInfo.balls.remove(ball);
 		}
-		
-		if (ball instanceof DragonBall){
+
+		if (ball instanceof DragonBall) {
 			Config.gold += Config.DragonBallReward;
 		}
 		return true;
@@ -124,6 +127,19 @@ public class GameManager {
 		return true;
 	}
 
+	public boolean canBuildBall(int x, int y) {
+		int xSlotNum = x / Config.slotWidth;
+		int ySlotNum = y / Config.slotHeight;
+		int m = GameInfo.currentMap[0].length;
+		int n = GameInfo.currentMap.length;
+		if (xSlotNum >= m || xSlotNum < 0 || ySlotNum >= n || ySlotNum < 0)
+			return false;
+		if (GameInfo.currentMap[ySlotNum][xSlotNum] != 0)
+			return false;
+		return true;
+
+	}
+
 	public boolean canBuildTower(int x, int y) {
 		int xSlotNum = x / Config.slotWidth;
 		int ySlotNum = y / Config.slotHeight;
@@ -145,18 +161,21 @@ public class GameManager {
 
 		for (String towerButton : Config.towerButtons) {
 			if (towerButton.equals(buttonName) || buttonName.equals("Wall")) {
-				TestHelper.print("int add drag" + lxSlotNum + ", " + xSlotNum + ", " + lySlotNum + ", " + ySlotNum);
+				TestHelper.print("int add drag" + lxSlotNum + ", " + xSlotNum
+						+ ", " + lySlotNum + ", " + ySlotNum);
 				if (lxSlotNum == xSlotNum) {
 					int i = Math.min(ySlotNum, lySlotNum);
 					int j = Math.max(ySlotNum, lySlotNum);
 					for (; i <= j; i++) {
-						this.addBall(buttonName, xSlotNum * Config.slotWidth, i * Config.slotHeight);
+						this.addBall(buttonName, xSlotNum * Config.slotWidth, i
+								* Config.slotHeight);
 					}
-				}else if(lySlotNum == ySlotNum){
+				} else if (lySlotNum == ySlotNum) {
 					int i = Math.min(xSlotNum, lxSlotNum);
 					int j = Math.max(xSlotNum, lxSlotNum);
 					for (; i <= j; i++) {
-						this.addBall(buttonName, i * Config.slotWidth, ySlotNum * Config.slotHeight);
+						this.addBall(buttonName, i * Config.slotWidth, ySlotNum
+								* Config.slotHeight);
 					}
 				}
 				return;

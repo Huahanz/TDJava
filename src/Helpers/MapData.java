@@ -78,6 +78,18 @@ public class MapData{
 		{0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 	};
 	
+	public static int[][] map5 = {
+		{0,0,0,0,0,0,0,0,0,0},
+		{0,0,0,1,1,1,1,1,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,0,0,0,0,1,0},
+		{0,0,0,1,1,1,1,1,1,0},
+		{0,0,0,0,0,0,0,0,0,0},
+	};
 	public static String[] mapImagePath = {
 		"", "", Config.MapPath0, Config.MapPath1
 	};
@@ -95,6 +107,8 @@ public class MapData{
 			r = map3;
 		}else if(mapNum == 4){
 			r = map4;
+		}else if(mapNum == 5){
+			r = map5;
 		}
 		Config.slotWidthNumber = r[0].length;
 		Config.slotHeightNumber = r.length;

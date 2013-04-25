@@ -45,7 +45,7 @@ public class FastBall extends DragonBall {
 	}
 
 	public void moveToExit() {
-		this.move(Config.defaultOneSlotWidth - 1,
+		this.moveWithBreak(Config.defaultOneSlotWidth - 1,
 				Config.defaultOneSlotHeight - 1);
 	}
 

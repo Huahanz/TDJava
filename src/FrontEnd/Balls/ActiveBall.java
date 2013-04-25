@@ -27,7 +27,13 @@ public abstract class ActiveBall extends Ball {
 		this.setX(x);
 		this.setY(y);
 	}
-	
+	public boolean moveWithBreak(int x, int y){
+		if(this.isBlocked(x, y)){
+			return this.moveToBreakBlock(x, y);
+		}else{
+			return this.move(x, y);
+		}
+	}
 	public boolean moveToBreakBlock(Ball to){
 		return this.moveToBreakBlock(to.getX(), to.getY());
 	}

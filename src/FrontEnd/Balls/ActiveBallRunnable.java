@@ -12,7 +12,7 @@ public class ActiveBallRunnable extends BallRunnable implements Runnable {
 			for(int i =0; i < GameInfo.balls.size(); i++){
 				Ball ball = GameInfo.balls.get(i);
 				if(ball instanceof FastBall)
-					((FastBall) ball).randomWalk();
+					((FastBall) ball).moveToExit();
 				else if(ball instanceof SlowBall){
 					((SlowBall)ball).randomWalk();
 				}else if(ball instanceof HeroBall){

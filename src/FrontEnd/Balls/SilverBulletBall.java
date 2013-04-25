@@ -18,7 +18,9 @@ public class SilverBulletBall extends BulletBall {
 	}
 	
 	public boolean shoot() {
-		boolean hit = super.move(this.getTargetX(), this.getTargetY());
+		TestHelper.print("shooting " + target.getX() + "  " + target.getY() + " , " + this.getX() + " " + this.getY() + " " + this.getTargetX() + " " + this.getTargetY());
+		boolean hit = super.moveInSlot(this.getTargetX(), this.getTargetY());
+		TestHelper.print("shooting " + target.getX() + "  " + target.getY() + " , " + this.getX() + " " + this.getY() + " " + this.getTargetX() + " " + this.getTargetY());
 		if (hit) {
 			Ball target = this.getTarget();
 			if (target instanceof DragonBall) {

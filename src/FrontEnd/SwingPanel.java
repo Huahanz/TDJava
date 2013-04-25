@@ -39,6 +39,9 @@ public class SwingPanel extends JPanel {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball != null) {
 				g2.fill((Shape) ball.getShape());
+				if(ball instanceof StalkBulletBall){
+					g2.setColor(Color.blue);
+				}
 				BufferedImage image = ball.getImage();
 				if (image != null) {
 					int paintX = ball.getX() - Config.DragonImageSize;
@@ -47,28 +50,28 @@ public class SwingPanel extends JPanel {
 					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
 					g.drawImage(image, paintX, paintY, null);
 				}
-			}
-			BufferedImage healthImage = null;
-			if(ball instanceof DragonBall){
-				healthImage = ((DragonBall) ball).getHealthImage();
-				if (healthImage != null) {
-					int paintX = ball.getX() - Config.DragonImageSize;
-					int paintY = ball.getY() - Config.DragonImageSize * 2 -5;
-					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
-					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
-					g.drawImage(healthImage, paintX, paintY, null);
+				BufferedImage healthImage = null;
+				if(ball instanceof DragonBall){
+					healthImage = ((DragonBall) ball).getHealthImage();
+					if (healthImage != null) {
+						int paintX = ball.getX() - Config.DragonImageSize;
+						int paintY = ball.getY() - Config.DragonImageSize * 2 -5;
+						paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
+						paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+						g.drawImage(healthImage, paintX, paintY, null);
+					}
 				}
-			}
-			if(ball instanceof TowerBall){
-				if(((TowerBall) ball).createFlag == 0){
-					int paintX = ball.getX() + Config.DragonImageSize;
-					int paintY = ball.getY() + Config.DragonImageSize-5;
-					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
-					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
-					((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-					g.drawOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
-					g.fillOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
-					((TowerBall) ball).createFlag = 1;
+				if(ball instanceof TowerBall){
+					if(((TowerBall) ball).createFlag == 0){
+						int paintX = ball.getX() + Config.DragonImageSize;
+						int paintY = ball.getY() + Config.DragonImageSize-5;
+						paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
+						paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+						((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+						g.drawOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+						g.fillOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+						((TowerBall) ball).createFlag = 1;
+					}
 				}
 			}
 		}

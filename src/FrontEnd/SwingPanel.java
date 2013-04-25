@@ -81,6 +81,19 @@ public class SwingPanel extends JPanel {
 				if(backgroundImage != null){
 					g2d.drawImage(backgroundImage, i, j, null);
 				}
+				if((i + Config.slotWidth) >= Config.defaultOneSlotWidth && (j + Config.slotHeight) >= Config.defaultOneSlotHeight){
+					BufferedImage originalDestinationImage = null;
+					BufferedImage destinationImage = null;
+					try {
+						originalDestinationImage = ImageIO.read(new File(Config.destinationImagePath));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					if(originalBackgroundImage != null){
+						destinationImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalDestinationImage, originalDestinationImage.getType());
+					}
+					g2d.drawImage(destinationImage, i, j, null);
+				}
 			}
 		}
 		

@@ -15,8 +15,6 @@ import Helpers.TestHelper;
 public class FastBall extends DragonBall{
 	public int health = 80;
 	public int stepLength = 60;
-	public int x;
-	public int y;
 	public FastBall(int x, int y, int XIZE, int YSIZE, int stepLength, String imagePath){
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
@@ -39,18 +37,6 @@ public class FastBall extends DragonBall{
 		this.move(Config.defaultOneSlotWidth-1, Config.defaultOneSlotHeight-1);
 	}
 	
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
 	public int getHealth() {
 		return health;
 	}

@@ -38,24 +38,36 @@ public class SwingPanel extends JPanel {
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball != null) {
-				//g2.fill((Shape) ball.getShape());
+				g2.fill((Shape) ball.getShape());
 				BufferedImage image = ball.getImage();
 				if (image != null) {
-					g.drawImage(image, ball.getX()-Config.DragonImageSize, ball.getY()-Config.DragonImageSize * 2, null);
+					int paintX = ball.getX() - Config.DragonImageSize;
+					int paintY = ball.getY() - Config.DragonImageSize * 2;
+					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
+					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+					g.drawImage(image, paintX, paintY, null);
 				}
 			}
 			BufferedImage healthImage = null;
 			if(ball instanceof DragonBall){
 				healthImage = ((DragonBall) ball).getHealthImage();
 				if (healthImage != null) {
-					g.drawImage(healthImage, ball.getX() - Config.DragonImageSize, ball.getY() - 5 - Config.DragonImageSize * 2, null);
+					int paintX = ball.getX() - Config.DragonImageSize;
+					int paintY = ball.getY() - Config.DragonImageSize * 2 -5;
+					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
+					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+					g.drawImage(healthImage, paintX, paintY, null);
 				}
 			}
 			if(ball instanceof TowerBall){
 				if(((TowerBall) ball).createFlag == 0){
+					int paintX = ball.getX() + Config.DragonImageSize;
+					int paintY = ball.getY() + Config.DragonImageSize-5;
+					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
+					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
 					((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-					g.drawOval(((TowerBall) ball).getX() - ((TowerBall) ball).getScope(), ((TowerBall) ball).getY() - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
-					g.fillOval(((TowerBall) ball).getX() - ((TowerBall) ball).getScope(), ((TowerBall) ball).getY() - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+					g.drawOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+					g.fillOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
 					((TowerBall) ball).createFlag = 1;
 				}
 			}

@@ -14,7 +14,7 @@ import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
 	public int health = 100;
-	public int stepLength = 30;
+	public int stepLength = 10;
 
 
 	public FastBall(int x, int y, int XIZE, int YSIZE, int stepLength,

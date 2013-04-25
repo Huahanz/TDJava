@@ -9,7 +9,7 @@ public class StalkBulletBall extends BulletBall {
 	int damage = 5;
 
 	public StalkBulletBall(int x, int y, Ball ball) {
-		this(x, y, 5, 5, 30, ball, Config.stalkBulletBallImagePath);
+		this(x, y, 5, 5, 50, ball, Config.stalkBulletBallImagePath);
 		TestHelper.print("in stalk");
 	}
 

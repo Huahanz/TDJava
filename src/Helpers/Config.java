@@ -19,12 +19,15 @@ public class Config
 	public static String stalkBulletBallImagePath = null;
 	public static int defaultOneSlotWidth = 1000;
 	public static int defaultOneSlotHeight = 750;
+	public static int defaultWidth = 1500;
+	public static int defaultHeight = 1000;
 	public static int slotWidth = 100;
 	public static int slotHeight = 60;
 	public static int slotWidthNumber = 10;
 	public static int slotHeightNumber = 10;
-	public static int defaultTestMapNum = 3;
+	public static int defaultTestMapNum = 4;
 	public static String[] activeballButtons = {"Fast", "Slow", "Hero"};
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start", "Wall", "Cancel"};
+	public static int DragonImageSize = 20;
 }

@@ -6,7 +6,7 @@ import Helpers.TestHelper;
 
 public class StalkBulletBall extends BulletBall {
 
-	int damage = 30;
+	int damage = 5;
 
 	public StalkBulletBall(int x, int y, Ball ball) {
 		this(x, y, 5, 5, 30, ball, Config.stalkBulletBallImagePath);

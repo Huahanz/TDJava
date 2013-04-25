@@ -39,6 +39,8 @@ public abstract class ActiveBall extends Ball {
 	}
 
 	public boolean moveToBreakBlock(int x, int y) {
+		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+			return false;
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
@@ -79,6 +81,8 @@ public abstract class ActiveBall extends Ball {
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
+		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+			return false;
 		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
 			return false;
 		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
@@ -91,6 +95,8 @@ public abstract class ActiveBall extends Ball {
 	}
 
 	public boolean move(int x, int y) {
+		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+			return false;
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;

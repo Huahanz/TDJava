@@ -31,8 +31,8 @@ public class GameInfo {
 	static int n = 0;
 
 	public static boolean load(SwingFrame swingFrame) {
-		swingFrame.setSize(Config.defaultOneSlotWidth,
-				Config.defaultOneSlotHeight);
+		swingFrame.setSize(Config.defaultWidth,
+				Config.defaultHeight);
 		GameInfo.swingPanel = new SwingPanel();
 		GameInfo.Bounds = GameInfo.swingPanel.getBounds();
 		swingFrame.add(GameInfo.swingPanel, BorderLayout.CENTER);
@@ -344,14 +344,19 @@ public class GameInfo {
 
 	}
 
-	public static boolean isXSlotValidate(int slotNum) {
+	public static boolean isXSlotValide(int slotNum) {
 		return slotNum >= 0 && slotNum < Config.slotWidthNumber;
 	}
 
-	public static boolean isYSlotValidate(int slotNum) {
+	public static boolean isYSlotValide(int slotNum) {
 		return slotNum >= 0 && slotNum < Config.slotHeightNumber;
 	}
 
+	public static boolean isValide(int x, int y){
+		int xSlot = x/Config.slotWidth;
+		int ySlot = y/Config.slotHeight;
+		return isXSlotValide(xSlot) && isYSlotValide(ySlot);
+	}
 	// public static void fun(int a, int b, int c, int d) {
 	// if (a < 0 || a >= n || b < 0 || b >= m || c < 0 || c >= n || d < 0
 	// || d >= m)

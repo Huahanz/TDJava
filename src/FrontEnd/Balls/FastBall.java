@@ -13,8 +13,9 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
-	public int health = 80;
-	public int stepLength = 60;
+	public int health = 100;
+	public int stepLength = 30;
+
 
 	public FastBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
@@ -45,8 +46,8 @@ public class FastBall extends DragonBall {
 	}
 
 	public void moveToExit() {
-		this.moveWithBreak(Config.defaultOneSlotWidth - 1,
-				Config.defaultOneSlotHeight - 1);
+		this.moveWithBreak(Config.defaultOneSlotWidth - Config.slotWidth,
+				Config.defaultOneSlotHeight - Config.slotHeight);
 	}
 
 	public int getHealth() {
@@ -57,4 +58,13 @@ public class FastBall extends DragonBall {
 		TestHelper.print("health setting to " + health);
 		this.health = health;
 	}
+	
+	public int getStepLength() {
+		return stepLength;
+	}
+
+	public void setStepLength(int stepLength) {
+		this.stepLength = stepLength;
+	}
+
 }

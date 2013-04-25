@@ -38,17 +38,17 @@ public class SwingPanel extends JPanel {
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball != null) {
-				g2.fill((Shape) ball.getShape());
+				//g2.fill((Shape) ball.getShape());
 				BufferedImage image = ball.getImage();
 				if (image != null) {
-					g.drawImage(image, ball.getX(), ball.getY(), null);
+					g.drawImage(image, ball.getX()-Config.DragonImageSize, ball.getY()-Config.DragonImageSize * 2, null);
 				}
 			}
 			BufferedImage healthImage = null;
 			if(ball instanceof DragonBall){
 				healthImage = ((DragonBall) ball).getHealthImage();
 				if (healthImage != null) {
-					g.drawImage(healthImage, ball.getX(), ball.getY() - 5, null);
+					g.drawImage(healthImage, ball.getX() - Config.DragonImageSize, ball.getY() - 5 - Config.DragonImageSize * 2, null);
 				}
 			}
 			if(ball instanceof TowerBall){

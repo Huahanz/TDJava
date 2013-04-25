@@ -12,16 +12,16 @@ public class SilverBulletBall extends BulletBall {
 
 	public SilverBulletBall(int x, int y, Ball ball) {
 		super(x, y, ball, Config.silverBulletBallImagePath);
+//		TestHelper.print("in sliver ball" + ball.getX() + ", "+  ball.getY() + " "+ x + " " + y + " " + this.getX() + " " + this.getY());
 		this.setTargetX(ball.getX());
 		this.setTargetY(ball.getY());
 	}
 	
 	public boolean shoot() {
-		boolean hit = super.moveInSlot(this.getTargetX(), this.getTargetY());
+		boolean hit = super.move(this.getTargetX(), this.getTargetY());
 		if (hit) {
 			Ball target = this.getTarget();
 			if (target instanceof DragonBall) {
-				TestHelper.print("shooting " + target.getX() + "  " + target.getY() + " , " + this.getX() + " " + this.getY());
 				((ActiveBall) target).setHealth(((ActiveBall) target) 
 						.getHealth() - this.getDamage());
 				if(((ActiveBall) target).getHealth() <= 0){

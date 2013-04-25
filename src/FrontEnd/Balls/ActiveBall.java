@@ -108,6 +108,10 @@ public abstract class ActiveBall extends Ball {
 
 		return false;
 	}
+	
+//	public boolean moveDirectly(int x, int y){
+//		
+//	}
 
 	public int walkWay(int n) {
 		return n;

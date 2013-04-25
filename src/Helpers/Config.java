@@ -9,8 +9,8 @@ public class Config
 	public static int DTowerBallCost = 100;
 	public static int DragonBallReward = 25;
 	public static String HeroBallImagePath = "Asset/HeroBall.jpg";
-	public static String MapPath0 = "Asset/PurpleD.jpg";
-	public static String MapPath1 = "Asset/PurpleRedS.jpg";
+	public static String MapPath0 = "Asset/PurpleD.png";
+	public static String MapPath1 = "Asset/PurpleRedS.png";
 	public static String FastBallImagePath = "Asset/FastBall.gif";
 	public static String HealthBarImagePath = "Asset/HealthBar.png";
 	public static String SlowBallImagePath = "Asset/SlowBall.jpg";

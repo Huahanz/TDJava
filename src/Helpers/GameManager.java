@@ -7,8 +7,11 @@ import FrontEnd.Balls.DTowerBall;
 import FrontEnd.Balls.DragonBall;
 import FrontEnd.Balls.FastBall;
 import FrontEnd.Balls.ActiveBallRunnable;
+import FrontEnd.Balls.HeroBall;
+import FrontEnd.Balls.STowerBall;
 import FrontEnd.Balls.SilverBulletBall;
 import FrontEnd.Balls.SlowBall;
+import FrontEnd.Balls.StalkBulletBall;
 
 public class GameManager {
 	private static GameManager gameManager = null;
@@ -42,9 +45,26 @@ public class GameManager {
 				Config.gold -= Config.DTowerBallCost;
 			}
 			break;
+		case "STower":
+			if (this.canBuildTower(x, y))
+				ball = new STowerBall(x, y);
+			break;
 		case "SilverBulletBall":
 			if (obj0 != null)
 				ball = new SilverBulletBall(x, y, (Ball) obj0);
+			break;
+		case "StalkBulletBall":
+			if (obj0 != null)
+				ball = new StalkBulletBall(x, y, (Ball) obj0);
+			break;
+		case "Wall":
+			this.addWall(x, y);
+			break;
+		case "Cancel":
+			this.cancel(x, y);
+			break;
+		case "Hero":
+			ball = new HeroBall(x, y);
 			break;
 		default:
 			return;
@@ -75,7 +95,30 @@ public class GameManager {
 		// this.addBall(ballName, x, y);
 		// }
 	}
-
+	public boolean cancel(int x, int y){
+		int xSlotNum = x / Config.slotWidth;
+		int ySlotNum = y / Config.slotHeight;
+		int m = GameInfo.currentMap[0].length;
+		int n = GameInfo.currentMap.length;
+		if (xSlotNum >= m || xSlotNum < 0 || ySlotNum >= n || ySlotNum < 0)
+			return false;
+		if(GameInfo.currentMap[ySlotNum][xSlotNum] == 0)
+			return false;
+		GameInfo.currentMap[ySlotNum][xSlotNum] = 0;
+		return true;
+	}
+	public boolean addWall(int x, int y){
+		int xSlotNum = x / Config.slotWidth;
+		int ySlotNum = y / Config.slotHeight;
+		int m = GameInfo.currentMap[0].length;
+		int n = GameInfo.currentMap.length;
+		if (xSlotNum >= m || xSlotNum < 0 || ySlotNum >= n || ySlotNum < 0)
+			return false;
+		if(GameInfo.currentMap[ySlotNum][xSlotNum] != 0)
+			return false;
+		GameInfo.currentMap[ySlotNum][xSlotNum] = 1;
+		return true;
+	}
 	public boolean canBuildTower(int x, int y) {
 		int xSlotNum = x / Config.slotWidth;
 		int ySlotNum = y / Config.slotHeight;

@@ -73,8 +73,8 @@ public abstract class ActiveBall extends Ball {
 			this.setY(y);
 			return true;
 		}
-		double ratio = this.getStepLength() / dis;
-
+		double steplen = this.getStepLength();
+		double ratio = steplen / dis;
 		if (dx != 0) {
 			dy = (int) (dy * ratio);
 			if (this.getY() > y) {
@@ -109,10 +109,6 @@ public abstract class ActiveBall extends Ball {
 		return false;
 	}
 	
-//	public boolean moveDirectly(int x, int y){
-//		
-//	}
-
 	public int walkWay(int n) {
 		return n;
 	}
@@ -156,7 +152,7 @@ public abstract class ActiveBall extends Ball {
 		try {
 			BufferedImage originalImage = ImageIO.read(new File(Config.HealthBarImagePath));
 			this.healthImage = ImageHelper.resizeImage(
-					(int) (40 * ((float) this.getHealth() / 100)), 10,
+					(int) (40 * (Math.max(0, (float)this.getHealth()) / 100)), 10,
 					originalImage, originalImage.getType());
 		} catch (IOException e) {
 			e.printStackTrace();

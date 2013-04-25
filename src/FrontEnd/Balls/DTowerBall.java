@@ -19,8 +19,6 @@ public class DTowerBall extends TowerBall {
 
 	public DTowerBall(int x, int y) {
 		super(x, y, 1);
-		TestHelper.print(Config.slotWidth + " || " + Config.slotHeight + " "
-				+ x + " " + y);
 	}
 
 	public boolean defend() {

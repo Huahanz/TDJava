@@ -22,8 +22,6 @@ public class SlowBall extends DragonBall {
 		this(550, 330);
 	}
 	public void randomWalk() {
-		this.x *= 1.1;
-		this.y *= 1.2;
 	}
 
 	public BufferedImage getImage() {

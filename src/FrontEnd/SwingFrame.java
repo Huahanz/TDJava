@@ -51,30 +51,30 @@ public class SwingFrame extends JFrame {
 			addButton(buttonPanel, buttonName + "Ball", new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					SwingFrame.buttonName = buttonName;
-				} 
+				}
 			});
 		}
 		for (final String buttonName : Config.towerButtons) {
 			addButton(buttonPanel, buttonName, new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					SwingFrame.buttonName = buttonName;
-				} 
+				}
 			});
 		}
 
 		for (final String buttonName : Config.otherButtons) {
-			if(buttonName.equals("Start")){
+			if (buttonName.equals("Start")) {
 				addButton(buttonPanel, buttonName, new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
 						GameInfo.startTD();
-					} 
+					}
 				});
 				continue;
 			}
 			addButton(buttonPanel, buttonName, new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					SwingFrame.buttonName = buttonName;
-				} 
+				}
 			});
 		}
 
@@ -92,36 +92,38 @@ public class SwingFrame extends JFrame {
 		button.addActionListener(listener);
 	}
 
-//	private void lazyAddMouseListener() {
-//		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-//			public void eventDispatched(AWTEvent event) {
-//				if (event instanceof MouseEvent) {
-//					MouseEvent evt = (MouseEvent) event;
-//					if (evt.getID() == MouseEvent.MOUSE_CLICKED) {
-//						if (buttonName == null)
-//							return;
-//						GameManager gameManager = GameManager.getInstance();
-//						gameManager.addBall(buttonName, (int) evt.getPoint()
-//								.getX(), (int) evt.getPoint().getY());
-//
-//					}
-//				}
-//			}
-//		}, AWTEvent.MOUSE_EVENT_MASK);
-//
-//	}
+	// private void lazyAddMouseListener() {
+	// Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+	// public void eventDispatched(AWTEvent event) {
+	// if (event instanceof MouseEvent) {
+	// MouseEvent evt = (MouseEvent) event;
+	// if (evt.getID() == MouseEvent.MOUSE_CLICKED) {
+	// if (buttonName == null)
+	// return;
+	// GameManager gameManager = GameManager.getInstance();
+	// gameManager.addBall(buttonName, (int) evt.getPoint()
+	// .getX(), (int) evt.getPoint().getY());
+	//
+	// }
+	// }
+	// }
+	// }, AWTEvent.MOUSE_EVENT_MASK);
+	//
+	// }
 
 	private class MouseHandler extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
-			if(SwingFrame.buttonName != null){
+			if (SwingFrame.buttonName != null) {
 				GameManager gameManager = new GameManager();
-				gameManager.addBall(SwingFrame.buttonName, event.getX(), event.getY());
+				gameManager.addBall(SwingFrame.buttonName, event.getX(),
+						event.getY());
 			}
 		}
 
 		public void mouseClicked(MouseEvent event) {
 			MouseEvent evt = (MouseEvent) event;
-			System.out.println((int) evt.getPoint().getX() + "   "  +  (int) evt.getPoint().getY());
+			System.out.println((int) evt.getPoint().getX() + "   "
+					+ (int) evt.getPoint().getY());
 		}
 	}
 

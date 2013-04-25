@@ -75,7 +75,7 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean attack(Ball ball) {
-		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + ball.getY());
+		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + " " + ball.getY() + " " + this.getX() + " " + this.getY());
 		GameManager gameManager = GameManager.getInstance();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(), ball);
 		return true;

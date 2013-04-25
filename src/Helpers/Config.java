@@ -20,7 +20,7 @@ public class Config
 	public static int slotHeight = 60;
 	public static int slotWidthNumber = 10;
 	public static int slotHeightNumber = 10;
-	public static int defaultTestMapNum = 4;
+	public static int defaultTestMapNum = 3;
 	public static String[] activeballButtons = {"Fast", "Slow"};
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start"};

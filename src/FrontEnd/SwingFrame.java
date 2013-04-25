@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Controller.PostMan;
@@ -32,6 +33,7 @@ import Helpers.TestHelper;
 public class SwingFrame extends JFrame {
 
 	private static String buttonName = null;
+	public static JLabel goldLabel = null;
 
 	public static void main(String[] args) {
 		JFrame frame = new SwingFrame();
@@ -79,6 +81,9 @@ public class SwingFrame extends JFrame {
 		add(buttonPanel, BorderLayout.SOUTH);
 		addMouseListener(new MouseHandler());
 		addMouseMotionListener(new MouseMotionHandler());
+		
+		goldLabel = new JLabel("Gold: " + Config.gold);
+		buttonPanel.add(goldLabel, BorderLayout.EAST);
 	}
 
 	private void addButton(Container c, String title, ActionListener listener) {

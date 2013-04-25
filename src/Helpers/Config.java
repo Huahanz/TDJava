@@ -2,6 +2,8 @@ package Helpers;
 
 public class Config
 {
+	public static int gold = 1000;
+	public static int DTowerBallCost = 100;
 	public static String MapPath0 = "Asset/PurpleD.jpg";
 	public static String MapPath1 = "Asset/PurpleRedS.jpg";
 	public static String FastBallImagePath = "Asset/FastBall.gif";

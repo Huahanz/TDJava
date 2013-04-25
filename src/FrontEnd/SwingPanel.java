@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,12 +14,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import FrontEnd.Balls.*;
 import Helpers.Config;
 import Helpers.ImageHelper;
 import Helpers.MapData;
+import FrontEnd.SwingFrame;
 
 public class SwingPanel extends JPanel {
 
@@ -46,6 +49,7 @@ public class SwingPanel extends JPanel {
 			}
 		}
 		this.paintMap(g);
+		SwingFrame.goldLabel.setText("Gold: " + Config.gold);
 	}
 
 	public void paintMap(Graphics g) {

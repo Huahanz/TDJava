@@ -36,8 +36,10 @@ public class GameManager {
 			ball = new SlowBall(x, y);
 			break;
 		case "DTower":
-			if (this.canBuildTower(x, y))
+			if (this.canBuildTower(x, y) && Config.gold >= Config.DTowerBallCost){
 				ball = new DTowerBall(x, y);
+				Config.gold -= Config.DTowerBallCost;
+			}
 			break;
 		case "SilverBulletBall":
 			if (obj0 != null)

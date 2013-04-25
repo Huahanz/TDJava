@@ -85,10 +85,7 @@ public abstract class TowerBall extends Ball {
 		int scope = this.getScope();
 		int x = this.getX();
 		int y = this.getY();
-		return (ballX < x + Config.slotWidth * scope
-				&& ballX > x - Config.slotWidth * scope
-				&& ballY < y + Config.slotHeight * scope && ballY > y
-				- Config.slotHeight * scope);
+		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(scope, 2));
 	}
 	
 	public Object getShape() {

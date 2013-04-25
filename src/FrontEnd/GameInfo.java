@@ -20,6 +20,8 @@ public class GameInfo {
 	public static PostMan postMan;
 	public static byte[][][][] mapDir; // the shortest path move direction
 	public static float[][][][] mapPath; // the shortest path length
+	public static byte[][][][] breakDir; // the shortest path move direction
+	public static float[][][][] breakPath; // the shortest path length
 	public static byte[][] TDDirMap;
 	public static float[][] TDPathMap;
 	public static int[][] currentMap; // the map
@@ -65,6 +67,8 @@ public class GameInfo {
 		n = currentMap.length;
 		mapDir = new byte[n][m][n][m];
 		mapPath = new float[n][m][n][m];
+		breakDir = new byte[n][m][n][m];
+		breakPath = new float[n][m][n][m];
 		// marks = new boolean[n][m][n][m];
 		// for (int a = 0; a < n; a++) {
 		// for (int b = 0; b < m; b++) {
@@ -78,11 +82,143 @@ public class GameInfo {
 		// }
 		// }
 		for (int i = 0; i < n; i++)
-			for (int j = 0; j < m; j++)
+			for (int j = 0; j < m; j++) {
 				funLazy(i, j);
-		TestHelper.printTwoDArray(mapDir[n - 1][m - 1], n, m);
+				funLazyBreak(i, j);
+			}
+		// TestHelper.printTwoDArray(mapDir[n - 1][m - 1], n, m);
 		// TestHelper.printFourDArray(mapDir, n, m);
 		// TestHelper.printTwoDArray(mapPath[0][0], n, m);
+	}
+
+	public static void funLazyBreak(int a, int b) {
+		float[][] bp = breakPath[a][b];
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < m; j++) {
+				bp[i][j] = Integer.MAX_VALUE;
+			}
+		bp[a][b] = 0;
+
+		boolean[][] visited = new boolean[n][m];
+		while (true) {
+			int mina = 0, minb = 0;
+			float min = Integer.MAX_VALUE;
+			for (int i = 0; i < n; i++)
+				for (int j = 0; j < m; j++)
+					if (!visited[i][j])
+						if (bp[i][j] < min) {
+							min = bp[i][j];
+							mina = i;
+							minb = j;
+						}
+			if (min == Integer.MAX_VALUE)
+				return;
+
+			// Upper left corner is (0 ,0).
+			// up = 1, upright = 2, right = 3, rightdown = 4, down = 5, downleft
+			// = 6 left = 7, upleft = 8
+
+			// from down
+			if (mina - 1 >= 0) {
+				if (currentMap[mina - 1][minb] == 0
+						&& bp[mina - 1][minb] > bp[mina][minb]) {
+					bp[mina - 1][minb] = bp[mina][minb];
+					breakDir[mina - 1][minb][a][b] = 5;
+				} else if (bp[mina - 1][minb] > bp[mina][minb] + 1) {
+					bp[mina - 1][minb] = bp[mina][minb] + 1;
+					breakDir[mina - 1][minb][a][b] = 5;
+				}
+			}
+
+			// up
+			if (mina + 1 < n) {
+				if (currentMap[mina + 1][minb] == 0
+						&& bp[mina + 1][minb] > bp[mina][minb]) {
+					bp[mina + 1][minb] = bp[mina][minb];
+					breakDir[mina + 1][minb][a][b] = 1;
+
+				} else if (bp[mina + 1][minb] > bp[mina][minb] + 1) {
+					bp[mina + 1][minb] = bp[mina][minb] + 1;
+					breakDir[mina + 1][minb][a][b] = 1;
+				}
+			}
+
+			// right
+			if (minb - 1 >= 0) {
+				if (currentMap[mina][minb - 1] == 0
+						&& bp[mina][minb - 1] > bp[mina][minb]) {
+					bp[mina][minb - 1] = bp[mina][minb];
+					breakDir[mina][minb - 1][a][b] = 3;
+				} else if (bp[mina][minb - 1] > bp[mina][minb] + 1) {
+					bp[mina][minb - 1] = bp[mina][minb] + 1;
+					breakDir[mina][minb - 1][a][b] = 3;
+
+				}
+			}
+
+			// left
+			if (minb + 1 < m) {
+				if (currentMap[mina][minb + 1] == 0
+						&& bp[mina][minb + 1] > bp[mina][minb]) {
+					bp[mina][minb + 1] = bp[mina][minb];
+					breakDir[mina][minb + 1][a][b] = 7;
+				} else if (bp[mina][minb + 1] > bp[mina][minb] + 1) {
+					bp[mina][minb + 1] = bp[mina][minb] + 1;
+					breakDir[mina][minb + 1][a][b] = 7;
+				}
+			}
+
+			// down left
+			if (mina - 1 >= 0 && minb + 1 < m) {
+
+				if (currentMap[mina - 1][minb + 1] == 0
+						&& bp[mina - 1][minb + 1] > bp[mina][minb]) {
+					bp[mina - 1][minb + 1] = (float) (bp[mina][minb]);
+					breakDir[mina - 1][minb + 1][a][b] = 6;
+				} else if (bp[mina - 1][minb + 1] > bp[mina][minb] + 1.41) {
+					bp[mina - 1][minb + 1] = (float) (bp[mina][minb] + 1.41);
+					breakDir[mina - 1][minb + 1][a][b] = 6;
+				}
+			}
+
+			// down right
+			if (mina - 1 >= 0 && minb - 1 >= 0) {
+				if (currentMap[mina - 1][minb - 1] == 0
+						&& bp[mina - 1][minb - 1] > bp[mina][minb]) {
+					bp[mina - 1][minb - 1] = (float) (bp[mina][minb]);
+					breakDir[mina - 1][minb - 1][a][b] = 4;
+				} else if (bp[mina - 1][minb - 1] > bp[mina][minb] + 1.41) {
+					bp[mina - 1][minb - 1] = (float) (bp[mina][minb] + 1.41);
+					breakDir[mina - 1][minb - 1][a][b] = 4;
+				}
+			}
+
+			// upper left
+			if (mina + 1 < n && minb + 1 < m) {
+				if (currentMap[mina + 1][minb + 1] == 0
+						&& bp[mina + 1][minb + 1] > bp[mina][minb]) {
+					bp[mina + 1][minb + 1] = (float) (bp[mina][minb]);
+					breakDir[mina + 1][minb + 1][a][b] = 8;
+				} else if (bp[mina + 1][minb + 1] > bp[mina][minb] + 1.41) {
+					bp[mina + 1][minb + 1] = (float) (bp[mina][minb] + 1.41);
+					breakDir[mina + 1][minb + 1][a][b] = 8;
+				}
+			}
+
+			// upper right
+			if (mina + 1 < n && minb - 1 >= 0) {
+				if (currentMap[mina + 1][minb - 1] == 0
+						&& bp[mina + 1][minb - 1] > bp[mina][minb]) {
+					bp[mina + 1][minb - 1] = (float) (bp[mina][minb]);
+					breakDir[mina + 1][minb - 1][a][b] = 2;
+				} else if (bp[mina + 1][minb - 1] > bp[mina][minb] + 1.41) {
+					bp[mina + 1][minb - 1] = (float) (bp[mina][minb] + 1.41);
+					breakDir[mina + 1][minb - 1][a][b] = 2;
+				}
+			}
+
+			visited[mina][minb] = true;
+		}
 	}
 
 	public static void funLazy(int a, int b) {
@@ -90,8 +226,9 @@ public class GameInfo {
 			return;
 		float[][] mp = mapPath[a][b];
 		for (int i = 0; i < n; i++)
-			for (int j = 0; j < m; j++)
+			for (int j = 0; j < m; j++) {
 				mp[i][j] = Integer.MAX_VALUE;
+			}
 		mp[a][b] = 0;
 
 		boolean[][] visited = new boolean[n][m];
@@ -195,13 +332,21 @@ public class GameInfo {
 
 		Thread towerThread = new Thread(new TowerBallRunnable());
 		towerThread.start();
-		
+
 		Thread bulletThread = new Thread(new BulletBallRunnable());
 		bulletThread.start();
 	}
 
 	public static void addWall() {
-		
+
+	}
+
+	public static boolean isXSlotValidate(int slotNum) {
+		return slotNum >= 0 && slotNum < Config.slotWidthNumber;
+	}
+
+	public static boolean isYSlotValidate(int slotNum) {
+		return slotNum >= 0 && slotNum < Config.slotHeightNumber;
 	}
 
 	// public static void fun(int a, int b, int c, int d) {

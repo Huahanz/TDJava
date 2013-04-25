@@ -28,6 +28,29 @@ public abstract class ActiveBall extends Ball {
 		this.setY(y);
 	}
 
+	public boolean breakBlock(Ball to){
+		int thisXSlot = this.getX() / Config.slotWidth;
+		int thisYSlot = this.getY() / Config.slotHeight;
+		int toXSlot = x / Config.slotWidth;
+		int toYSlot = y / Config.slotHeight;
+		if(GameInfo.isXSlotValidate(thisXSlot) || GameInfo.isYSlotValidate(thisYSlot) || GameInfo.isXSlotValidate(toXSlot) || GameInfo.isYSlotValidate(toYSlot))
+			return false;
+		int dx = Math.abs(thisXSlot - toXSlot);
+		int dy = Math.abs(thisYSlot - toYSlot);
+		
+	}
+
+	public boolean isBlocked(Ball to) {
+		int thisXSlot = this.getX() / Config.slotWidth;
+		int thisYSlot = this.getY() / Config.slotHeight;
+		int toXSlot = x / Config.slotWidth;
+		int toYSlot = y / Config.slotHeight;
+		if (thisXSlot == toXSlot & thisYSlot == toYSlot)
+			return false;
+		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
+		return dir == 0;
+	}
+
 	public boolean move(Ball to) {
 		return this.move(to.getX(), to.getY());
 	}
@@ -108,7 +131,7 @@ public abstract class ActiveBall extends Ball {
 
 		return false;
 	}
-	
+
 	public int walkWay(int n) {
 		return n;
 	}
@@ -150,10 +173,11 @@ public abstract class ActiveBall extends Ball {
 		if (Config.HealthBarImagePath == null)
 			return null;
 		try {
-			BufferedImage originalImage = ImageIO.read(new File(Config.HealthBarImagePath));
+			BufferedImage originalImage = ImageIO.read(new File(
+					Config.HealthBarImagePath));
 			this.healthImage = ImageHelper.resizeImage(
-					(int) (40 * (Math.max(0, (float)this.getHealth()) / 100)), 10,
-					originalImage, originalImage.getType());
+					(int) (40 * (Math.max(0, (float) this.getHealth()) / 100)),
+					10, originalImage, originalImage.getType());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

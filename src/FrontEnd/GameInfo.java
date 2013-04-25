@@ -200,6 +200,10 @@ public class GameInfo {
 		bulletThread.start();
 	}
 
+	public static void addWall() {
+		
+	}
+
 	// public static void fun(int a, int b, int c, int d) {
 	// if (a < 0 || a >= n || b < 0 || b >= m || c < 0 || c >= n || d < 0
 	// || d >= m)

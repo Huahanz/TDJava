@@ -13,6 +13,11 @@ public class ActiveBallRunnable extends BallRunnable implements Runnable {
 				Ball ball = GameInfo.balls.get(i);
 				if(ball instanceof FastBall)
 					((FastBall) ball).randomWalk();
+				else if(ball instanceof SlowBall){
+					((SlowBall)ball).randomWalk();
+				}else if(ball instanceof HeroBall){
+					((HeroBall)ball).hunt();
+				}
 			}
 			try {
 				Thread.sleep(150);

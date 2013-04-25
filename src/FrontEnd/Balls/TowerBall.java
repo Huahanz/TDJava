@@ -63,7 +63,7 @@ public abstract class TowerBall extends Ball {
 	public boolean defend() {
 		for(int i =0; i < GameInfo.balls.size(); i++){
 			Ball ball = GameInfo.balls.get(i);
-			if (ball instanceof DragonBall) {
+			if (ball instanceof DragonBall && !(ball instanceof HeroBall)) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {

@@ -9,8 +9,8 @@ public abstract class BulletBall extends ActiveBall {
 	String imagePath;
 	int damage;
 
-	public BulletBall(int x, int y, Ball ball, String imagePath) {
-		super(x, y, 10, 10, 1, imagePath);
+	public BulletBall(int x, int y, int XSIZE, int YSIZE, int stepLength, Ball ball, String imagePath) {
+		super(x, y, XSIZE, YSIZE, stepLength, imagePath);
 		this.setTarget(ball);
 	}
 

@@ -1,6 +1,7 @@
 package FrontEnd;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,12 +15,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import FrontEnd.Balls.*;
 import Helpers.Config;
 import Helpers.ImageHelper;
 import Helpers.MapData;
+import FrontEnd.SwingFrame;
 
 public class SwingPanel extends JPanel {
 
@@ -28,6 +31,8 @@ public class SwingPanel extends JPanel {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		this.paintMap(g);
+		
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
@@ -46,18 +51,39 @@ public class SwingPanel extends JPanel {
 				}
 			}
 		}
-		this.paintMap(g);
+		
+		SwingFrame.goldLabel.setText("Gold: " + Config.gold);
 	}
 
 	public void paintMap(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-
-		for (int i = 0; i <= Config.defaultOneSlotHeight; i += Config.slotHeight) {
-			g2d.drawLine(0, i, Config.defaultOneSlotWidth, i);
+		BufferedImage originalBackgroundImage = null;
+		BufferedImage backgroundImage = null;
+		try {
+			originalBackgroundImage = ImageIO.read(new File(Config.backgroundImagePath));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
+		if(originalBackgroundImage != null){
+			backgroundImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalBackgroundImage, originalBackgroundImage.getType());
+		}
 		for (int i = 0; i <= Config.defaultOneSlotWidth; i += Config.slotWidth) {
-			g2d.drawLine(i, 0, i, Config.defaultOneSlotHeight);
+			for (int j = 0; j <= Config.defaultOneSlotHeight; j += Config.slotHeight){
+				if(backgroundImage != null){
+					g2d.drawImage(backgroundImage, i, j, null);
+				}
+			}
+		}
+		
+		BufferedImage originalWallImage = null;
+		BufferedImage wallImage = null;
+		try {
+			originalWallImage = ImageIO.read(new File(Config.wallImagePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(originalBackgroundImage != null){
+			wallImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalWallImage, originalWallImage.getType());
 		}
 		int[][] currentMap = GameInfo.currentMap;
 		for (int i = 0; i < currentMap.length; i++) {
@@ -66,7 +92,7 @@ public class SwingPanel extends JPanel {
 				} else if (currentMap[i][j] == 1) {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;
-					g2d.fillRect(width * j, height * i, width, height);
+					g2d.drawImage(wallImage, width * j, height * i, null);
 				} else if (currentMap[i][j] < 10) {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;

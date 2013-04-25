@@ -6,6 +6,7 @@ import Controller.HttpManager;
 import FrontEnd.GameInfo;
 import FrontEnd.Balls.Ball;
 import FrontEnd.Balls.DTowerBall;
+import FrontEnd.Balls.DragonBall;
 import FrontEnd.Balls.FastBall;
 import FrontEnd.Balls.ActiveBallRunnable;
 import FrontEnd.Balls.HeroBall;
@@ -41,8 +42,10 @@ public class GameManager {
 			ball = new SlowBall(x, y);
 			break;
 		case "DTower":
-			if (this.canBuildTower(x, y))
+			if (this.canBuildTower(x, y) && Config.gold >= Config.DTowerBallCost){
 				ball = new DTowerBall(x, y);
+				Config.gold -= Config.DTowerBallCost;
+			}
 			break;
 		case "STower":
 			if (this.canBuildTower(x, y))
@@ -79,6 +82,10 @@ public class GameManager {
 		if (GameInfo.balls.contains(ball)) {
 			// GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
 			GameInfo.balls.remove(ball);
+		}
+		
+		if (ball instanceof DragonBall){
+			Config.gold += Config.DragonBallReward;
 		}
 		return true;
 	}

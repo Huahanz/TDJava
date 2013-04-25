@@ -35,9 +35,7 @@ public abstract class ActiveBall extends Ball {
 		int toYSlot = y / Config.slotHeight;
 		if(GameInfo.isXSlotValidate(thisXSlot) || GameInfo.isYSlotValidate(thisYSlot) || GameInfo.isXSlotValidate(toXSlot) || GameInfo.isYSlotValidate(toYSlot))
 			return false;
-		int dx = Math.abs(thisXSlot - toXSlot);
-		int dy = Math.abs(thisYSlot - toYSlot);
-		
+		return true;
 	}
 
 	public boolean isBlocked(Ball to) {

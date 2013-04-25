@@ -37,7 +37,7 @@ public class FastBall extends DragonBall {
 					this.move(ball);
 					return;
 				} else {
-					this.lazyBreakBlock(ball);
+					this.breakBlock(ball);
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import Controller.HttpManager;
 import FrontEnd.GameInfo;
 import FrontEnd.Balls.Ball;
 import FrontEnd.Balls.DTowerBall;
+import FrontEnd.Balls.DragonBall;
 import FrontEnd.Balls.FastBall;
 import FrontEnd.Balls.ActiveBallRunnable;
 import FrontEnd.Balls.SilverBulletBall;
@@ -59,6 +60,10 @@ public class GameManager {
 		if (GameInfo.balls.contains(ball)) {
 			//GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
 			GameInfo.balls.remove(ball);
+		}
+		
+		if (ball instanceof DragonBall){
+			Config.gold += Config.DragonBallReward;
 		}
 		return true;
 	}

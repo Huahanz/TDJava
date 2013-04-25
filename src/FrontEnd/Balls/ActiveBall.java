@@ -217,7 +217,7 @@ public abstract class ActiveBall extends Ball {
 			BufferedImage originalImage = ImageIO.read(new File(
 					Config.HealthBarImagePath));
 			this.healthImage = ImageHelper.resizeImage(
-					(int) (40 * (Math.max(0, (float) this.getHealth()) / 100)),
+					(int) (40 * (Math.max(1, (float) this.getHealth()) / 100)),
 					10, originalImage, originalImage.getType());
 		} catch (IOException e) {
 			e.printStackTrace();

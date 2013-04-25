@@ -4,6 +4,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 import FrontEnd.GameInfo;
+import Helpers.Config;
 
 public abstract class Ball {
 	public int x;
@@ -54,7 +55,7 @@ public abstract class Ball {
 	}
 
 	public Object getShape() {
-		return new Ellipse2D.Double(getX(), getY(), XSIZE, YSIZE);
+		return new Ellipse2D.Double(getX()-Config.DragonImageSize, getY() - Config.DragonImageSize, XSIZE, YSIZE);
 	}
 
 	public abstract BufferedImage getImage();

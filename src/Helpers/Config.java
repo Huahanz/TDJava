@@ -31,4 +31,5 @@ public class Config
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start", "Wall", "Cancel"};
 	public static int DragonImageSize = 20;
+	public static int lostDragon = 0;
 }

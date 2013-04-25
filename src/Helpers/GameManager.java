@@ -182,4 +182,9 @@ public class GameManager {
 			}
 		}
 	}
+
+	public boolean reachDestination(FastBall fastBall) {
+		this.killBall(fastBall);
+		Config.lostDragon++;
+	}
 }

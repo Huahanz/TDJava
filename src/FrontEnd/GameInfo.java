@@ -1,8 +1,13 @@
 package FrontEnd;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import Controller.PostMan;
 import FrontEnd.Balls.ActiveBallRunnable;
@@ -11,11 +16,14 @@ import FrontEnd.Balls.BulletBallRunnable;
 import FrontEnd.Balls.TowerBallRunnable;
 import Helpers.Config;
 import Helpers.GameManager;
+import Helpers.ListenerRunnable;
 import Helpers.MapData;
+import Helpers.SocketRunnable;
 import Helpers.TestHelper;
 
 public class GameInfo {
 	public static SwingPanel swingPanel;
+	public static ChatPanel chatPanel;
 	public static ArrayList<Ball> balls = new ArrayList<Ball>();
 	public static Rectangle2D Bounds;
 	public static PostMan postMan;
@@ -31,15 +39,19 @@ public class GameInfo {
 	static int n = 0;
 
 	public static boolean load(SwingFrame swingFrame) {
-		swingFrame.setSize(Config.defaultOneSlotWidth,
-				Config.defaultOneSlotHeight);
+		swingFrame.setSize(Config.defaultWidth,
+				Config.defaultHeight);
 		GameInfo.swingPanel = new SwingPanel();
 		GameInfo.Bounds = GameInfo.swingPanel.getBounds();
 		swingFrame.add(GameInfo.swingPanel, BorderLayout.CENTER);
-		GameInfo.postMan = new PostMan();
+		GameInfo.postMan = new PostMan();	      
 		loadMap();
 		Thread painterThread = new Thread(new PainterRunnable());
 		painterThread.start();
+		Thread socketThread = new Thread(new SocketRunnable());
+		socketThread.start();
+		Thread listenerThread = new Thread(new ListenerRunnable());
+		listenerThread.start();
 		swingFrame.addComponents();
 		GameManager gameManager = GameManager.getInstance();
 		gameManager.loadServerBalls();

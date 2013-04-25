@@ -4,19 +4,13 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-/**
- * This program makes a socket connection to the atomic clock in Boulder, Colorado, and prints the
- * time that the server sends.
- * @version 1.20 2004-08-03
- * @author Cay Horstmann
- */
 public class SocketTest
 {
    public static void main(String[] args)
    {
       try
       {
-         Socket s = new Socket("localhost", 8993);
+         Socket s = new Socket("google.com", 8080);
          try
          {
             InputStream inStream = s.getInputStream();

@@ -7,7 +7,8 @@ public class PostMan {
 
 	}
 
-	public void send(String string) {
+	public void send(String message) {
+		SocketHelper.addToQueue(message);
 	}
 
 }

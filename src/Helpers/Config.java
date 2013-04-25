@@ -1,5 +1,7 @@
 package Helpers;
 
+import java.net.SocketImpl;
+
 public class Config
 {
 	public static String scopeCircleImagePath = "Asset/scopeCircle.png";
@@ -27,4 +29,9 @@ public class Config
 	public static String[] activeballButtons = {"Fast", "Slow", "Hero"};
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start", "Wall", "Cancel"};
+	public static int defaultWidth = 1500;
+	public static int defaultHeight = 900;
+	public static String serverAddr = "172.30.52.124";
+	public static int serverPort = 5331;
+	public static int listenPort = 5331;
 }

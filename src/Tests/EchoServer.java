@@ -17,7 +17,7 @@ public class EchoServer
       try
       {
          // establish server socket
-         ServerSocket s = new ServerSocket(8993);
+         ServerSocket s = new ServerSocket(9933);
 
          // wait for client connection
          Socket incoming = s.accept();
@@ -37,6 +37,7 @@ public class EchoServer
             {
                String line = in.nextLine();
                out.println("Echo: " + line);
+               System.out.println("get from server" + line);
                if (line.trim().equals("BYE")) done = true;
             }
          }

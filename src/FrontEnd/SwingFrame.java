@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import Controller.PostMan;
 import FrontEnd.Balls.*;
@@ -47,6 +51,16 @@ public class SwingFrame extends JFrame {
 	}
 
 	protected void addComponents() {
+		
+//	      final JTextField textField = new JTextField(40);
+//	      final JTextArea textArea = new JTextArea(8, 40);
+//	      JScrollPane scrollPane = new JScrollPane(textArea);
+//	      JPanel northPanel = new JPanel();
+//	      northPanel.setLayout(new GridLayout(2, 1));
+//	      northPanel.add(textField);
+//	      northPanel.add(scrollPane);
+//	      add(northPanel, BorderLayout.EAST);
+
 		JPanel buttonPanel = new JPanel();
 		for (final String buttonName : Config.activeballButtons) {
 			addButton(buttonPanel, buttonName + "Ball", new ActionListener() {

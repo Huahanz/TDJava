@@ -16,7 +16,7 @@ public class SocketTest
    {
       try
       {
-         Socket s = new Socket("localhost/~huahan/PPServer/index.php/blog/index", 8080);
+         Socket s = new Socket("localhost", 8993);
          try
          {
             InputStream inStream = s.getInputStream();

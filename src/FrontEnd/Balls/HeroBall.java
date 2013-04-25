@@ -12,7 +12,7 @@ public class HeroBall extends DragonBall{
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 	public HeroBall(int x, int y){
-		this(x, y, 10, 10, 30, Config.HeroBallImagePath);
+		this(x, y, 10, 10, 13, Config.HeroBallImagePath);
 	}
 	public boolean hunt() {
 		Ball target = null;

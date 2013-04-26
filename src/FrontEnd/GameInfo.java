@@ -10,6 +10,7 @@ import FrontEnd.Balls.Ball;
 import FrontEnd.Balls.BulletBall;
 import FrontEnd.Balls.BulletBallRunnable;
 import FrontEnd.Balls.TowerBallRunnable;
+import Helpers.AuxRunnable;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
@@ -331,7 +332,9 @@ public class GameInfo {
 
 	public static void startTD() {
 		//GameInfo.loadMap();
-		GameInfo.calculateTDMap();
+		if(Config.isWallBuilt){
+			GameInfo.calculateTDMap();
+		}
 		GameManager.getInstance().generateDragons(10);
 		Thread fastBallThread = new Thread(new ActiveBallRunnable());
 		fastBallThread.start();
@@ -341,6 +344,10 @@ public class GameInfo {
 
 		Thread bulletThread = new Thread(new BulletBallRunnable());
 		bulletThread.start();
+		
+		Thread auxThread = new Thread(new AuxRunnable());
+		auxThread.start();
+		Config.isWallBuilt = false;
 	}
 
 	public static void addWall() {

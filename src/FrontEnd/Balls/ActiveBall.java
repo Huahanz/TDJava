@@ -15,13 +15,14 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public abstract class ActiveBall extends Ball {
-	public int health = 100;
+	public int health;
 	public int stepLength;
 	public String imagePath = null;
 	public BufferedImage image = null;
 	public BufferedImage healthImage = null;
 	protected int attack;
 	protected int scope;
+
 	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, imagePath);
@@ -181,6 +182,7 @@ public abstract class ActiveBall extends Ball {
 
 		return false;
 	}
+
 	public boolean isInScope(int ballX, int ballY) {
 		int scope = this.getScope();
 		int x = this.getX();
@@ -216,7 +218,8 @@ public abstract class ActiveBall extends Ball {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth,
+						Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -226,25 +229,10 @@ public abstract class ActiveBall extends Ball {
 		return this.image;
 	}
 
-	public BufferedImage getHealthImage() {
-		if (Config.HealthBarImagePath == null)
-			return null;
-		try {
-			BufferedImage originalImage = ImageIO.read(new File(
-					Config.HealthBarImagePath));
-			this.healthImage = ImageHelper.resizeImage(
-					(int) (Config.ImageWidth * (Math.max(1, (float) this.getHealth()) / 100)),
-					10, originalImage, originalImage.getType());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return this.healthImage;
-	}
-
 	public void setHealthImage(BufferedImage healthImage) {
 		this.healthImage = healthImage;
 	}
+
 	public boolean attack(Ball ball) {
 		if (!(ball instanceof ActiveBall)) {
 			return false;
@@ -257,7 +245,7 @@ public abstract class ActiveBall extends Ball {
 		}
 		return false;
 	}
-	
+
 	public int getAttack() {
 		return attack;
 	}
@@ -265,6 +253,7 @@ public abstract class ActiveBall extends Ball {
 	public void setAttack(int attack) {
 		this.attack = attack;
 	}
+
 	public int getScope() {
 		return scope;
 	}
@@ -272,4 +261,5 @@ public abstract class ActiveBall extends Ball {
 	public void setScope(int scope) {
 		this.scope = scope;
 	}
+
 }

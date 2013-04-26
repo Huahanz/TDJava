@@ -8,9 +8,12 @@ import javax.imageio.ImageIO;
 
 import Helpers.Config;
 import Helpers.ImageHelper;
+import Helpers.TestHelper;
 
 public class SlowBall extends DragonBall {
+	int health = 300;
 	int stepLength = 10;
+	static int maxHealth = 300;
 
 	public SlowBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
@@ -31,7 +34,8 @@ public class SlowBall extends DragonBall {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth,
+						Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -46,6 +50,23 @@ public class SlowBall extends DragonBall {
 
 	public void setStepLength(int stepLength) {
 		this.stepLength = stepLength;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		TestHelper.print("smh " + maxHealth);
+		SlowBall.maxHealth = maxHealth;
 	}
 
 }

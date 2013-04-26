@@ -70,6 +70,7 @@ public class GameManager {
 			break;
 		case "Wall":
 			if (Config.gold >= Config.WallCost) {
+				Config.isWallBuilt = true;
 				if(this.addWall(x, y))
 					Config.gold -= Config.WallCost;
 			}

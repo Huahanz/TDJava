@@ -15,6 +15,7 @@ import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
 	public int health = 100;
+	public static int maxHealth = 100;
 	public int stepLength = 20;
 
 	public FastBall(int x, int y, int XIZE, int YSIZE, int stepLength,
@@ -23,7 +24,7 @@ public class FastBall extends DragonBall {
 	}
 
 	public FastBall(int x, int y) {
-		this(x, y, 12, 15, 10, Config.FastBallImagePath);
+		this(x, y, 12, 15, 20, Config.FastBallImagePath);
 	}
 
 	public FastBall() {
@@ -59,5 +60,14 @@ public class FastBall extends DragonBall {
 	public void setStepLength(int stepLength) {
 		this.stepLength = stepLength;
 	}
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(int maxHealth) {
+		TestHelper.print("smh " + maxHealth);
+		FastBall.maxHealth = maxHealth;
+	}
+
 
 }

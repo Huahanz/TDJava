@@ -100,7 +100,7 @@ public class SwingPanel extends JPanel {
 				BufferedImage originalImage;
 				try {
 					originalImage = ImageIO.read(new File(Config.DieImagePath));
-					BufferedImage image = ImageHelper.resizeImage(40, 40,
+					BufferedImage image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight,
 							originalImage, originalImage.getType());
 					if (image != null) {
 						int paintX = ball.getX() - Config.DragonImageSize;
@@ -117,7 +117,7 @@ public class SwingPanel extends JPanel {
 
 			}
 		}
-		if (GameInfo.dieBalls.size() > 0 && Math.random() < 0.08)
+		if (GameInfo.dieBalls.size() > 0 && Math.random() < 0.026 * GameInfo.dieBalls.size())
 			GameInfo.dieBalls.remove(GameInfo.dieBalls.size() - 1);
 	}
 

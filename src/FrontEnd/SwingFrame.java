@@ -78,8 +78,8 @@ public class SwingFrame extends JFrame {
 			if (buttonName.equals("Hard")) {
 				addButton(buttonPanel, buttonName, new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
-						GameManager.getInstance().hardGenerateDragons(50,
-								50, 0);
+						GameManager.getInstance().hardGenerateDragons(20,
+								20, 0);
 					}
 				});
 				continue;
@@ -154,7 +154,6 @@ public class SwingFrame extends JFrame {
 		}
 
 		public void mouseClicked(MouseEvent event) {
-			TestHelper.print("pressed " + event.getX() + " " + event.getY());
 			SwingFrame.lastMouseClickedEvent = event;
 		}
 

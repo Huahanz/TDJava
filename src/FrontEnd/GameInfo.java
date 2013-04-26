@@ -345,8 +345,8 @@ public class GameInfo {
 		Thread bulletThread = new Thread(new BulletBallRunnable());
 		bulletThread.start();
 		
-		Thread auxThread = new Thread(new AuxRunnable());
-		auxThread.start();
+//		Thread auxThread = new Thread(new AuxRunnable());
+//		auxThread.start();
 		Config.isWallBuilt = false;
 	}
 

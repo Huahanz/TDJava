@@ -6,7 +6,7 @@ public class Config
 	public static int TowerNumber = 1000;
 	public static int STowerBallCost = 300;
 	public static int WallCost = 25;
-	public static int HeroCost = 10000;
+	public static int HeroCost = 1;
 	public static int SoliderCost = 1000;
 	public static int DTowerBallCost = 200;
 	public static int DragonBallReward = 25;
@@ -32,7 +32,7 @@ public class Config
 	public static int slotHeight = 60;
 	public static int slotWidthNumber = 10;
 	public static int slotHeightNumber = 10;
-	public static int defaultTestMapNum = 8;
+	public static int defaultTestMapNum = 7;
 	public static String[] activeballButtons = {"Fast", "Slow", "Hero", "Solider"};
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start", "Wall", "Cancel", "Random", "Hard"};

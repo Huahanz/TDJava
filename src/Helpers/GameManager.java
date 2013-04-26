@@ -82,7 +82,6 @@ public class GameManager {
 			if (Config.gold >= Config.HeroCost) {
 				ball = HeroBall.getInstance(x, y);
 				((HeroBall) ball).setTarget(x, y);
-				Config.gold -= Config.HeroCost;
 			}
 			break;
 		case "Solider":

@@ -1,49 +1,40 @@
 package FrontEnd.Balls;
 
+import Helpers.Config;
 import Helpers.GameManager;
 
 public class DragonBall extends ActiveBall {
 
-	protected int attack;
-	protected int scope;
 	public DragonBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
-
-	public boolean attack(Ball ball) {
-		if(!(ball instanceof ActiveBall)){
-			return false;
-		}
-		((ActiveBall)ball).setHealth(((ActiveBall)ball).getHealth() - this.getAttack());
-		if(((ActiveBall)ball).getHealth() <= 0){
+	public void moveToExit() {
+		int thisXSlot = this.getX() / Config.slotWidth;
+		int thisYSlot = this.getY() / Config.slotHeight;
+		int toXSlot = (Config.defaultOneSlotWidth - Config.slotWidth)
+				/ Config.slotWidth;
+		int toYSlot = (Config.defaultOneSlotHeight - Config.slotHeight)
+				/ Config.slotHeight;
+		if (thisXSlot == toXSlot && thisYSlot == toYSlot) {
 			GameManager gm = GameManager.getInstance();
-			gm.killBall(ball);
+			gm.reachDestination(this);
+		} else {
+			this.moveWithBreak(Config.defaultOneSlotWidth - Config.slotWidth,
+					Config.defaultOneSlotHeight - Config.slotHeight);
 		}
-		return false;
-	}
-	public boolean isInScope(int ballX, int ballY) {
-		int scope = this.getScope();
-		int x = this.getX();
-		int y = this.getY();
-		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(
-				scope, 2));
 	}
 
-	public int getAttack() {
-		return attack;
-	}
-
-	public void setAttack(int attack) {
-		this.attack = attack;
-	}
-	public int getScope() {
-		return scope;
-	}
-
-	public void setScope(int scope) {
-		this.scope = scope;
-	}
-
-
+//	public boolean attack(Ball ball) {
+//		if(!(ball instanceof ActiveBall)){
+//			return false;
+//		}
+//		((ActiveBall)ball).setHealth(((ActiveBall)ball).getHealth() - this.getAttack());
+//		if(((ActiveBall)ball).getHealth() <= 0){
+//			GameManager gm = GameManager.getInstance();
+//			gm.killBall(ball, false);
+//		}
+//		return false;
+//	}
+	
 }

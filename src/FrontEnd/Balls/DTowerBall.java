@@ -12,13 +12,22 @@ public class DTowerBall extends TowerBall {
 	protected int scope = 300;
 	protected int attack = 10;
 	protected String bulletName = "SilverBulletBall";
-
+	protected int cost = 200;
+	
 	public DTowerBall(int xSlotNum, int ySlotNum, int size) {
 		super(xSlotNum, ySlotNum, size);
 	}
 
 	public DTowerBall(int x, int y) {
 		super(x, y, 1);
+	}
+	public boolean attack(Ball ball) {
+		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
+		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
+		GameManager gameManager = GameManager.getInstance();
+		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
+				ball);
+		return true;
 	}
 
 	public boolean defend() {
@@ -57,6 +66,10 @@ public class DTowerBall extends TowerBall {
 
 	public void setMapID(int mapID) {
 		DTowerBall.mapID = mapID;
+	}
+
+	public int getCost() {
+		return this.cost;
 	}
 
 }

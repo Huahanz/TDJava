@@ -7,6 +7,8 @@ public class NTowerBall extends TowerBall{
 	protected int scope = 26;
 	protected int attack = 4;
 	protected String bulletName = "FastBulletBall";
+	protected int cost = 2000;
+	
 	public NTowerBall(int x, int y, int size) {
 		super(x, y, size);
 	}
@@ -44,5 +46,8 @@ public class NTowerBall extends TowerBall{
 	}
 	public void setMapID(int mapID) {
 		NTowerBall.mapID = mapID;
+	}
+	public int getCost() {
+		return this.cost;
 	}
 }

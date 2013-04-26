@@ -50,7 +50,7 @@ public abstract class TowerBall extends Ball {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(40, 40, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -63,7 +63,7 @@ public abstract class TowerBall extends Ball {
 	public boolean defend() {
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
-			if (ball instanceof DragonBall && !(ball instanceof HeroBall) && !(ball instanceof SoliderBall)) {
+			if (ball instanceof DragonBall) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {
@@ -75,8 +75,8 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean attack(Ball ball) {
-		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
-		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
+//		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
+//		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
 		GameManager gameManager = GameManager.getInstance();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
 				ball);
@@ -150,4 +150,5 @@ public abstract class TowerBall extends Ball {
 	public int getY() {
 		return this.ySlotNum * Config.slotHeight;
 	}
+	public abstract int getCost();
 }

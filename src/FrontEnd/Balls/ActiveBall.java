@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import FrontEnd.GameInfo;
 import Helpers.Config;
+import Helpers.GameManager;
 import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
@@ -19,7 +20,8 @@ public abstract class ActiveBall extends Ball {
 	public String imagePath = null;
 	public BufferedImage image = null;
 	public BufferedImage healthImage = null;
-
+	protected int attack;
+	protected int scope;
 	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, imagePath);
@@ -72,6 +74,7 @@ public abstract class ActiveBall extends Ball {
 	}
 
 	public boolean breakBlock(int xSlot, int ySlot) {
+		TestHelper.print("Breaking");
 		GameInfo.currentMap[ySlot][xSlot] = 0;
 		return true;
 	}
@@ -178,6 +181,13 @@ public abstract class ActiveBall extends Ball {
 
 		return false;
 	}
+	public boolean isInScope(int ballX, int ballY) {
+		int scope = this.getScope();
+		int x = this.getX();
+		int y = this.getY();
+		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(
+				scope, 2));
+	}
 
 	public int walkWay(int n) {
 		return n;
@@ -206,7 +216,7 @@ public abstract class ActiveBall extends Ball {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(40, 40, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -223,7 +233,7 @@ public abstract class ActiveBall extends Ball {
 			BufferedImage originalImage = ImageIO.read(new File(
 					Config.HealthBarImagePath));
 			this.healthImage = ImageHelper.resizeImage(
-					(int) (40 * (Math.max(1, (float) this.getHealth()) / 100)),
+					(int) (Config.ImageWidth * (Math.max(1, (float) this.getHealth()) / 100)),
 					10, originalImage, originalImage.getType());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -235,5 +245,31 @@ public abstract class ActiveBall extends Ball {
 	public void setHealthImage(BufferedImage healthImage) {
 		this.healthImage = healthImage;
 	}
+	public boolean attack(Ball ball) {
+		if (!(ball instanceof ActiveBall)) {
+			return false;
+		}
+		((ActiveBall) ball).setHealth(((ActiveBall) ball).getHealth()
+				- this.getAttack());
+		if (((ActiveBall) ball).getHealth() <= 0) {
+			GameManager gm = GameManager.getInstance();
+			gm.killBall(ball, false);
+		}
+		return false;
+	}
+	
+	public int getAttack() {
+		return attack;
+	}
 
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+	public int getScope() {
+		return scope;
+	}
+
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
 }

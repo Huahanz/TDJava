@@ -11,7 +11,7 @@ public class SilverBulletBall extends BulletBall {
 	int damage = 2;
 
 	public SilverBulletBall(int x, int y, Ball ball) {
-		super(x, y, 5, 5, 100, ball, Config.silverBulletBallImagePath);
+		super(x, y, 5, 5, 300, ball, Config.silverBulletBallImagePath);
 		this.setTargetX(ball.getX());
 		this.setTargetY(ball.getY());
 	}
@@ -26,8 +26,8 @@ public class SilverBulletBall extends BulletBall {
 				if(((ActiveBall) target).getHealth() <= 0){
 					target.setImagePath(Config.DieImagePath);
 					GameManager gm = GameManager.getInstance();
-					gm.killBall(target);
-					gm.killBall(this);
+					gm.killBall(target, false);
+					gm.killBullet(this);
 				}
 			}
 			return true;

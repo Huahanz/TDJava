@@ -35,12 +35,15 @@ public class SwingFrame extends JFrame {
 	private static String buttonName = null;
 	public static MouseEvent lastMouseClickedEvent;
 	public static JLabel goldLabel = null;
+	public static JLabel lostLabel = null;
+	public static JLabel killDragonLabel = null;
 
 	public static void main(String[] args) {
 		JFrame frame = new SwingFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
+
 
 	public SwingFrame() {
 		GameInfo.load(this);
@@ -72,6 +75,23 @@ public class SwingFrame extends JFrame {
 				});
 				continue;
 			}
+			if (buttonName.equals("Hard")) {
+				addButton(buttonPanel, buttonName, new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						GameManager.getInstance().hardGenerateDragons(50,
+								50, 0);
+					}
+				});
+				continue;
+			}
+			if (buttonName.equals("Random")) {
+				addButton(buttonPanel, buttonName, new ActionListener() {
+					public void actionPerformed(ActionEvent event) {
+						GameManager.getInstance().randomeGenerateDragons(10);
+					}
+				});
+				continue;
+			}
 			addButton(buttonPanel, buttonName, new ActionListener() {
 				public void actionPerformed(ActionEvent event) {
 					SwingFrame.buttonName = buttonName;
@@ -79,12 +99,24 @@ public class SwingFrame extends JFrame {
 			});
 		}
 
-		add(buttonPanel, BorderLayout.SOUTH);
 		addMouseListener(new MouseHandler());
 		addMouseMotionListener(new MouseMotionHandler());
-		
+
+		JPanel textPanel = new JPanel();
 		goldLabel = new JLabel("Gold: " + Config.gold);
-		buttonPanel.add(goldLabel, BorderLayout.EAST);
+		textPanel.add(goldLabel, BorderLayout.CENTER);
+		
+		lostLabel = new JLabel("LostDragons: " + Config.lostDragon);
+		textPanel.add(lostLabel, BorderLayout.CENTER);
+		
+		killDragonLabel = new JLabel("KillDragons: " + Config.killDragons);
+		textPanel.add(killDragonLabel, BorderLayout.CENTER);
+		
+		JPanel southPanel = new JPanel();
+		southPanel.add(buttonPanel, BorderLayout.NORTH);
+		southPanel.add(textPanel, BorderLayout.SOUTH);
+		add(southPanel, BorderLayout.SOUTH);
+
 	}
 
 	private void addButton(Container c, String title, ActionListener listener) {
@@ -122,16 +154,16 @@ public class SwingFrame extends JFrame {
 		}
 
 		public void mouseClicked(MouseEvent event) {
-			// TestHelper.print("pressed " + event.getX() + " " + event.getY());
+			TestHelper.print("pressed " + event.getX() + " " + event.getY());
 			SwingFrame.lastMouseClickedEvent = event;
 		}
 
 		public void mouseReleased(MouseEvent event) {
-//			if (SwingFrame.lastMouseClickedEvent != null) {
-//				GameManager gameManager = GameManager.getInstance();
-//				gameManager.addDrag(SwingFrame.buttonName,
-//						SwingFrame.lastMouseClickedEvent, event);
-//			}
+			// if (SwingFrame.lastMouseClickedEvent != null) {
+			// GameManager gameManager = GameManager.getInstance();
+			// gameManager.addDrag(SwingFrame.buttonName,
+			// SwingFrame.lastMouseClickedEvent, event);
+			// }
 
 		}
 

@@ -10,7 +10,6 @@ public class StalkBulletBall extends BulletBall {
 
 	public StalkBulletBall(int x, int y, Ball ball) {
 		this(x, y, 5, 5, 50, ball, Config.stalkBulletBallImagePath);
-		TestHelper.print("in stalk");
 	}
 
 	public StalkBulletBall(int x, int y, int XSIZE, int YSIZE, int stepLength,
@@ -28,8 +27,8 @@ public class StalkBulletBall extends BulletBall {
 				if (((ActiveBall) target).getHealth() <= 0) {
 					target.setImagePath(Config.DieImagePath);
 					GameManager gm = GameManager.getInstance();
-					gm.killBall(target);
-					gm.killBall(this);
+					gm.killBall(target, false);
+					gm.killBullet(this);
 				}
 			}
 			return true;

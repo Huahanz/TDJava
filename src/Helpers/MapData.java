@@ -102,7 +102,7 @@ public class MapData{
 		{0,0,0,1,0,0,0,0,0,0},
 		{0,0,0,1,0,0,0,0,0,0},
 	};
-
+	public static int[][] map7 = new int[20][40];
 	public static String[] mapImagePath = {
 		"", "", Config.MapPath0, Config.MapPath1
 	};
@@ -124,6 +124,13 @@ public class MapData{
 			r = map5;
 		}else if(mapNum == 6){
 			r = map6;
+		}else if(mapNum == 7){
+			r = map7;
+			for(int i = 0; i < r.length; i++){
+				for(int j = 0; j < r[0].length; j++){
+					r[i][j] = 0;
+				}
+			}
 		}
 		Config.slotWidthNumber = r[0].length;
 		Config.slotHeightNumber = r.length;

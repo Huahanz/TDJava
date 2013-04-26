@@ -9,7 +9,7 @@ class PainterRunnable implements Runnable{
 		while(true){
 			GameInfo.swingPanel.repaint();
 			try {
-				Thread.sleep(20);
+				Thread.sleep(1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

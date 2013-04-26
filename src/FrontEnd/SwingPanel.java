@@ -36,19 +36,15 @@ public class SwingPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.paintMap(g);
-
-		Graphics2D g2 = (Graphics2D) g;
+		this.paintDiedBalls(g);
+		this.paintBullets(g);
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball != null) {
-				g2.fill((Shape) ball.getShape());
-				if (ball instanceof StalkBulletBall) {
-					g2.setColor(Color.blue);
-				}
 				BufferedImage image = ball.getImage();
 				if (image != null) {
 					int paintX = ball.getX() - Config.DragonImageSize;
-					int paintY = ball.getY() - Config.DragonImageSize * 2;
+					int paintY = ball.getY() - Config.DragonImageSize;
 					paintX = Math.max(0,
 							Math.min(Config.defaultOneSlotWidth, paintX));
 					paintY = Math.max(0,
@@ -60,8 +56,7 @@ public class SwingPanel extends JPanel {
 					healthImage = ((DragonBall) ball).getHealthImage();
 					if (healthImage != null) {
 						int paintX = ball.getX() - Config.DragonImageSize;
-						int paintY = ball.getY() - Config.DragonImageSize * 2
-								- 5;
+						int paintY = ball.getY() - Config.DragonImageSize - 5;
 						paintX = Math.max(0,
 								Math.min(Config.defaultOneSlotWidth, paintX));
 						paintY = Math.max(0,
@@ -94,6 +89,64 @@ public class SwingPanel extends JPanel {
 		}
 
 		SwingFrame.goldLabel.setText("Gold: " + Config.gold);
+		SwingFrame.lostLabel.setText("LostDragons: " + Config.lostDragon);
+		SwingFrame.killDragonLabel.setText("KillDragons: " + Config.killDragons);
+	}
+
+	private void paintDiedBalls(Graphics g) {
+		for (int i = 0; i < GameInfo.dieBalls.size(); i++) {
+			Ball ball = GameInfo.dieBalls.get(i);
+			if (ball != null) {
+				BufferedImage originalImage;
+				try {
+					originalImage = ImageIO.read(new File(Config.DieImagePath));
+					BufferedImage image = ImageHelper.resizeImage(40, 40,
+							originalImage, originalImage.getType());
+					if (image != null) {
+						int paintX = ball.getX() - Config.DragonImageSize;
+						int paintY = ball.getY() - Config.DragonImageSize;
+						paintX = Math.max(0,
+								Math.min(Config.defaultOneSlotWidth, paintX));
+						paintY = Math.max(0,
+								Math.min(Config.defaultOneSlotHeight, paintY));
+						g.drawImage(image, paintX, paintY, null);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}
+		if (GameInfo.dieBalls.size() > 0 && Math.random() < 0.08)
+			GameInfo.dieBalls.remove(GameInfo.dieBalls.size() - 1);
+	}
+
+	private void paintBullets(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		for (int i = 0; i < GameInfo.bullets.size(); i++) {
+			BulletBall ball = GameInfo.bullets.get(i);
+			if (ball != null) {
+				if(ball instanceof SilverBulletBall){
+					g2.drawLine(ball.getX(), ball.getY() + Config.DragonImageSize, ((SilverBulletBall)ball).getTargetX(), ((SilverBulletBall)ball).getTargetY());
+				}else if(ball instanceof StalkBulletBall){
+//					g2.drawLine(ball.getX(), ball.getY(), ball.getTarget().getX(), ball.getTarget().getY());
+					g2.fill((Shape) ball.getShape());
+				}
+				if (ball instanceof StalkBulletBall) {
+					g2.setColor(Color.blue);
+				}
+				BufferedImage image = ball.getImage();
+				if (image != null) {
+					int paintX = ball.getX() - Config.DragonImageSize;
+					int paintY = ball.getY() - Config.DragonImageSize;
+					paintX = Math.max(0,
+							Math.min(Config.defaultOneSlotWidth, paintX));
+					paintY = Math.max(0,
+							Math.min(Config.defaultOneSlotHeight, paintY));
+					g.drawImage(image, paintX, paintY, null);
+				}
+			}
+		}
 	}
 
 	public void paintMap(Graphics g) {
@@ -116,26 +169,24 @@ public class SwingPanel extends JPanel {
 				if (backgroundImage != null) {
 					g2d.drawImage(backgroundImage, i, j, null);
 				}
-				if ((i + Config.slotWidth) >= Config.defaultOneSlotWidth
-						&& (j + Config.slotHeight) >= Config.defaultOneSlotHeight) {
-					BufferedImage originalDestinationImage = null;
-					BufferedImage destinationImage = null;
-					try {
-						originalDestinationImage = ImageIO.read(new File(
-								Config.destinationImagePath));
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					if (originalBackgroundImage != null) {
-						destinationImage = ImageHelper.resizeImage(
-								Config.slotWidth, Config.slotHeight,
-								originalDestinationImage,
-								originalDestinationImage.getType());
-					}
-					g2d.drawImage(destinationImage, i, j, null);
-				}
 			}
 		}
+		BufferedImage originalDestinationImage = null;
+		BufferedImage destinationImage = null;
+		try {
+			originalDestinationImage = ImageIO.read(new File(
+					Config.destinationImagePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (originalBackgroundImage != null) {
+			destinationImage = ImageHelper.resizeImage(Config.slotWidth,
+					Config.slotHeight, originalDestinationImage,
+					originalDestinationImage.getType());
+		}
+		g2d.drawImage(destinationImage, Config.defaultOneSlotWidth
+				- Config.slotWidth, Config.defaultOneSlotHeight
+				- Config.slotHeight, null);
 
 		BufferedImage originalWallImage = null;
 		BufferedImage wallImage = null;

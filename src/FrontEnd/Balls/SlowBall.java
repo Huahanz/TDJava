@@ -10,7 +10,7 @@ import Helpers.Config;
 import Helpers.ImageHelper;
 
 public class SlowBall extends DragonBall {
-	int stepLength = 30;
+	int stepLength = 10;
 
 	public SlowBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
@@ -18,11 +18,7 @@ public class SlowBall extends DragonBall {
 	}
 
 	public SlowBall(int x, int y) {
-		this(x, y, 20, 25, 10, Config.SlowBallImagePath);
-	}
-
-	public SlowBall() {
-		this(550, 330);
+		this(x, y, 10, 10, 10, Config.SlowBallImagePath);
 	}
 
 	public void randomWalk() {
@@ -35,7 +31,7 @@ public class SlowBall extends DragonBall {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(40, 40, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();

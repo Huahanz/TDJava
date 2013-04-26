@@ -7,7 +7,7 @@ public class STowerBall extends TowerBall {
 	protected int scope = 400;
 	protected int attack = 10;
 	protected String bulletName = "StalkBulletBall";
-
+	protected int cost = 500;
 	public STowerBall(int x, int y, int size) {
 		super(x, y, size);
 	}
@@ -49,6 +49,10 @@ public class STowerBall extends TowerBall {
 
 	public void setMapID(int mapID) {
 		STowerBall.mapID = mapID;
+	}
+
+	public int getCost() {
+		return this.cost;
 	}
 
 }

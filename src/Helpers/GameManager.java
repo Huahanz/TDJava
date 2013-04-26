@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import Controller.HttpManager;
 import FrontEnd.GameInfo;
 import FrontEnd.Balls.Ball;
+import FrontEnd.Balls.BulletBall;
 import FrontEnd.Balls.DTowerBall;
 import FrontEnd.Balls.DragonBall;
 import FrontEnd.Balls.FastBall;
@@ -34,14 +35,15 @@ public class GameManager {
 		if (x >= Config.defaultOneSlotWidth || x <= 0
 				|| y >= Config.defaultOneSlotHeight || y <= 0)
 			return;
+		y -= 24;
 		Ball ball = null;
 		switch (ballName) {
 		case "Fast":
-			if(this.canBuildBall(x, y))
+			if (this.canBuildBall(x, y))
 				ball = new FastBall(x, y);
 			break;
 		case "Slow":
-			if(this.canBuildBall(x, y))
+			if (this.canBuildBall(x, y))
 				ball = new SlowBall(x, y);
 			break;
 		case "DTower":
@@ -52,8 +54,11 @@ public class GameManager {
 			}
 			break;
 		case "STower":
-			if (this.canBuildTower(x, y))
+			if (this.canBuildTower(x, y)
+					&& Config.gold >= Config.STowerBallCost) {
 				ball = new STowerBall(x, y);
+				Config.gold -= Config.STowerBallCost;
+			}
 			break;
 		case "SilverBulletBall":
 			if (obj0 != null)
@@ -64,44 +69,70 @@ public class GameManager {
 				ball = new StalkBulletBall(x, y, (Ball) obj0);
 			break;
 		case "Wall":
-			this.addWall(x, y);
+			if (Config.gold >= Config.WallCost) {
+				if(this.addWall(x, y))
+					Config.gold -= Config.WallCost;
+			}
 			break;
 		case "Cancel":
 			this.cancel(x, y);
 			break;
 		case "Hero":
-			ball = new HeroBall(x, y);
+			if (Config.gold >= Config.HeroCost) {
+				ball = HeroBall.getInstance(x, y);
+				((HeroBall) ball).setTarget(x, y);
+				Config.gold -= Config.HeroCost;
+			}
 			break;
 		case "Solider":
-			ball = new SoliderBall(x, y);
+			if (Config.gold >= Config.SoliderCost) {
+				ball = new SoliderBall(x, y);
+				Config.gold -= Config.SoliderCost;
+			}
 			break;
 		case "Upgrade":
 			this.upgradeTower(x, y);
+			break;
 		default:
 			return;
 		}
 		GameInfo.postMan.send("swing.add" + ballName + "Ball");
 		if (ball != null) {
-			GameInfo.balls.add(ball);
+			if (ball instanceof BulletBall) {
+				GameInfo.bullets.add((BulletBall) ball);
+			} else {
+				GameInfo.balls.add(ball);
+			}
 		}
 	}
 
 	private void upgradeTower(int x, int y) {
-		int xSlot = x/Config.slotWidth;
-		int ySlot = y/Config.slotHeight;
-		
+		int xSlot = x / Config.slotWidth;
+		int ySlot = y / Config.slotHeight;
+
 	}
 
-	public synchronized boolean killBall(Ball ball) {
+	public synchronized boolean killBall(Ball ball, boolean skip) {
 		if (GameInfo.balls.contains(ball)) {
-			// GameInfo.balls.set(GameInfo.balls.indexOf(ball), null);
 			GameInfo.balls.remove(ball);
-		}
-
-		if (ball instanceof DragonBall) {
-			Config.gold += Config.DragonBallReward;
+			if (!skip && ball instanceof DragonBall) {
+				GameInfo.dieBalls.add(ball);
+				Config.killDragons++;
+			}
+			if (!skip && ball instanceof DragonBall) {
+				Config.gold += Config.DragonBallReward;
+			}
 		}
 		return true;
+	}
+
+	public synchronized boolean killBullet(BulletBall ball) {
+		int ix = GameInfo.bullets.indexOf(ball);
+		if (ix >= 0) {
+			GameInfo.bullets.set(ix, null);
+			return true;
+		}
+		return false;
 	}
 
 	public void loadServerBalls() {
@@ -192,9 +223,38 @@ public class GameManager {
 		}
 	}
 
-	public synchronized boolean reachDestination(FastBall fastBall) {
-		this.killBall(fastBall);
+	public synchronized boolean reachDestination(DragonBall fastBall) {
+		this.killBall(fastBall, true);
 		Config.lostDragon++;
 		return true;
 	}
+
+	public void hardGenerateDragons(int fastNum, int slowNum, int mNum) {
+		for (int i = 0; i < fastNum; i++) {
+			this.addBall("Fast", 1, 25);
+		}
+		for (int i = 0; i < slowNum; i++) {
+			this.addBall("Slow", 1, 25);
+		}
+	}
+
+	public void generateDragons(int num) {
+		for (int i = 0; i < num; i++) {
+			double r = Math.random();
+			String buttonName = (r > 0.5) ? "Fast" : "Slow";
+			this.addBall(buttonName, 1, 25);
+		}
+	}
+
+	public void randomeGenerateDragons(int num) {
+		for (int i = 0; i < num; i++) {
+			double r = Math.random();
+			String buttonName = (r > 0.5) ? "Fast" : "Slow";
+			int rx = (int) (Math.random() * Config.defaultOneSlotWidth);
+			int ry = (int) (Math.random() * Config.defaultOneSlotHeight);
+			this.addBall(buttonName, rx, ry + 25);
+		}
+
+	}
+
 }

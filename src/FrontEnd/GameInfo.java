@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Controller.PostMan;
 import FrontEnd.Balls.ActiveBallRunnable;
 import FrontEnd.Balls.Ball;
+import FrontEnd.Balls.BulletBall;
 import FrontEnd.Balls.BulletBallRunnable;
 import FrontEnd.Balls.TowerBallRunnable;
 import Helpers.Config;
@@ -17,6 +18,8 @@ import Helpers.TestHelper;
 public class GameInfo {
 	public static SwingPanel swingPanel;
 	public static ArrayList<Ball> balls = new ArrayList<Ball>();
+	public static ArrayList<Ball> dieBalls = new ArrayList<Ball>();
+	public static ArrayList<BulletBall> bullets = new ArrayList<BulletBall>();
 	public static Rectangle2D Bounds;
 	public static PostMan postMan;
 	public static byte[][][][] mapDir; // the shortest path move direction
@@ -47,6 +50,7 @@ public class GameInfo {
 
 	public static void loadMap() {
 		// if not in db
+		currentMap = MapData.loadMap(Config.defaultTestMapNum);
 		calculateMap();
 		TDDirMap = mapDir[n - 1][m - 1];
 		TDPathMap = mapPath[n - 1][m - 1];
@@ -59,7 +63,6 @@ public class GameInfo {
 	}
 
 	public static void calculateMap() {
-		currentMap = MapData.loadMap(Config.defaultTestMapNum);
 		if (currentMap == null || currentMap.length == 0
 				|| currentMap[0].length == 0)
 			return;
@@ -327,8 +330,9 @@ public class GameInfo {
 	}
 
 	public static void startTD() {
-		GameInfo.loadMap();
-
+		//GameInfo.loadMap();
+		GameInfo.calculateTDMap();
+		GameManager.getInstance().generateDragons(10);
 		Thread fastBallThread = new Thread(new ActiveBallRunnable());
 		fastBallThread.start();
 

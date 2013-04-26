@@ -9,14 +9,14 @@ public class BulletBallRunnable extends BallRunnable implements Runnable {
 
 	public void run() {
 		while (true) {
-			for(int i =0; i < GameInfo.balls.size(); i++){
-				Ball ball = GameInfo.balls.get(i);
+			for(int i =0; i < GameInfo.bullets.size(); i++){
+				Ball ball = GameInfo.bullets.get(i);
 				if (ball instanceof BulletBall){
 					boolean hit = ((BulletBall) ball).shoot();
 				}
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

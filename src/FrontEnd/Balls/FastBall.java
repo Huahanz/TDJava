@@ -15,7 +15,7 @@ import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
 	public int health = 100;
-	public int stepLength = 10;
+	public int stepLength = 20;
 
 	public FastBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
@@ -41,22 +41,6 @@ public class FastBall extends DragonBall {
 					this.moveToBreakBlock(ball);
 				}
 			}
-		}
-	}
-
-	public void moveToExit() {
-		int thisXSlot = this.getX() / Config.slotWidth;
-		int thisYSlot = this.getY() / Config.slotHeight;
-		int toXSlot = (Config.defaultOneSlotWidth - Config.slotWidth)
-				/ Config.slotWidth;
-		int toYSlot = (Config.defaultOneSlotHeight - Config.slotHeight)
-				/ Config.slotHeight;
-		if (thisXSlot == toXSlot && thisYSlot == toYSlot) {
-			GameManager gm = GameManager.getInstance();
-			gm.reachDestination(this);
-		} else {
-			this.moveWithBreak(Config.defaultOneSlotWidth - Config.slotWidth,
-					Config.defaultOneSlotHeight - Config.slotHeight);
 		}
 	}
 

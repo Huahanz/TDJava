@@ -20,8 +20,8 @@ public class FastBulletBall extends BulletBall {
 			if (((ActiveBall) target).getHealth() <= 0) {
 				target.setImagePath(Config.DieImagePath);
 				GameManager gm = GameManager.getInstance();
-				gm.killBall(target);
-				gm.killBall(this);
+				gm.killBall(target, false);
+				gm.killBullet(this);
 			}
 		}
 		return true;

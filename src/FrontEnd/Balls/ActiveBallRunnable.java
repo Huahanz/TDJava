@@ -17,6 +17,8 @@ public class ActiveBallRunnable extends BallRunnable implements Runnable {
 					((SlowBall)ball).randomWalk();
 				}else if(ball instanceof HeroBall){
 					((HeroBall)ball).hunt();
+				}else if(ball instanceof SoliderBall){
+					((SoliderBall) ball).hunt();
 				}
 			}
 			try {

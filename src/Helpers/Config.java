@@ -2,6 +2,7 @@ package Helpers;
 
 public class Config
 {
+	public static final int TowerNumber = 1000;
 	public static String destinationImagePath = "Asset/Destination.png";
 	public static String scopeCircleImagePath = "Asset/scopeCircle.png";
 	public static String backgroundImagePath = "Asset/backgroundGrass.png";
@@ -27,9 +28,10 @@ public class Config
 	public static int slotWidthNumber = 10;
 	public static int slotHeightNumber = 10;
 	public static int defaultTestMapNum = 4;
-	public static String[] activeballButtons = {"Fast", "Slow", "Hero"};
+	public static String[] activeballButtons = {"Fast", "Slow", "Hero", "Solider"};
 	public static String[] towerButtons = {"STower", "DTower"};
-	public static String[] otherButtons = {"Start", "Wall", "Cancel"};
+	public static String[] otherButtons = {"Start", "Wall", "Upgrade", "Cancel"};
 	public static int DragonImageSize = 20;
 	public static int lostDragon = 0;
+	public static String SoliderBallImagePath = "Asset/SoliderBall.jpg";
 }

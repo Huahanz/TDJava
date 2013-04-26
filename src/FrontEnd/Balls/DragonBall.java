@@ -5,7 +5,7 @@ import Helpers.GameManager;
 public class DragonBall extends ActiveBall {
 
 	protected int attack;
-
+	protected int scope;
 	public DragonBall(int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
 		super(x, y, XIZE, YSIZE, stepLength, imagePath);
@@ -22,6 +22,13 @@ public class DragonBall extends ActiveBall {
 		}
 		return false;
 	}
+	public boolean isInScope(int ballX, int ballY) {
+		int scope = this.getScope();
+		int x = this.getX();
+		int y = this.getY();
+		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(
+				scope, 2));
+	}
 
 	public int getAttack() {
 		return attack;
@@ -30,4 +37,13 @@ public class DragonBall extends ActiveBall {
 	public void setAttack(int attack) {
 		this.attack = attack;
 	}
+	public int getScope() {
+		return scope;
+	}
+
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
+
+
 }

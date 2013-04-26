@@ -25,6 +25,7 @@ import FrontEnd.Balls.*;
 import Helpers.Config;
 import Helpers.ImageHelper;
 import Helpers.MapData;
+import Helpers.TestHelper;
 import FrontEnd.SwingFrame;
 
 public class SwingPanel extends JPanel {
@@ -35,49 +36,63 @@ public class SwingPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.paintMap(g);
-		
+
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball != null) {
 				g2.fill((Shape) ball.getShape());
-				if(ball instanceof StalkBulletBall){
+				if (ball instanceof StalkBulletBall) {
 					g2.setColor(Color.blue);
 				}
 				BufferedImage image = ball.getImage();
 				if (image != null) {
 					int paintX = ball.getX() - Config.DragonImageSize;
 					int paintY = ball.getY() - Config.DragonImageSize * 2;
-					paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
-					paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+					paintX = Math.max(0,
+							Math.min(Config.defaultOneSlotWidth, paintX));
+					paintY = Math.max(0,
+							Math.min(Config.defaultOneSlotHeight, paintY));
 					g.drawImage(image, paintX, paintY, null);
 				}
 				BufferedImage healthImage = null;
-				if(ball instanceof DragonBall){
+				if (ball instanceof DragonBall) {
 					healthImage = ((DragonBall) ball).getHealthImage();
 					if (healthImage != null) {
 						int paintX = ball.getX() - Config.DragonImageSize;
-						int paintY = ball.getY() - Config.DragonImageSize * 2 -5;
-						paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
-						paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
+						int paintY = ball.getY() - Config.DragonImageSize * 2
+								- 5;
+						paintX = Math.max(0,
+								Math.min(Config.defaultOneSlotWidth, paintX));
+						paintY = Math.max(0,
+								Math.min(Config.defaultOneSlotHeight, paintY));
 						g.drawImage(healthImage, paintX, paintY, null);
 					}
 				}
-				if(ball instanceof TowerBall){
-					if(((TowerBall) ball).createFlag == 0){
+				if (ball instanceof TowerBall) {
+					if (((TowerBall) ball).createFlag == 0) {
 						int paintX = ball.getX() + Config.DragonImageSize;
-						int paintY = ball.getY() + Config.DragonImageSize-5;
-						paintX = Math.max(0, Math.min(Config.defaultOneSlotWidth, paintX));
-						paintY = Math.max(0, Math.min(Config.defaultOneSlotHeight, paintY));
-						((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-						g.drawOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
-						g.fillOval(paintX - ((TowerBall) ball).getScope(), paintY - ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope(), 2 * ((TowerBall) ball).getScope());
+						int paintY = ball.getY() + Config.DragonImageSize - 5;
+						paintX = Math.max(0,
+								Math.min(Config.defaultOneSlotWidth, paintX));
+						paintY = Math.max(0,
+								Math.min(Config.defaultOneSlotHeight, paintY));
+						((Graphics2D) g).setComposite(AlphaComposite
+								.getInstance(AlphaComposite.SRC_OVER, 0.2f));
+						g.drawOval(paintX - ((TowerBall) ball).getScope(),
+								paintY - ((TowerBall) ball).getScope(),
+								2 * ((TowerBall) ball).getScope(),
+								2 * ((TowerBall) ball).getScope());
+						g.fillOval(paintX - ((TowerBall) ball).getScope(),
+								paintY - ((TowerBall) ball).getScope(),
+								2 * ((TowerBall) ball).getScope(),
+								2 * ((TowerBall) ball).getScope());
 						((TowerBall) ball).createFlag = 1;
 					}
 				}
 			}
 		}
-		
+
 		SwingFrame.goldLabel.setText("Gold: " + Config.gold);
 	}
 
@@ -86,34 +101,42 @@ public class SwingPanel extends JPanel {
 		BufferedImage originalBackgroundImage = null;
 		BufferedImage backgroundImage = null;
 		try {
-			originalBackgroundImage = ImageIO.read(new File(Config.backgroundImagePath));
+			originalBackgroundImage = ImageIO.read(new File(
+					Config.backgroundImagePath));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(originalBackgroundImage != null){
-			backgroundImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalBackgroundImage, originalBackgroundImage.getType());
+		if (originalBackgroundImage != null) {
+			backgroundImage = ImageHelper.resizeImage(Config.slotWidth,
+					Config.slotHeight, originalBackgroundImage,
+					originalBackgroundImage.getType());
 		}
 		for (int i = 0; i < Config.defaultOneSlotWidth; i += Config.slotWidth) {
-			for (int j = 0; j < Config.defaultOneSlotHeight; j += Config.slotHeight){
-				if(backgroundImage != null){
+			for (int j = 0; j < Config.defaultOneSlotHeight; j += Config.slotHeight) {
+				if (backgroundImage != null) {
 					g2d.drawImage(backgroundImage, i, j, null);
 				}
-				if((i + Config.slotWidth) >= Config.defaultOneSlotWidth && (j + Config.slotHeight) >= Config.defaultOneSlotHeight){
+				if ((i + Config.slotWidth) >= Config.defaultOneSlotWidth
+						&& (j + Config.slotHeight) >= Config.defaultOneSlotHeight) {
 					BufferedImage originalDestinationImage = null;
 					BufferedImage destinationImage = null;
 					try {
-						originalDestinationImage = ImageIO.read(new File(Config.destinationImagePath));
+						originalDestinationImage = ImageIO.read(new File(
+								Config.destinationImagePath));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					if(originalBackgroundImage != null){
-						destinationImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalDestinationImage, originalDestinationImage.getType());
+					if (originalBackgroundImage != null) {
+						destinationImage = ImageHelper.resizeImage(
+								Config.slotWidth, Config.slotHeight,
+								originalDestinationImage,
+								originalDestinationImage.getType());
 					}
 					g2d.drawImage(destinationImage, i, j, null);
 				}
 			}
 		}
-		
+
 		BufferedImage originalWallImage = null;
 		BufferedImage wallImage = null;
 		try {
@@ -121,8 +144,10 @@ public class SwingPanel extends JPanel {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(originalBackgroundImage != null){
-			wallImage = ImageHelper.resizeImage(Config.slotWidth, Config.slotHeight, originalWallImage, originalWallImage.getType());
+		if (originalBackgroundImage != null) {
+			wallImage = ImageHelper.resizeImage(Config.slotWidth,
+					Config.slotHeight, originalWallImage,
+					originalWallImage.getType());
 		}
 		int[][] currentMap = GameInfo.currentMap;
 		for (int i = 0; i < currentMap.length; i++) {
@@ -132,7 +157,7 @@ public class SwingPanel extends JPanel {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;
 					g2d.drawImage(wallImage, width * j, height * i, null);
-				} else if (currentMap[i][j] < 10) {
+				} else if (currentMap[i][j] < Config.TowerNumber) {
 					int height = Config.slotHeight;
 					int width = Config.slotWidth;
 					g.drawImage(this.getMapImage(currentMap[i][j]), width * j,
@@ -143,33 +168,34 @@ public class SwingPanel extends JPanel {
 	}
 
 	public BufferedImage getMapImage(int x) {
-		if (x < 0 || x > MapData.mapImagePath.length)
+		if (x < 0 || x / 10 > MapData.mapImagePath.length)
 			return null;
-		String imagePath = MapData.mapImagePath[x];
-		if (imagePath != null) {
+		String imagePath = MapData.mapImagePath[x / 10];
+		if (imagePath != null && imagePath.length() > 0) {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(imagePath));
-				return ImageHelper.resizeImage(Config.slotWidth,
-						Config.slotHeight, originalImage,
+				BufferedImage resizedImage = ImageHelper.resizeImage(
+						Config.slotWidth, Config.slotHeight, originalImage,
 						originalImage.getType());
+				if (x % 10 != 0) {
+					return this.rotateimage(resizedImage, (x % 10) * 45);
+				}
+				return resizedImage;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
 	}
-	public BufferedImage rotateimage(BufferedImage image){
-		// The required drawing location
-		int drawLocationX = 300;
-		int drawLocationY = 300;
 
-		// Rotation information
-
-		double rotationRequired = Math.toRadians(45);
+	public BufferedImage rotateimage(BufferedImage image, int angle) {
+		double rotationRequired = Math.toRadians(angle);
 		double locationX = image.getWidth() / 2;
 		double locationY = image.getHeight() / 2;
-		AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+		AffineTransform tx = AffineTransform.getRotateInstance(
+				rotationRequired, locationX, locationY);
+		AffineTransformOp op = new AffineTransformOp(tx,
+				AffineTransformOp.TYPE_BILINEAR);
 		return op.filter(image, null);
 	}
 }

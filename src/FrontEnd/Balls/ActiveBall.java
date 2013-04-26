@@ -27,28 +27,31 @@ public abstract class ActiveBall extends Ball {
 		this.setX(x);
 		this.setY(y);
 	}
-	public boolean moveWithBreak(int x, int y){
-		if(this.isBlocked(x, y)){
+
+	public boolean moveWithBreak(int x, int y) {
+		if (this.isBlocked(x, y)) {
 			return this.moveToBreakBlock(x, y);
-		}else{
+		} else {
 			return this.move(x, y);
 		}
 	}
-	public boolean moveToBreakBlock(Ball to){
+
+	public boolean moveToBreakBlock(Ball to) {
 		return this.moveToBreakBlock(to.getX(), to.getY());
 	}
 
 	public boolean moveToBreakBlock(int x, int y) {
-		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+		if (!GameInfo.isValide(x, y)
+				|| !GameInfo.isValide(this.getX(), this.getY()))
 			return false;
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
-//		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
-//			return breakBlock(thisXSlot, thisYSlot);
+		// if (thisXSlot == toXSlot && thisYSlot == toYSlot)
+		// return breakBlock(thisXSlot, thisYSlot);
 
-		if(GameInfo.currentMap[thisYSlot][thisXSlot] != 0){
+		if (GameInfo.currentMap[thisYSlot][thisXSlot] != 0) {
 			this.breakBlock(thisXSlot, thisYSlot);
 		}
 		byte dir = GameInfo.breakDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
@@ -73,15 +76,17 @@ public abstract class ActiveBall extends Ball {
 		return true;
 	}
 
-	public boolean isBlocked(Ball to){
+	public boolean isBlocked(Ball to) {
 		return this.isBlocked(to.getX(), to.getY());
 	}
+
 	public boolean isBlocked(int x, int y) {
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
-		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+		if (!GameInfo.isValide(x, y)
+				|| !GameInfo.isValide(this.getX(), this.getY()))
 			return false;
 		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
 			return false;
@@ -95,7 +100,8 @@ public abstract class ActiveBall extends Ball {
 	}
 
 	public boolean move(int x, int y) {
-		if(!GameInfo.isValide(x, y) || !GameInfo.isValide(this.getX(), this.getY()))
+		if (!GameInfo.isValide(x, y)
+				|| !GameInfo.isValide(this.getX(), this.getY()))
 			return false;
 		int thisXSlot = this.getX() / Config.slotWidth;
 		int thisYSlot = this.getY() / Config.slotHeight;

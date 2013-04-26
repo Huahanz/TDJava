@@ -8,7 +8,7 @@ import Helpers.TestHelper;
 
 public class DTowerBall extends TowerBall {
 
-	final static int mapID = 2;
+	static int mapID = 20;
 	protected int scope = 300;
 	protected int attack = 10;
 	protected String bulletName = "SilverBulletBall";
@@ -49,6 +49,14 @@ public class DTowerBall extends TowerBall {
 
 	public void setBulletName(String bulletName) {
 		this.bulletName = bulletName;
+	}
+
+	public int getMapID() {
+		return DTowerBall.mapID;
+	}
+
+	public void setMapID(int mapID) {
+		DTowerBall.mapID = mapID;
 	}
 
 }

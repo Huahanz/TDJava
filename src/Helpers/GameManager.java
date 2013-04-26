@@ -13,6 +13,7 @@ import FrontEnd.Balls.HeroBall;
 import FrontEnd.Balls.STowerBall;
 import FrontEnd.Balls.SilverBulletBall;
 import FrontEnd.Balls.SlowBall;
+import FrontEnd.Balls.SoliderBall;
 import FrontEnd.Balls.StalkBulletBall;
 
 public class GameManager {
@@ -71,6 +72,11 @@ public class GameManager {
 		case "Hero":
 			ball = new HeroBall(x, y);
 			break;
+		case "Solider":
+			ball = new SoliderBall(x, y);
+			break;
+		case "Upgrade":
+			this.upgradeTower(x, y);
 		default:
 			return;
 		}
@@ -78,6 +84,12 @@ public class GameManager {
 		if (ball != null) {
 			GameInfo.balls.add(ball);
 		}
+	}
+
+	private void upgradeTower(int x, int y) {
+		int xSlot = x/Config.slotWidth;
+		int ySlot = y/Config.slotHeight;
+		
 	}
 
 	public synchronized boolean killBall(Ball ball) {
@@ -160,8 +172,6 @@ public class GameManager {
 
 		for (String towerButton : Config.towerButtons) {
 			if (towerButton.equals(buttonName) || buttonName.equals("Wall")) {
-				TestHelper.print("int add drag" + lxSlotNum + ", " + xSlotNum
-						+ ", " + lySlotNum + ", " + ySlotNum);
 				if (lxSlotNum == xSlotNum) {
 					int i = Math.min(ySlotNum, lySlotNum);
 					int j = Math.max(ySlotNum, lySlotNum);

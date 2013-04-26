@@ -3,7 +3,7 @@ package FrontEnd.Balls;
 import FrontEnd.GameInfo;
 
 public class STowerBall extends TowerBall {
-	public static int mapID = 3;
+	public static int mapID = 30;
 	protected int scope = 400;
 	protected int attack = 10;
 	protected String bulletName = "StalkBulletBall";
@@ -42,6 +42,13 @@ public class STowerBall extends TowerBall {
 
 	public void setBulletName(String bulletName) {
 		this.bulletName = bulletName;
+	}
+	public int getMapID() {
+		return STowerBall.mapID;
+	}
+
+	public void setMapID(int mapID) {
+		STowerBall.mapID = mapID;
 	}
 
 }

@@ -24,7 +24,6 @@ public abstract class TowerBall extends Ball {
 	protected int scope;
 	protected int attack;
 	protected String bulletName;
-	static int mapID;
 
 	public TowerBall(int x, int y, int size) {
 		this(x / Config.slotWidth, y / Config.slotHeight, size, null);
@@ -62,9 +61,9 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean defend() {
-		for(int i =0; i < GameInfo.balls.size(); i++){
+		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
-			if (ball instanceof DragonBall && !(ball instanceof HeroBall)) {
+			if (ball instanceof DragonBall && !(ball instanceof HeroBall) && !(ball instanceof SoliderBall)) {
 				int ballX = ball.getX();
 				int ballY = ball.getY();
 				if (this.isInScope(ballX, ballY)) {
@@ -76,19 +75,42 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean attack(Ball ball) {
-		TestHelper.print("attacking " + ball.getClass().getName() + "at "+ ball.getX() + " " + ball.getY() + " " + this.getX() + " " + this.getY());
+		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
+		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
 		GameManager gameManager = GameManager.getInstance();
-		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(), ball);
+		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
+				ball);
 		return true;
+	}
+
+	public int calculateAngle(double thisX, double thisY, double toX, double toY) {
+		double dx = Math.abs(toX - thisX);
+		int r = 0;
+		if (toY > thisY - dx * 0.7 && toY < thisY + dx * 0.7)
+			r = 2;
+		else if (toY >= thisY + dx * 0.7 && toY <= thisY + dx * 2.1)
+			r = 1;
+		else if (toY > thisY + dx * 2.1)
+			r = 0;
+		else if (toY <= thisY - dx * 0.7 && toY >= thisY - dx * 2.1)
+			r = 3;
+		else
+			r = 4;
+		
+		if(thisX < toX){
+			return 8 - r; 
+		}
+		return r;
 	}
 
 	public boolean isInScope(int ballX, int ballY) {
 		int scope = this.getScope();
 		int x = this.getX();
 		int y = this.getY();
-		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(scope, 2));
+		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(
+				scope, 2));
 	}
-	
+
 	public Object getShape() {
 		return new Ellipse2D.Double(getX(), getY(), 1, 1);
 	}
@@ -100,6 +122,7 @@ public abstract class TowerBall extends Ball {
 	public void setScope(int scope) {
 		this.scope = scope;
 	}
+
 	public int getAttack() {
 		return attack;
 	}
@@ -107,6 +130,7 @@ public abstract class TowerBall extends Ball {
 	public void setAttack(int attack) {
 		this.attack = attack;
 	}
+
 	public String getBulletName() {
 		return bulletName;
 	}
@@ -115,10 +139,15 @@ public abstract class TowerBall extends Ball {
 		this.bulletName = bulletName;
 	}
 
-	public int getX(){
+	public abstract int getMapID();
+
+	public abstract void setMapID(int mapID);
+
+	public int getX() {
 		return this.xSlotNum * Config.slotWidth;
 	}
-	public int getY(){
+
+	public int getY() {
 		return this.ySlotNum * Config.slotHeight;
 	}
 }

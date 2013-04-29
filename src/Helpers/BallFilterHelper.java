@@ -2,7 +2,8 @@ package Helpers;
 
 import java.util.*;
 
-import FrontEnd.Balls.Ball;
+import balls.Ball;
+
 
 ////
 //		This design is depend on slow reflection and Arraylist. 

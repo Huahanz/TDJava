@@ -3,9 +3,11 @@ package Helpers;
 import java.sql.Date;
 import java.sql.Time;
 
-import FrontEnd.GameInfo;
-import FrontEnd.Balls.Ball;
-import FrontEnd.Balls.DragonBall;
+import swingFrontEnd.GameInfo;
+
+import balls.Ball;
+import balls.DragonBall;
+
 
 public class AuxRunnable implements Runnable {
 

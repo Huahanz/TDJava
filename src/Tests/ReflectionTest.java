@@ -1,11 +1,11 @@
 package Tests;
 
-import FrontEnd.Balls.ActiveBall;
-import FrontEnd.Balls.FastBall;
+import balls.ActiveBall;
+import balls.FastBall;
 
 public class ReflectionTest{
 	public static void main(String[] args){
-		FastBall fb = new FastBall();
+		FastBall fb = new FastBall(100, 100);
 		System.out.println(fb instanceof ActiveBall);
 	}
 }

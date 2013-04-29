@@ -1,6 +1,6 @@
 package Helpers;
 
-import FrontEnd.Balls.Ball;
+import balls.Ball;
 
 public class TestHelper {
 

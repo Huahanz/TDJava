@@ -2,20 +2,22 @@ package Helpers;
 
 import java.awt.event.MouseEvent;
 
+import swingFrontEnd.GameInfo;
+
+import balls.ActiveBallRunnable;
+import balls.Ball;
+import balls.BulletBall;
+import balls.DTowerBall;
+import balls.DragonBall;
+import balls.FastBall;
+import balls.HeroBall;
+import balls.STowerBall;
+import balls.SilverBulletBall;
+import balls.SlowBall;
+import balls.SoliderBall;
+import balls.StalkBulletBall;
+
 import Controller.HttpManager;
-import FrontEnd.GameInfo;
-import FrontEnd.Balls.Ball;
-import FrontEnd.Balls.BulletBall;
-import FrontEnd.Balls.DTowerBall;
-import FrontEnd.Balls.DragonBall;
-import FrontEnd.Balls.FastBall;
-import FrontEnd.Balls.ActiveBallRunnable;
-import FrontEnd.Balls.HeroBall;
-import FrontEnd.Balls.STowerBall;
-import FrontEnd.Balls.SilverBulletBall;
-import FrontEnd.Balls.SlowBall;
-import FrontEnd.Balls.SoliderBall;
-import FrontEnd.Balls.StalkBulletBall;
 
 public class GameManager {
 	private static GameManager gameManager = null;
@@ -103,6 +105,7 @@ public class GameManager {
 			} else {
 				GameInfo.balls.add(ball);
 			}
+			GameInfo.postMan.sendAddBall(ball);
 		}
 	}
 

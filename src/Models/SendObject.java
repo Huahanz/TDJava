@@ -3,7 +3,8 @@ package Models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import FrontEnd.Balls.Ball;
+import balls.Ball;
+
 
 public class SendObject implements Serializable{
 

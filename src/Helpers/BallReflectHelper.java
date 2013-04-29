@@ -2,7 +2,8 @@ package Helpers;
 
 import java.lang.reflect.*;
 
-import FrontEnd.Balls.Ball;
+import balls.Ball;
+
 
 public class BallReflectHelper {
 

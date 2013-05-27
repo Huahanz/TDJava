@@ -7,11 +7,6 @@ import java.net.*;
 import java.util.*;
 import javax.swing.*;
 
-/**
- * This program demonstrates how to use the URLConnection class for a POST request.
- * @version 1.20 2007-06-25
- * @author Cay Horstmann
- */
 public class PostTest
 {
    public static void main(String[] args)

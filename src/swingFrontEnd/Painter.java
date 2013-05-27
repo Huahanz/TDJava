@@ -1,5 +1,9 @@
 package swingFrontEnd;
 
+/**
+ * TODO change the swing frontend to monitor. 
+ *
+ */
 public class Painter{
 	
 }

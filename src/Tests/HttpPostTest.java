@@ -33,13 +33,14 @@ public class HttpPostTest {
 		ArrayList<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
 
 		try {
-			formparams.add(new BasicNameValuePair("ball_name", "zhh"));
-			formparams.add(new BasicNameValuePair("ball_x", "25"));
-			formparams.add(new BasicNameValuePair("ball_y", "20"));
+			// formparams.add(new BasicNameValuePair("ball_name", "zhh"));
+			// formparams.add(new BasicNameValuePair("ball_x", "25"));
+			// formparams.add(new BasicNameValuePair("ball_y", "20"));
+			formparams.add(new BasicNameValuePair("udid", "20"));
 			UrlEncodedFormEntity postEntity = new UrlEncodedFormEntity(
 					formparams, "UTF-8");
 			HttpPost httppost = new HttpPost(
-					"http://localhost/~huahan/PPServer/index.php/blog/test_test_model");
+					"http://localhost/tdserver/index.php/dispatcher/index/player:playerctrl:add_player:123");
 			httppost.setEntity(postEntity);
 			HttpResponse response = httpClient.execute(httppost);
 

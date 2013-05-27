@@ -6,10 +6,6 @@ import java.util.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-/**
- * @version 1.32 2007-06-12
- * @author Cay Horstmann
- */
 public class MouseTest
 {
    public static void main(String[] args)

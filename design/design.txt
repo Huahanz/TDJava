@@ -1,0 +1,63 @@
+Packages:::
+
+
+
+request::
+Request the PHP server the recent updates. This should keep running. All updates should put into seperate queues.  
+Maybe one or many threads. Should be a thread pool.  
+Class Requester{
+	functions:
+	getUpdates(PvpId);
+	setUpdatesToQueue();   
+}
+
+
+Wrapper::
+Translate the json updates to our format. Also encode the worker result to json.
+Class Parser{
+	functions:
+	InWrapper parseRequest(String json);
+	String wrapperPost(InWrapper);
+}
+Class OutWrapper{
+
+}
+
+Class InWrapper{
+constructor Inwapper(string json);
+
+}
+
+Class BallUpdates extends InWrapper
+{
+
+}
+
+worker::
+Should refine the swing code, get all the backend parts and wrap together.  
+class InWorker
+{
+getNextMap();
+getNextPVP();
+getPVPUpdates();
+setMap();
+}
+class OutWorker
+{
+}
+
+
+send::
+Send results from the worker to PHP server. 
+Class Poster{
+	functions:
+	OutWrapper popUpdatesFromQueue(pvpID);
+	boolean sendToPhpServer(String pvpID, OutWrapper out);
+}
+
+Data::
+Keep all the update data and the to send data.  
+singleton Class QueueManger{
+	inQueue; //index on pvpID
+	outQueue;  //index on pvpID
+}

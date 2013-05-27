@@ -14,17 +14,19 @@ import org.apache.http.util.EntityUtils;
 import balls.Ball;
 
 public class HttpManager {
+	
+	public static String PHPBaseDispatcherUrl = "http://localhost/tdserver/index.php/dispatcher/index/";
 	public static String readTestOneSlotBalls() {
 		return "";
 	}
-
+	
 	public static synchronized String sendPostRequest(
 			ArrayList<BasicNameValuePair> formparams, String postURL) {
 		HttpClient httpClient = new DefaultHttpClient();
 		try {
 			UrlEncodedFormEntity postEntity = new UrlEncodedFormEntity(
 					formparams, "UTF-8");
-			HttpPost httppost = new HttpPost(postURL);
+			HttpPost httppost = new HttpPost(HttpManager.PHPBaseDispatcherUrl + postURL);
 			httppost.setEntity(postEntity);
 			HttpResponse response = httpClient.execute(httppost);
 
@@ -35,12 +37,9 @@ public class HttpManager {
 					String jsonString = EntityUtils.toString(entity);
 					return jsonString;
 				} else {
-					// Stream content out
 				}
 			}
-			// handle response here...
 		} catch (Exception ex) {
-			// handle exception here
 		} finally {
 			httpClient.getConnectionManager().shutdown();
 		}

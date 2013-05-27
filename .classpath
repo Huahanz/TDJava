@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Scripts"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/fluent-hc-4.2.3.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/httpclient-cache-4.2.3.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/httpmime-4.2.3.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/httpclient-4.2.3.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/httpcore-4.2.2.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="/Users/huahan/Downloads/httpcomponents-client-4.2.3 2/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/fluent-hc-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/httpclient-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/httpclient-cache-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/httpcore-4.2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/httpcomponents-client-4.2.5 2/lib/httpmime-4.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

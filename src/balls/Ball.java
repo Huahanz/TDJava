@@ -8,6 +8,7 @@ import swingFrontEnd.GameInfo;
 import Helpers.Config;
 
 public abstract class Ball {
+	public int id;
 	public int x;
 	public int y;
 	public int XSIZE;
@@ -29,6 +30,14 @@ public abstract class Ball {
 
 	public Ball(int xSlotNum, int ySlotNum) {
 
+	}
+
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getXSIZE() {

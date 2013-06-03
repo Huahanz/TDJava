@@ -36,11 +36,11 @@ public class HttpPostTest {
 			// formparams.add(new BasicNameValuePair("ball_name", "zhh"));
 			// formparams.add(new BasicNameValuePair("ball_x", "25"));
 			// formparams.add(new BasicNameValuePair("ball_y", "20"));
-			formparams.add(new BasicNameValuePair("udid", "20"));
+			formparams.add(new BasicNameValuePair("map_id", "0"));
 			UrlEncodedFormEntity postEntity = new UrlEncodedFormEntity(
 					formparams, "UTF-8");
 			HttpPost httppost = new HttpPost(
-					"http://localhost/tdserver/index.php/dispatcher/index/player:playerctrl:add_player:123");
+					"http://localhost/tdserver/index.php/dispatcher/index/pvp:pvpctrl:pop_recent_updates");
 			httppost.setEntity(postEntity);
 			HttpResponse response = httpClient.execute(httppost);
 

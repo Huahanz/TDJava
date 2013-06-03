@@ -43,4 +43,9 @@ public class Config
 	public static int ImageWidth = 30;
 	public static int ImageHeight = 30;
 	public static boolean isWallBuilt = false;
+	
+	/**
+	 * income queue
+	 */
+	public static int[] mapList = {0};
 }

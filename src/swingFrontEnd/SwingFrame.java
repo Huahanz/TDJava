@@ -39,11 +39,11 @@ public class SwingFrame extends JFrame {
 	public static JLabel lostLabel = null;
 	public static JLabel killDragonLabel = null;
 
-	public static void main(String[] args) {
-		JFrame frame = new SwingFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame frame = new SwingFrame();
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setVisible(true);
+//	}
 
 
 	public SwingFrame() {

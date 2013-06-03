@@ -11,8 +11,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import balls.Ball;
-
 public class HttpManager {
 	
 	public static String PHPBaseDispatcherUrl = "http://localhost/tdserver/index.php/dispatcher/index/";
@@ -45,5 +43,13 @@ public class HttpManager {
 		}
 		return null;
 	}
+	
+	private static String getByMapPostUrl(String dir, String className, String method) {
+		return dir + ":" + className + ":" + method;
+	}
 
+	public static String requestController(ArrayList<BasicNameValuePair> formparams, String dir, String className, String method){
+		String postUrl = getByMapPostUrl(dir, className, method);
+		return sendPostRequest(formparams, postUrl);
+	}
 }

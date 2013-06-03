@@ -24,11 +24,22 @@ public class GameManager {
 
 	public static GameManager getInstance() {
 		if (gameManager == null) {
-			gameManager = new GameManager();
+			synchronized (gameManager) {
+				gameManager = new GameManager();
+			}
 		}
 		return gameManager;
 	}
 
+	public synchronized Object addRandBall(String ballName){
+		int width = Config.defaultOneSlotWidth;
+		int height = Config.defaultHeight;
+		int x = (int) (Math.random() * width);
+		int y = (int) (Math.random() * height);
+		this.addBall(ballName, x, y);
+		return null;
+	}
+	
 	public synchronized void addBall(String ballName, int x, int y) {
 		this.addBall(ballName, x, y, null);
 	}
@@ -73,7 +84,7 @@ public class GameManager {
 		case "Wall":
 			if (Config.gold >= Config.WallCost) {
 				Config.isWallBuilt = true;
-				if(this.addWall(x, y))
+				if (this.addWall(x, y))
 					Config.gold -= Config.WallCost;
 			}
 			break;

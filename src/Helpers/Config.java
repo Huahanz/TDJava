@@ -36,6 +36,8 @@ public class Config
 	public static String[] activeballButtons = {"Fast", "Slow", "Hero", "Solider"};
 	public static String[] towerButtons = {"STower", "DTower"};
 	public static String[] otherButtons = {"Start", "Wall", "Cancel", "Random", "Hard"};
+	public static String startButtonName = "Start";
+	public static String simulatorButtonName = "Simulator";
 	public static int DragonImageSize = 20;
 	public static int lostDragon = 0;
 	public static int killDragons = 0;

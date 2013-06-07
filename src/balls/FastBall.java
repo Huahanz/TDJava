@@ -15,6 +15,7 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
+	public int health = 100;
 	public static int maxHealth = 100;
 	public int stepLength = 20;
 
@@ -39,6 +40,14 @@ public class FastBall extends DragonBall {
 				}
 			}
 		}
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 
 	public int getStepLength() {

@@ -10,7 +10,7 @@ import Simulator.Simulator;
 
 /**
  * 
- * We need to ensure that the underlaying classes are thread safe. 
+ * We need to ensure that the underlying classes are thread safe. And above of that, we need to make sure all the references don't have interleave.
  * The thread safety of this class is depend on Simulator.java, SwingFrame.java, GameInfo.java and Executor.java
  *
  */
@@ -32,6 +32,7 @@ public class Setup
 		setEnv();
 		startRequest();
 		startSender();
+		startPanel();
 		startExe();		
 	}
 	

@@ -14,6 +14,7 @@ import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.ImageHelper;
 import Helpers.TestHelper;
+import Send.SendWrapper;
 
 public abstract class ActiveBall extends Ball {
 	public int health;
@@ -32,6 +33,7 @@ public abstract class ActiveBall extends Ball {
 		this.setY(y);
 	}
 
+	//TODO reform the structure of these move functions
 	public boolean moveWithBreak(int x, int y) {
 		if (this.isBlocked(x, y)) {
 			return this.moveToBreakBlock(x, y);
@@ -71,13 +73,14 @@ public abstract class ActiveBall extends Ball {
 			this.setY(this.getY() + step);
 		if (dir >= 6 && dir <= 8)
 			this.setX(this.getX() - step);
+		SendWrapper.sendBallMove(this, this.getX(), this.getY(), 0);
 		return false;
-
 	}
 
 	public boolean breakBlock(int xSlot, int ySlot) {
 		TestHelper.print("Breaking");
 		GameInfo.currentMap[ySlot][xSlot] = 0;
+		SendWrapper.sendBallAction(this, "BREAKBLOCK");
 		return true;
 	}
 
@@ -108,33 +111,39 @@ public abstract class ActiveBall extends Ball {
 		if (!GameInfo.isValide(x, y)
 				|| !GameInfo.isValide(this.getX(), this.getY()))
 			return false;
-		int thisXSlot = this.getX() / Config.slotWidth;
-		int thisYSlot = this.getY() / Config.slotHeight;
+		int oldX = this.getX();
+		int oldY = this.getY();
+		int thisXSlot = oldX / Config.slotWidth;
+		int thisYSlot = oldY / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
 		int toYSlot = y / Config.slotHeight;
+		boolean isArrive = false;
 		if (thisXSlot == toXSlot && thisYSlot == toYSlot)
-			return moveInSlot(x, y);
-		byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
+			isArrive = moveInSlot(x, y);
+		else {
+			byte dir = GameInfo.mapDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
 
-		int step = this.getStepLength();
-		if ((dir & 1) == 0)
-			step >>= 1;
-		if (dir == 1 || dir == 2 || dir == 8)
-			this.setY(this.getY() - step);
-		if (dir >= 2 && dir <= 4)
-			this.setX(this.getX() + step);
-		if (dir >= 4 && dir <= 6)
-			this.setY(this.getY() + step);
-		if (dir >= 6 && dir <= 8)
-			this.setX(this.getX() - step);
-		return false;
+			int step = this.getStepLength();
+			if ((dir & 1) == 0)
+				step >>= 1;
+			if (dir == 1 || dir == 2 || dir == 8)
+				this.setY(this.getY() - step);
+			if (dir >= 2 && dir <= 4)
+				this.setX(this.getX() + step);
+			if (dir >= 4 && dir <= 6)
+				this.setY(this.getY() + step);
+			if (dir >= 6 && dir <= 8)
+				this.setX(this.getX() - step);
+		}
+		SendWrapper.sendBallMove(this, this.getX(), this.getY(), 0);
+		return isArrive;
 	}
 
-	public boolean moveInSlot(Ball to) {
+	protected boolean moveInSlot(Ball to) {
 		return this.moveInSlot(to.getX(), to.getY());
 	}
 
-	public boolean moveInSlot(int x, int y) {
+	protected boolean moveInSlot(int x, int y) {
 		int boundMinX = 0;
 		int boundMinY = 0;
 		int boundMaxX = Config.defaultOneSlotWidth;
@@ -184,7 +193,7 @@ public abstract class ActiveBall extends Ball {
 		return false;
 	}
 
-	public boolean isInScope(int ballX, int ballY) {
+	protected boolean isInScope(int ballX, int ballY) {
 		int scope = this.getScope();
 		int x = this.getX();
 		int y = this.getY();
@@ -202,13 +211,14 @@ public abstract class ActiveBall extends Ball {
 
 	public synchronized void setHealth(int health) {
 		this.health = health;
+		SendWrapper.sendBallUpdate(this, "HEALTH", this.health);
 	}
 
-	public int getStepLength(){
+	public int getStepLength() {
 		return this.stepLength;
 	}
 
-	public void setStepLength(int stepLength){
+	public void setStepLength(int stepLength) {
 		this.stepLength = stepLength;
 	}
 
@@ -238,6 +248,7 @@ public abstract class ActiveBall extends Ball {
 		if (!(ball instanceof ActiveBall)) {
 			return false;
 		}
+		SendWrapper.sendBallAction(this, "ATTACK");
 		((ActiveBall) ball).setHealth(((ActiveBall) ball).getHealth()
 				- this.getAttack());
 		if (((ActiveBall) ball).getHealth() <= 0) {

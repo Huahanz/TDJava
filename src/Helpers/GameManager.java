@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 
 import swingFrontEnd.GameInfo;
 
+import Send.SendWrapper;
 import balls.ActiveBallRunnable;
 import balls.Ball;
 import balls.BulletBall;
@@ -109,14 +110,12 @@ public class GameManager {
 		default:
 			return;
 		}
-		GameInfo.postMan.send("swing.add" + ballName + "Ball");
 		if (ball != null) {
 			if (ball instanceof BulletBall) {
 				GameInfo.bullets.add((BulletBall) ball);
 			} else {
 				GameInfo.balls.add(ball);
 			}
-			GameInfo.postMan.sendAddBall(ball);
 		}
 	}
 
@@ -126,6 +125,9 @@ public class GameManager {
 
 	}
 
+	/**
+	 * Delete the reference from ball list. 
+	 */
 	public synchronized boolean killBall(Ball ball, boolean skip) {
 		if (GameInfo.balls.contains(ball)) {
 			GameInfo.balls.remove(ball);
@@ -136,27 +138,29 @@ public class GameManager {
 			if (!skip && ball instanceof DragonBall) {
 				Config.gold += Config.DragonBallReward;
 			}
+			SendWrapper.sendBallAction(ball, "KILLBALL");
+		}else{
+			
 		}
 		return true;
 	}
 
+	/**
+	 * Delete the reference from bullet list 
+	 */
 	public synchronized boolean killBullet(BulletBall ball) {
 		int ix = GameInfo.bullets.indexOf(ball);
 		if (ix >= 0) {
 			GameInfo.bullets.set(ix, null);
+			SendWrapper.sendBallAction(ball, "KILLBULLET");
 			return true;
 		}
 		return false;
 	}
 
-	public void loadServerBalls() {
-		String ballsJson = HttpManager.readTestOneSlotBalls();
-
-		// for(Ball ball : balls){
-		// this.addBall(ballName, x, y);
-		// }
-	}
-
+	/**
+	 * rm the wall
+	 */
 	public boolean cancel(int x, int y) {
 		int xSlotNum = x / Config.slotWidth;
 		int ySlotNum = y / Config.slotHeight;
@@ -167,6 +171,7 @@ public class GameManager {
 		if (GameInfo.currentMap[ySlotNum][xSlotNum] == 0)
 			return false;
 		GameInfo.currentMap[ySlotNum][xSlotNum] = 0;
+		SendWrapper.removeWall(x, y);
 		return true;
 	}
 
@@ -180,6 +185,7 @@ public class GameManager {
 		if (GameInfo.currentMap[ySlotNum][xSlotNum] != 0)
 			return false;
 		GameInfo.currentMap[ySlotNum][xSlotNum] = 1;
+		SendWrapper.addWall(x, y);
 		return true;
 	}
 
@@ -238,6 +244,7 @@ public class GameManager {
 	}
 
 	public synchronized boolean reachDestination(DragonBall fastBall) {
+		SendWrapper.sendBallAction(fastBall, "REACHDEST");	
 		this.killBall(fastBall, true);
 		Config.lostDragon++;
 		return true;

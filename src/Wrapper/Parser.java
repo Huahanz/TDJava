@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import Send.SendWrapper;
+
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -43,7 +45,7 @@ public class Parser
 		return rtnVal;
 	}
 	
-	public static OutWrapper[] parseOut()
+	public static SendWrapper[] parseOut()
 	{
 		return null;
 	}

@@ -14,6 +14,7 @@ public class InherentTest {
 		//Method : To the opposite, the call of a method is decided by the right hand class type. 
 		//Once called, the method will getting executed from where it defined. 
 		//The compiler first checks its local class, if not find, checks the supper class. 
+		//WHen the method trying to read a variable in side it's body, it will use the same rules. 
 		//It's principal is straightforward - NEVER CHECK ITS SUBCLASS. Because it may have different types of subclass.  
 		//The method first reaches into the lowest level which is the right hand class type, and starts calling from there. 
 		

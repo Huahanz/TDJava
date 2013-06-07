@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.google.gson.internal.LinkedTreeMap;
 
+import Send.SendWrapper;
 import Wrapper.InWrapper;
-import Wrapper.OutWrapper;
 
 /*
  * Manage two group of queues : income queues and outgoing queues.
@@ -64,7 +64,7 @@ public class QueueManager {
 	 * 
 	 * @return boolean
 	 */
-	public boolean pushOutQueue(int pvpID, OutWrapper outWrapper) {
+	public boolean pushOutQueue(int pvpID, SendWrapper outWrapper) {
 		return true;
 	}
 
@@ -77,7 +77,7 @@ public class QueueManager {
 		return null;
 	}
 
-	public OutWrapper popOutQueue(int pvpID) {
+	public SendWrapper popOutQueue(int pvpID) {
 		return null;
 	}
 
@@ -85,7 +85,7 @@ public class QueueManager {
 		return null;
 	}
 
-	public OutWrapper peekOutQueue(int pvpID) {
+	public SendWrapper peekOutQueue(int pvpID) {
 		return null;
 	}
 

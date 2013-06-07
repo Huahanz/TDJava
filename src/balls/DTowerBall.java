@@ -5,6 +5,7 @@ import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
 import Helpers.TestHelper;
+import Send.SendWrapper;
 
 public class DTowerBall extends TowerBall {
 
@@ -27,6 +28,7 @@ public class DTowerBall extends TowerBall {
 		GameManager gameManager = GameManager.getInstance();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
 				ball);
+		SendWrapper.sendBallAction(this, "TOWERATTACK");
 		return true;
 	}
 

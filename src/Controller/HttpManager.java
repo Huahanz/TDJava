@@ -14,9 +14,6 @@ import org.apache.http.util.EntityUtils;
 public class HttpManager {
 	
 	public static String PHPBaseDispatcherUrl = "http://localhost/tdserver/index.php/dispatcher/index/";
-	public static String readTestOneSlotBalls() {
-		return "";
-	}
 	
 	public static synchronized String sendPostRequest(
 			ArrayList<BasicNameValuePair> formparams, String postURL) {

@@ -5,10 +5,15 @@ import java.awt.image.BufferedImage;
 
 import swingFrontEnd.GameInfo;
 
+import Helpers.BallCache;
 import Helpers.Config;
 
+/**
+ * Update to monitor pattern with synchronization. 
+ *
+ */
 public abstract class Ball {
-	public int id;
+	public final int id;
 	public int x;
 	public int y;
 	public int XSIZE;
@@ -22,22 +27,19 @@ public abstract class Ball {
 		this.XSIZE = XSIZE;
 		this.YSIZE = YSIZE;
 		this.setImagePath(imagePath);
+		this.id = BallCache.addBall(this);
 	}
 
-	public Ball(int xSlotNum, int ySlotNum, String imagePath) {
-
-	}
-
-	public Ball(int xSlotNum, int ySlotNum) {
-
-	}
+//	public Ball(int xSlotNum, int ySlotNum, String imagePath) {
+//
+//	}
+//
+//	public Ball(int xSlotNum, int ySlotNum) {
+//
+//	}
 
 	public int getId() {
 		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public int getXSIZE() {

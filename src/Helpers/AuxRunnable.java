@@ -8,7 +8,10 @@ import swingFrontEnd.GameInfo;
 import balls.Ball;
 import balls.DragonBall;
 
-
+/**
+ * Used to adjust the game balance. 
+ *
+ */
 public class AuxRunnable implements Runnable {
 
 	public AuxRunnable() {

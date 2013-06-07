@@ -5,6 +5,7 @@ package Helpers;
  *
  */
 public class GameAux{
+	
 	public GameAux()
 	{
 		

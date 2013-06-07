@@ -28,7 +28,6 @@ import worker.Executor;
 
 import balls.*;
 
-import Controller.PostMan;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.TestHelper;
@@ -38,18 +37,9 @@ import Simulator.Simulator;
 
 public class SwingFrame extends JFrame {
 
-	private static String buttonName = null;
-	public static MouseEvent lastMouseClickedEvent;
 	public static JLabel goldLabel = null;
 	public static JLabel lostLabel = null;
 	public static JLabel killDragonLabel = null;
-
-//	public static void main(String[] args) {
-//		JFrame frame = new SwingFrame();
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
-//	}
-
 
 	public SwingFrame() {
 		GameInfo.load(this);
@@ -57,53 +47,6 @@ public class SwingFrame extends JFrame {
 
 	protected void addComponents() {
 		JPanel buttonPanel = new JPanel();
-//		for (final String buttonName : Config.activeballButtons) {
-//			addButton(buttonPanel, buttonName + "Ball", new ActionListener() {
-//				public void actionPerformed(ActionEvent event) {
-//					SwingFrame.buttonName = buttonName;
-//				}
-//			});
-//		}
-//		for (final String buttonName : Config.towerButtons) {
-//			addButton(buttonPanel, buttonName, new ActionListener() {
-//				public void actionPerformed(ActionEvent event) {
-//					SwingFrame.buttonName = buttonName;
-//				}
-//			});
-//		}
-//
-//		for (final String buttonName : Config.otherButtons) {
-//			if (buttonName.equals("Start")) {
-//				addButton(buttonPanel, buttonName, new ActionListener() {
-//					public void actionPerformed(ActionEvent event) {
-//						GameInfo.startTD();
-//					}
-//				});
-//				continue;
-//			}
-//			if (buttonName.equals("Hard")) {
-//				addButton(buttonPanel, buttonName, new ActionListener() {
-//					public void actionPerformed(ActionEvent event) {
-//						GameManager.getInstance().hardGenerateDragons(20,
-//								20, 0);
-//					}
-//				});
-//				continue;
-//			}
-//			if (buttonName.equals("Random")) {
-//				addButton(buttonPanel, buttonName, new ActionListener() {
-//					public void actionPerformed(ActionEvent event) {
-//						GameManager.getInstance().randomeGenerateDragons(10);
-//					}
-//				});
-//				continue;
-//			}
-//			addButton(buttonPanel, buttonName, new ActionListener() {
-//				public void actionPerformed(ActionEvent event) {
-//					SwingFrame.buttonName = buttonName;
-//				}
-//			});
-//		}
 		
 		final String startButtonName = Config.startButtonName;
 		final String simulatorButtonName = Config.simulatorButtonName;
@@ -119,9 +62,6 @@ public class SwingFrame extends JFrame {
 				Setup.startSimulator();
 			}
 		});
-
-//		addMouseListener(new MouseHandler());
-//		addMouseMotionListener(new MouseMotionHandler());
 
 		JPanel textPanel = new JPanel();
 		goldLabel = new JLabel("Gold: " + Config.gold);
@@ -145,42 +85,6 @@ public class SwingFrame extends JFrame {
 		JButton button = new JButton(title);
 		c.add(button);
 		button.addActionListener(listener);
-	}
-
-	private class MouseHandler extends MouseAdapter {
-		public void mousePressed(MouseEvent event) {
-			if (SwingFrame.buttonName != null) {
-				GameManager gameManager = GameManager.getInstance();
-				gameManager.addBall(SwingFrame.buttonName, event.getX(),
-						event.getY());
-			}
-		}
-
-		public void mouseClicked(MouseEvent event) {
-			SwingFrame.lastMouseClickedEvent = event;
-		}
-
-		public void mouseReleased(MouseEvent event) {
-
-		}
-
-	}
-
-	private class MouseMotionHandler implements MouseMotionListener {
-		public void mouseMoved(MouseEvent event) {
-			// TestHelper.print("moving " + event.getX() + " " + event.getY());
-
-		}
-
-		public void mouseDragged(MouseEvent event) {
-			// TestHelper.print("dragging " + event.getX() + " " +
-			// event.getY());
-			if (SwingFrame.buttonName != null) {
-				GameManager gameManager = GameManager.getInstance();
-				gameManager.addBall(SwingFrame.buttonName, event.getX(),
-						event.getY());
-			}
-		}
 	}
 
 }

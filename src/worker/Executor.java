@@ -29,11 +29,11 @@ public class Executor {
 		ArrayList pvpUpdates = this.loadNextPVPUpdates(mapID);
 		Object rst = this.parseAndExe(pvpUpdates);
 		//start delegation
-		this.startDelegation();
+		this.invokeBallThreads();
 		return rst;
 	}
 
-	private void startDelegation() {
+	private void invokeBallThreads() {
 		//monitor seq during queue insertion. Add condition to stop these threads. 
 		//trim to the seq size wanted, flag the outgoing queue 
 		

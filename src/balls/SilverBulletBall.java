@@ -10,8 +10,8 @@ public class SilverBulletBall extends BulletBall {
 	int targetY;
 	int damage = 2;
 
-	public SilverBulletBall(int x, int y, Ball ball) {
-		super(x, y, 5, 5, 300, ball, Config.silverBulletBallImagePath);
+	public SilverBulletBall(int id, int x, int y, Ball ball) {
+		super(id, x, y, 5, 5, 300, ball, Config.silverBulletBallImagePath);
 		this.setTargetX(ball.getX());
 		this.setTargetY(ball.getY());
 	}

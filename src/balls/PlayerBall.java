@@ -5,9 +5,9 @@ import Helpers.GameManager;
 
 public abstract class PlayerBall extends ActiveBall {
 
-	public PlayerBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	public PlayerBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 	public boolean bruteHunt() {
 		Ball target = this.findCLoset();

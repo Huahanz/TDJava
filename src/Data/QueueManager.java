@@ -1,99 +1,148 @@
 package Data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
-import com.google.gson.internal.LinkedTreeMap;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import Send.SendWrapper;
 import Wrapper.InWrapper;
 
+import com.google.gson.internal.LinkedTreeMap;
+
 /*
- * Manage two group of queues : income queues and outgoing queues.
+ * Manage three group of queues : income queues, outgoing queues and schedule history.
  * Static class. All fields should be synchronized. 
  * Many references. 
  */
 public class QueueManager {
-//	private static QueueManager instance = null;
-	private static HashMap<Integer, LinkedTreeMap> incomeQueue = new HashMap<Integer, LinkedTreeMap>();
-	private static HashMap<Integer, ArrayList> incomePVPListMap = new HashMap<Integer, ArrayList>();
+
+	/**
+	 * For the income queues.
+	 */
+
+	private final static Map<Integer, ArrayList> pvpQueues = new ConcurrentHashMap<Integer, ArrayList>();
+	private final static Map unmodifiablePVPMap = Collections
+			.unmodifiableMap(pvpQueues);
+	private static HashMap<Integer, ArrayList> pvpListMap = new HashMap<Integer, ArrayList>();
+	private final static Map unmodifiablePVPListMap = Collections
+			.unmodifiableMap(pvpListMap);
+
 	private QueueManager() {
 
 	}
 
-//	public static QueueManager getInstance() {
-//		if (instance == null) {
-//			synchronized(instance){
-//				instance = new QueueManager();
-//			}
-//		}
-//		return instance;
-//	}
-
-	public static boolean enqueueMapUpdates(int mapID, LinkedTreeMap mapUpdates)
-	{
-		incomeQueue.put(mapID, mapUpdates);
-		Set entrySet = incomeQueue.keySet();
+	/**
+	 * Should have only one reference in RequesterManager.
+	 */
+	public static boolean enqueueMapUpdates(int mapID, LinkedTreeMap mapUpdates) {
+		Set entrySet = mapUpdates.keySet();
 		Iterator it = entrySet.iterator();
 		ArrayList<Integer> pvpList = new ArrayList<Integer>();
-		while(it.hasNext()){
-			int pvpID = Integer.parseInt((String)it.next());
+		while (it.hasNext()) {
+			int pvpID = Integer.parseInt((String) it.next());
 			pvpList.add(pvpID);
+			ArrayList val = (ArrayList) mapUpdates.get(pvpID);
+			pvpQueues.put(pvpID, val);
 		}
-		incomePVPListMap.put(mapID, pvpList);
+		pvpListMap.put(mapID, pvpList);
 		return true;
 	}
-	public static LinkedTreeMap dequeueMapUpdates(int mapID){
-	    LinkedTreeMap rst = incomeQueue.get(mapID);
-	    incomeQueue.remove(mapID);
-	    return rst;
-	}
-	public static LinkedTreeMap peekMapUpdates(int mapID){
-		return incomeQueue.get(mapID);
-	}
-	public static ArrayList<Integer> getMapPVPList(int mapID){
-		return incomePVPListMap.get(mapID);
-	}
-	
-	
-	/*
-	 * XXX decrepit
-	 * @var: pvp_id
-	 * 
-	 * @return boolean
+
+	/**
+	 * Should have only one reference in Executor, so don't add synchronize
+	 * block.
 	 */
-	public boolean pushOutQueue(int pvpID, SendWrapper outWrapper) {
+	public static ArrayList dequeueMapUpdates(int pvpID) {
+		if (!pvpQueues.containsKey(pvpID)) {
+			return null;
+		}
+		ArrayList rst = pvpQueues.get(pvpID);
+		pvpQueues.remove(pvpID);
+		return rst;
+	}
+
+	public static ArrayList<Integer> getMapPVPList(int mapID) {
+		return pvpListMap.get(mapID);
+	}
+
+	/**
+	 * For the post queues. 
+	 */
+	private final static Vector<String> pvpPostQueue = new Vector<String>();
+	public static boolean enqueuePVPPost(String val){
+		pvpPostQueue.add(val);
+		return true;
+	}
+	
+	public static Vector<String> popupPVPPostQueue(){
+		synchronized(pvpPostQueue){
+			Vector<String> rst = (Vector<String>) pvpPostQueue.clone();
+			pvpPostQueue.clear();
+			return rst;
+		}
+	}
+	
+//	private final static Map<Integer, ArrayList> pvpPostQueues = new ConcurrentHashMap<Integer, ArrayList>();
+//	private final static Map unmodifiablePVPPostQueues = Collections
+//			.unmodifiableMap(pvpQueues);
+//	private static HashMap<Integer, ArrayList> pvpPostQueuesList = new HashMap<Integer, ArrayList>();
+//	private final static Map unmodifiablePVPPostQueuesList = Collections
+//			.unmodifiableMap(pvpListMap);
+//
+//	public static boolean enqueuePVPPostQueues(int pvpID, String val) {
+//		
+//	}
+//
+//	public static String dequeuePVPPostQueues(int pvpID) {
+//
+//	}
+
+	/**
+	 * For the Scheduler. FIFO
+	 */
+
+	private final static LinkedList<Integer> pvpScheduleQueue = new LinkedList<Integer>();
+	private final static List<Integer> unmodifiablePVPScheduleQueue = Collections
+			.unmodifiableList(pvpScheduleQueue);
+	private final static LinkedList<Integer> mapScheduleQueue = new LinkedList<Integer>();
+	private final static List<Integer> unmodifiableMapScheduleQueue = Collections
+			.unmodifiableList(pvpScheduleQueue);
+
+	public static boolean enqueuePVPScheduleQueue(int pvpID) {
+		pvpScheduleQueue.addLast(pvpID);
 		return true;
 	}
 
-	public static boolean pushInQueue(int pvpID, ArrayList inWrapper) {
-		
+	public static int dequeuePVPScheduleQueue() {
+		int rst = pvpScheduleQueue.pollFirst();
+		return rst;
+	}
+
+	public static int peekPVPScheduleQueue() {
+		int rst = pvpScheduleQueue.peekFirst();
+		return rst;
+	}
+	
+	public static boolean enqueueMapScheduleQueue(int mapID) {
+		mapScheduleQueue.addLast(mapID);
 		return true;
 	}
 
-	public InWrapper popInQueue(int pvpID) {
-		return null;
+	public static int dequeueMapScheduleQueue() {
+		int rst = mapScheduleQueue.pollFirst();
+		return rst;
 	}
-
-	public SendWrapper popOutQueue(int pvpID) {
-		return null;
+	
+	public static int peekMapScheduleQueue() {
+		int rst = mapScheduleQueue.peekFirst();
+		return rst;
 	}
-
-	public InWrapper peekInQueue(int pvpID) {
-		return null;
-	}
-
-	public SendWrapper peekOutQueue(int pvpID) {
-		return null;
-	}
-
-	public int sizeOfInQueue(int pvpID) {
-		return 0;
-	}
-
-	public int sizeOfOutQueue(int pvpID) {
-		return 0;
-	}
+	
 }

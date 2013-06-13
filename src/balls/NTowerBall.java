@@ -9,11 +9,11 @@ public class NTowerBall extends TowerBall{
 	protected String bulletName = "FastBulletBall";
 	protected int cost = 2000;
 	
-	public NTowerBall(int x, int y, int size) {
-		super(x, y, size);
+	public NTowerBall(int id, int x, int y, int size) {
+		super(id, x, y, size);
 	}
-	public NTowerBall(int x, int y){
-		this(x, y, 1);
+	public NTowerBall(int id, int x, int y){
+		this(id, x, y, 1);
 	}
 	public void drawTower() {
 		GameInfo.currentMap[ySlotNum][xSlotNum] = NTowerBall.mapID;

@@ -1,6 +1,7 @@
 package balls;
 
 import swingFrontEnd.GameInfo;
+import Helpers.BallCache;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
@@ -15,19 +16,20 @@ public class DTowerBall extends TowerBall {
 	protected String bulletName = "SilverBulletBall";
 	protected int cost = 200;
 	
-	public DTowerBall(int xSlotNum, int ySlotNum, int size) {
-		super(xSlotNum, ySlotNum, size);
+	public DTowerBall(int id, int xSlotNum, int ySlotNum, int size) {
+		super(id, xSlotNum, ySlotNum, size);
 	}
 
-	public DTowerBall(int x, int y) {
-		super(x, y, 1);
+	public DTowerBall(int id, int x, int y) {
+		super(id, x, y, 1);
 	}
 	public boolean attack(Ball ball) {
 		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
 		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
 		GameManager gameManager = GameManager.getInstance();
+		int id = BallCache.generateBallID();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
-				ball);
+				ball, id);
 		SendWrapper.sendBallAction(this, "TOWERATTACK");
 		return true;
 	}

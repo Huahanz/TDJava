@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 
 import swingFrontEnd.GameInfo;
 
+import Helpers.BallCache;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.ImageHelper;
@@ -26,16 +27,17 @@ public abstract class TowerBall extends Ball {
 	protected int attack;
 	protected String bulletName;
 
-	public TowerBall(int x, int y, int size) {
-		this(x / Config.slotWidth, y / Config.slotHeight, size, null);
+	public TowerBall(int id, int x, int y, int size) {
+		this(id, x / Config.slotWidth, y / Config.slotHeight, size, null);
 	}
 
 	// public TowerBall(int xSlotNum, int ySlotNum, int size) {
 	// this(xSlotNum, ySlotNum, size, "");
 	// }
 
-	public TowerBall(int xSlotNum, int ySlotNum, int size, String imagePath) {
-		super(xSlotNum * Config.slotWidth, ySlotNum * Config.slotHeight,
+	public TowerBall(int id, int xSlotNum, int ySlotNum, int size,
+			String imagePath) {
+		super(id, xSlotNum * Config.slotWidth, ySlotNum * Config.slotHeight,
 				Config.slotWidth * size, Config.slotHeight * size, imagePath);
 		this.xSlotNum = xSlotNum;
 		this.ySlotNum = ySlotNum;
@@ -51,7 +53,8 @@ public abstract class TowerBall extends Ball {
 			try {
 				BufferedImage originalImage = ImageIO.read(new File(this
 						.getImagePath()));
-				this.image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight, originalImage,
+				this.image = ImageHelper.resizeImage(Config.ImageWidth,
+						Config.ImageHeight, originalImage,
 						originalImage.getType());
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -76,11 +79,14 @@ public abstract class TowerBall extends Ball {
 	}
 
 	public boolean attack(Ball ball) {
-//		int angle = this.calculateAngle(this.getX(), this.getY(), ball.getX(), ball.getY());
-//		GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth] = this.getMapID() + angle;
+		// int angle = this.calculateAngle(this.getX(), this.getY(),
+		// ball.getX(), ball.getY());
+		// GameInfo.currentMap[this.getY()/Config.slotHeight][this.getX()/Config.slotWidth]
+		// = this.getMapID() + angle;
 		GameManager gameManager = GameManager.getInstance();
+		int id = BallCache.generateBallID();
 		gameManager.addBall(this.getBulletName(), this.getX(), this.getY(),
-				ball);
+				ball, id);
 		return true;
 	}
 
@@ -97,9 +103,9 @@ public abstract class TowerBall extends Ball {
 			r = 3;
 		else
 			r = 4;
-		
-		if(thisX < toX){
-			return 8 - r; 
+
+		if (thisX < toX) {
+			return 8 - r;
 		}
 		return r;
 	}
@@ -151,5 +157,6 @@ public abstract class TowerBall extends Ball {
 	public int getY() {
 		return this.ySlotNum * Config.slotHeight;
 	}
+
 	public abstract int getCost();
 }

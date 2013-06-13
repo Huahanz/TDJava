@@ -1,6 +1,7 @@
 package balls;
 
 import swingFrontEnd.GameInfo;
+import Helpers.BallCache;
 import Helpers.Config;
 
 public class HeroBall extends PlayerBall {
@@ -10,18 +11,19 @@ public class HeroBall extends PlayerBall {
 	static int targetY;
 	static HeroBall instance = null;
 
-	private HeroBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	private HeroBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 
-	private HeroBall(int x, int y) {
-		this(x, y, 10, 10, 13, Config.HeroBallImagePath);
+	private HeroBall(int id, int x, int y) {
+		this(id, x, y, 10, 10, 13, Config.HeroBallImagePath);
 	}
 
 	public static HeroBall getInstance(int x, int y) {
 		if (instance == null) {
-			instance = new HeroBall(x, y);
+			int id = BallCache.generateBallID();
+			instance = new HeroBall(id, x, y);
 		}
 		return instance;
 	}

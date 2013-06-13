@@ -25,9 +25,9 @@ public abstract class ActiveBall extends Ball {
 	protected int attack;
 	protected int scope;
 
-	public ActiveBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	public ActiveBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, imagePath);
+		super(id, x, y, XIZE, YSIZE, imagePath);
 		this.setStepLength(stepLength);
 		this.setX(x);
 		this.setY(y);

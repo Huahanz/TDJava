@@ -1,30 +1,36 @@
 package worker;
 
+import java.awt.List;
 import java.util.ArrayList;
-
-import com.google.gson.internal.LinkedTreeMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import Data.QueueManager;
 import Helpers.Config;
 
 /**
- * This is a static class in charge of income, outgoing and other scheduling.
+ * This is a static class in charge of income, outgoing and other schedulings.
  * So all the methods should be atomic. Read only to all the reference classes.  
  *
  */
 public class Scheduler
-{
-	public static int getNextInPVP(int mapID){
+{	
+	public static int getNextPVP(int mapID){
 		ArrayList<Integer> pvpList = QueueManager.getMapPVPList(mapID);
 		int size = pvpList.size();
 		int ix = (int) (Math.random() * size);
-		return pvpList.get(ix);
+		int pvpID = pvpList.get(ix);
+		QueueManager.enqueuePVPScheduleQueue(pvpID);
+		return pvpID;
 	}
 	
-	public static int getNextInMap(){
+	public static int getNextMap(){
 		int[] mapList = Config.mapList;
 		int size = mapList.length;
 		int ix = (int) (Math.random() * size);
-		return mapList[ix];
+		int mapID = mapList[ix];
+		QueueManager.enqueueMapScheduleQueue(mapID);
+		return mapID;
 	}
+	
 }

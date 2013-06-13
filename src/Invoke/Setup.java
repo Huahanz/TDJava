@@ -6,6 +6,7 @@ import swingFrontEnd.GameInfo;
 import swingFrontEnd.SwingFrame;
 import worker.Executor;
 import Request.Requester;
+import Send.Postman;
 import Simulator.Simulator;
 
 /**
@@ -37,7 +38,8 @@ public class Setup
 	}
 	
 	public static void startSender() {
-		
+		Thread sendThread = new Thread(new Postman());
+		sendThread.start();
 	}
 
 	public static void setEnv()

@@ -8,12 +8,12 @@ public class STowerBall extends TowerBall {
 	protected int attack = 10;
 	protected String bulletName = "StalkBulletBall";
 	protected int cost = 500;
-	public STowerBall(int x, int y, int size) {
-		super(x, y, size);
+	public STowerBall(int id, int x, int y, int size) {
+		super(id, x, y, size);
 	}
 
-	public STowerBall(int x, int y) {
-		this(x, y, 1);
+	public STowerBall(int id, int x, int y) {
+		this(id, x, y, 1);
 	}
 
 	public void drawTower() {

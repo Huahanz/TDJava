@@ -15,17 +15,16 @@ import Helpers.ImageHelper;
 import Helpers.TestHelper;
 
 public class FastBall extends DragonBall {
-	public int health = 100;
 	public static int maxHealth = 100;
 	public int stepLength = 20;
 
-	private FastBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	private FastBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 
-	public FastBall(int x, int y) {
-		this(x, y, 12, 15, 20, Config.FastBallImagePath);
+	public FastBall(int id, int x, int y) {
+		this(id, x, y, 12, 15, 20, Config.FastBallImagePath);
 	}
 
 	public void randomWalk() {
@@ -40,14 +39,6 @@ public class FastBall extends DragonBall {
 				}
 			}
 		}
-	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 
 	public int getStepLength() {

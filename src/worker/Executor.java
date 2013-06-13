@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
+import Data.QueueManager;
+import Helpers.GameAux;
+import Helpers.GameManager;
+import Helpers.LogHelper;
 import balls.ActiveBallRunnable;
 import balls.BulletBallRunnable;
 import balls.TowerBallRunnable;
 
 import com.google.gson.internal.LinkedTreeMap;
-
-import Data.QueueManager;
-import Helpers.GameAux;
-import Helpers.GameManager;
-import Helpers.LogHelper;
 
 /**
  * Only one reference(int Main.java). No multithread issue.
@@ -24,9 +23,12 @@ public class Executor {
 
 	}
 
+	/**
+	 * TODO Flush post updates every time switch pvp. 
+	 */
 	public Object start() {
-		int mapID = Scheduler.getNextInMap();
-		ArrayList pvpUpdates = this.loadNextPVPUpdates(mapID);
+		int currentMapID= Scheduler.getNextMap();
+		ArrayList pvpUpdates = this.loadNextPVPUpdates(currentMapID);
 		Object rst = this.parseAndExe(pvpUpdates);
 		//start delegation
 		this.invokeBallThreads();
@@ -48,9 +50,8 @@ public class Executor {
 	}
 
 	private ArrayList loadNextPVPUpdates(int mapID) {
-		int nextMapID = Scheduler.getNextInPVP(mapID);
-		LinkedTreeMap mapUpdates = QueueManager.peekMapUpdates(nextMapID);
-		ArrayList pvpUpdates = (ArrayList) mapUpdates.get(mapID);
+		int currentPVPID = Scheduler.getNextPVP(mapID);
+		ArrayList pvpUpdates = QueueManager.dequeueMapUpdates(currentPVPID);
 		return pvpUpdates;
 	}
 
@@ -89,7 +90,7 @@ public class Executor {
 	 */
 	private boolean assignBalls(ArrayList ballUpdates) {
 		for(Object obj : ballUpdates){
-			int ix = ballUpdates.indexOf(obj);
+			int pvpBallID = ballUpdates.indexOf(obj);
 			LinkedTreeMap updates = (LinkedTreeMap)obj;
 			Set entrySet = updates.keySet();
 			Iterator it = entrySet.iterator();
@@ -99,7 +100,8 @@ public class Executor {
 				int typeID = (int) updates.get(key);
 				String ballName = GameAux.parseBallIDToName(typeID);
 				GameManager gmMgr = GameManager.getInstance();
-				gmMgr.addRandBall(ballName);
+				//TODO add position
+				gmMgr.addRandBall(ballName, pvpBallID);
 			}
 		}
 		return true;

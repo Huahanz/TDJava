@@ -8,13 +8,13 @@ public class StalkBulletBall extends BulletBall {
 
 	int damage = 5;
 
-	public StalkBulletBall(int x, int y, Ball ball) {
-		this(x, y, 5, 5, 50, ball, Config.stalkBulletBallImagePath);
+	public StalkBulletBall(int id, int x, int y, Ball ball) {
+		this(id, x, y, 5, 5, 50, ball, Config.stalkBulletBallImagePath);
 	}
 
-	public StalkBulletBall(int x, int y, int XSIZE, int YSIZE, int stepLength,
+	public StalkBulletBall(int id, int x, int y, int XSIZE, int YSIZE, int stepLength,
 			Ball ball, String imagePath) {
-		super(x, y, XSIZE, YSIZE, stepLength, ball, imagePath);
+		super(id, x, y, XSIZE, YSIZE, stepLength, ball, imagePath);
 	}
 
 	public boolean shoot() {

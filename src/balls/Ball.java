@@ -21,13 +21,14 @@ public abstract class Ball {
 	public String imagePath = null;
 	public BufferedImage image = null;
 
-	public Ball(int x, int y, int XSIZE, int YSIZE, String imagePath) {
+	public Ball(int id, int x, int y, int XSIZE, int YSIZE, String imagePath) {
 		this.x = x;
 		this.y = y;
 		this.XSIZE = XSIZE;
 		this.YSIZE = YSIZE;
 		this.setImagePath(imagePath);
-		this.id = BallCache.addBall(this);
+		BallCache.addBall(id, this);
+		this.id = id;
 	}
 
 //	public Ball(int xSlotNum, int ySlotNum, String imagePath) {

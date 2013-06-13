@@ -1,16 +1,13 @@
 package Send;
 
-import java.util.ArrayList;
+import Helpers.Config;
+import Request.RequestManager;
 
-import org.apache.http.message.BasicNameValuePair;
+public class Postman implements Runnable
+{
 
-import Controller.HttpManager;
-import balls.Ball;
-
-/**
- * Has many references. All methods are static. Need to consider concurrency for all of them.  
- */
-public class PostMan {
+	public void run() {
+		
+	}
 	
-
 }

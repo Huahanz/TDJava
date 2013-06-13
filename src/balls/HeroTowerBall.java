@@ -7,8 +7,8 @@ public class HeroTowerBall extends TowerBall{
 	public static Ball target;
 	public static int mapID = 50;
 	public int cost = 100000;
-	public HeroTowerBall(int x, int y, int size) {
-		super(x, y, size);
+	public HeroTowerBall(int id, int x, int y, int size) {
+		super(id, x, y, size);
 	}
 
 	public void drawTower() {

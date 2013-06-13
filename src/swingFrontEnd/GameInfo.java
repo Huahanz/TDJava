@@ -23,7 +23,7 @@ public class GameInfo {
 	public static SwingPanel swingPanel;
 	public static Rectangle2D Bounds;
 	
-	//TODO change to concurrent Lists.  
+	//TODO change to concurrent Lists -- Vector.  
 	public static ArrayList<Ball> balls = new ArrayList<Ball>();
 	public static ArrayList<Ball> dieBalls = new ArrayList<Ball>();
 	public static ArrayList<BulletBall> bullets = new ArrayList<BulletBall>();

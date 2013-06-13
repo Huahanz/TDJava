@@ -24,10 +24,13 @@ public class BallCache {
 	 * TODO
 	 * @param ball
 	 */
-	public static int addBall(Ball ball) {
-		int id = generateBallID();
+	public static boolean addBall(int id, Ball ball){
+		boolean rst = true;
+		if(ballMap.containsKey(id)){
+			rst = false;
+		}
 		ballMap.put(id, ball);
-		return id;
+		return rst;
 	}
 	
 	public static boolean setBall(int id, Ball ball){
@@ -56,7 +59,7 @@ public class BallCache {
 	/*
 	 * Atomic
 	 */
-	private static int generateBallID() {
+	public static int generateBallID() {
 		int rand = (int) (Math.random() * Integer.MAX_VALUE);
 		while (ballMap.containsKey(rand)) {
 			rand = (int) (Math.random() * Integer.MAX_VALUE);

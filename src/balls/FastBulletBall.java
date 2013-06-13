@@ -7,9 +7,9 @@ public class FastBulletBall extends BulletBall {
 
 	int damage = 4;
 
-	public FastBulletBall(int x, int y, int XSIZE, int YSIZE, int stepLength,
+	public FastBulletBall(int id, int x, int y, int XSIZE, int YSIZE, int stepLength,
 			Ball ball, String imagePath) {
-		super(x, y, XSIZE, YSIZE, stepLength, ball, imagePath);
+		super(id, x, y, XSIZE, YSIZE, stepLength, ball, imagePath);
 	}
 
 	public boolean shoot() {

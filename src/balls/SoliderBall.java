@@ -8,13 +8,13 @@ public class SoliderBall extends PlayerBall {
 	int attack = 10;
 	int scope = 1000;
 
-	public SoliderBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	public SoliderBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 
-	public SoliderBall(int x, int y) {
-		this(x, y, 10, 10, 13, Config.SoliderBallImagePath);
+	public SoliderBall(int id, int x, int y) {
+		this(id, x, y, 10, 10, 13, Config.SoliderBallImagePath);
 	}
 
 	public int getAttack() {

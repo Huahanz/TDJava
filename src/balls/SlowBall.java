@@ -15,13 +15,13 @@ public class SlowBall extends DragonBall {
 	int stepLength = 10;
 	static int maxHealth = 300;
 
-	public SlowBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	public SlowBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 	}
 
-	public SlowBall(int x, int y) {
-		this(x, y, 10, 10, 10, Config.SlowBallImagePath);
+	public SlowBall(int id, int x, int y) {
+		this(id, x, y, 10, 10, 10, Config.SlowBallImagePath);
 	}
 
 	public void randomWalk() {

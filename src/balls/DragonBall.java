@@ -13,9 +13,9 @@ import Helpers.ImageHelper;
 public abstract class DragonBall extends ActiveBall {
 	public static int maxHealth;
 
-	public DragonBall(int x, int y, int XIZE, int YSIZE, int stepLength,
+	public DragonBall(int id, int x, int y, int XIZE, int YSIZE, int stepLength,
 			String imagePath) {
-		super(x, y, XIZE, YSIZE, stepLength, imagePath);
+		super(id, x, y, XIZE, YSIZE, stepLength, imagePath);
 		this.setHealth(this.getMaxHealth());
 	}
 

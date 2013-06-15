@@ -3,24 +3,19 @@ package Data;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 import Helpers.Config;
 
 import net.spy.memcached.MemcachedClient;
 
 public class MemcachePool {
-	private static Vector<MemcachedClient> memcacheInstances = new Vector<MemcachedClient>();
+	private static final ConcurrentHashMap<Integer, MemcachedClient> memcacheInstances = new ConcurrentHashMap<Integer, MemcachedClient>();
 
 	public static MemcachedClient getMemcache(int pool) {
-		if (pool < 0 || pool > Config.MemServers.length) {
-			return null;
-		}
-		MemcachedClient rst = null;
-		if (pool < memcacheInstances.size()) {
-			rst = memcacheInstances.get(pool);
-			if (rst != null) {
-				return rst;
-			}
+		MemcachedClient rst = memcacheInstances.get(pool);
+		if (rst != null) {
+			return rst;
 		}
 
 		String[] memInfo = Config.MemServers[pool];
@@ -35,7 +30,7 @@ public class MemcachePool {
 			return null;
 		}
 
-		memcacheInstances.set(pool, rst);
+		memcacheInstances.put(pool, rst);
 		return rst;
 	}
 }

@@ -11,7 +11,6 @@ public class ActiveBallRunnable extends BallRunnable{
 	}
 
 	public void job(){
-		LogHelper.debug("activeball thread start");
 		for(int i =0; i < GameInfo.balls.size(); i++){
 			Ball ball = GameInfo.balls.get(i);
 			if(ball instanceof DragonBall)

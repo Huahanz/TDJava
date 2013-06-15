@@ -9,7 +9,6 @@ public class TowerBallRunnable extends BallRunnable {
 	}
 
 	public void job() {
-		LogHelper.debug("towerball thread start");
 		for (int i = 0; i < GameInfo.balls.size(); i++) {
 			Ball ball = GameInfo.balls.get(i);
 			if (ball instanceof TowerBall)

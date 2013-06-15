@@ -110,8 +110,7 @@ public class SendWrapper
 		String sy = String.valueOf(y);
 		String sz = String.valueOf(payload);
 		String rst = sx + sy + sz;
-		TestHelper.print(rst);
-		LOGGER.info(rst);
+		LOGGER.info("pack   " + rst);
 		SendManager.enqueuePost(rst);
 		return rst;
 	}

@@ -1,13 +1,20 @@
 TODO 
-Java server
-add mapinfo wrapper
-integrate the pvp post part
-write test for pvp request
-write test for pvp post
-do integration test. 
 
-Android client
+Java server :
+change DS for the pvp post queue
+type cast check
+do integration test.
+unit test
+
+
+PHP server : 
+mem check page
+
+
+Android client :
 write a sample.
 extend the sample to 3 layers : 1, shop; 2, map picker; 3, main 4, mapview
 Do the 1, 2 and 3 layer, and assemble. 
 Port mapview in. 
+
+

@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>design/Todo</name>
+			<type>1</type>
+			<location>/usr/local/pp/TDJava/design/Todo</location>
+		</link>
+	</linkedResources>
 </projectDescription>

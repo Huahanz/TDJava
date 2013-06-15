@@ -1,9 +1,5 @@
 package Wrapper;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-
 import Send.SendWrapper;
 
 import com.google.gson.Gson;
@@ -21,13 +17,14 @@ public class Parser
 		
 	}
 	
-	public static LinkedTreeMap parseIn(String json)
+	//If the return value from PHPServer is Object, it got parse to a linkedtreemap. Otherwise, it parsed to a string.  
+	public static Object parseIn(String json)
 	{
 		Gson gson = new Gson();
 		LinkedTreeMap rst = (LinkedTreeMap) gson.fromJson(json, Object.class);
 		String className = (String) rst.get("class");
 		String method = (String) rst.get("method");
-		LinkedTreeMap rtnVal = (LinkedTreeMap) rst.get("val");
+		Object rtnVal = rst.get("val");
 		return rtnVal;
 	}
 	

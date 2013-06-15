@@ -25,6 +25,10 @@ public class RequestManager {
 
 	}
 
+	public static void main(String[] args){
+		RequestManager r = new RequestManager();
+		r.makeRequest(0);
+	}
 	/**
 	 * We assume for every round, the size of update on the map is small. So we can wait for the json parsing.  
 	 */
@@ -34,7 +38,12 @@ public class RequestManager {
 		String postURL = this
 				.getByMapPostUrl("pvp", "PVPCtrl", "pop_recent_updates");
 		String json = HttpManager.sendPostRequest(formparams, postURL);
-		LinkedTreeMap rst = Parser.parseIn(json);
+		Object obj = Parser.parseIn(json);
+		if(obj == null || obj instanceof String){
+			return null;
+		}
+		LinkedTreeMap rst = (LinkedTreeMap)obj; 
+		LogHelper.debug("requester received " + json);
 		return rst;
 	}
 
@@ -43,12 +52,19 @@ public class RequestManager {
 	}
 
 	private boolean addMapUpdates(int mapID, LinkedTreeMap mapUpdates){
+		if(mapUpdates == null){
+			return false;
+		}
+		LogHelper.debug("requester enqueue updates " + mapUpdates.toString());
 		return QueueManager.enqueueMapUpdates(mapID, mapUpdates);
 	}
 	
 	public boolean makeRequest(int mapID){
 		ArrayList pvpList = new ArrayList<Integer>();
 		LinkedTreeMap mapUpdates = this.getUpdatesByMap(mapID);
+		if(mapUpdates == null){
+			return false;
+		}
 		return this.addMapUpdates(mapID, mapUpdates);		
 	}
 }

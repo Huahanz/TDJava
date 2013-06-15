@@ -9,8 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 import Wrapper.InEntry;
-import Wrapper.InMapWrapper;
-import Wrapper.InPVPWrapper;
 
 public class TDGsonTest {
 	public static void main(String[] args) {

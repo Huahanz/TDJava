@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import swingFrontEnd.GameInfo;
 import swingFrontEnd.SwingFrame;
 import worker.Executor;
+import Helpers.LogHelper;
 import Request.Requester;
 import Send.Postman;
 import Simulator.Simulator;
@@ -26,6 +27,7 @@ public class Setup
 	public static void startSimulator()
 	{
 		Simulator sim = new Simulator();
+		sim.clearData();
 		sim.setupPVPForwardQueue();
 	}
 	
@@ -34,7 +36,7 @@ public class Setup
 		startRequest();
 		startSender();
 		startPanel();
-		startExe();		
+		startExe(0);		
 	}
 	
 	public static void startSender() {
@@ -46,6 +48,7 @@ public class Setup
 	{
 		//calculate map short path
 		GameInfo.loadMap();
+		LogHelper.debug("finish seting up env");
 	}
 	
 	public static void startRequest()
@@ -54,10 +57,16 @@ public class Setup
 		requesterThread.start();
 	}
 	
-	public static void startExe()
+	public static void startExe(int rounds)
 	{
 		Executor exe = new Executor();
-		Object rst = exe.start();
+		for(int i = 0; i <= rounds; i++){
+			LogHelper.debug("start the next round ");
+			Object rst = exe.start();
+			if(rounds == 0){
+				i--;
+			}
+		}
 	}
 	
 }

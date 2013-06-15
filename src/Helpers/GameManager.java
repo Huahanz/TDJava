@@ -23,11 +23,9 @@ import Controller.HttpManager;
 public class GameManager {
 	private static GameManager gameManager = null;
 
-	public static GameManager getInstance() {
+	public static synchronized GameManager getInstance() {
 		if (gameManager == null) {
-			synchronized (gameManager) {
-				gameManager = new GameManager();
-			}
+			gameManager = new GameManager();
 		}
 		return gameManager;
 	}

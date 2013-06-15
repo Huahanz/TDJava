@@ -54,5 +54,5 @@ public class GameAux{
 		}
 		return -1;
 	}
-	
+		
 }

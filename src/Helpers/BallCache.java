@@ -66,5 +66,9 @@ public class BallCache {
 		}
 		return rand;
 	}
+	
+	public static void clear(){
+		ballMap.clear();
+	}
 
 }

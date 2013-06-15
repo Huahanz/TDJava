@@ -14,5 +14,7 @@
 	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4-sources.jar"/>
 	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/google-gson-2.2.4/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/spymemcached-2.9.0-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/huahan.zhang/Downloads/spymemcached-2.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

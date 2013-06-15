@@ -15,11 +15,11 @@ import Helpers.Config;
  */
 public class Scheduler
 {	
-	public static int getNextPVP(int mapID){
-		ArrayList<Integer> pvpList = QueueManager.getMapPVPList(mapID);
+	public static String getNextPVP(int mapID){
+		ArrayList<String> pvpList = QueueManager.getMapPVPList(mapID);
 		int size = pvpList.size();
 		int ix = (int) (Math.random() * size);
-		int pvpID = pvpList.get(ix);
+		String pvpID = pvpList.get(ix);
 		QueueManager.enqueuePVPScheduleQueue(pvpID);
 		return pvpID;
 	}

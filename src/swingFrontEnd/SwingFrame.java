@@ -30,6 +30,7 @@ import balls.*;
 
 import Helpers.Config;
 import Helpers.GameManager;
+import Helpers.LogHelper;
 import Helpers.TestHelper;
 import Invoke.Setup;
 import Request.Requester;
@@ -51,17 +52,17 @@ public class SwingFrame extends JFrame {
 		final String startButtonName = Config.startButtonName;
 		final String simulatorButtonName = Config.simulatorButtonName;
 		
-		addButton(buttonPanel, startButtonName, new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				Setup.startServer();
-			}
-		});
-		
-		addButton(buttonPanel, simulatorButtonName, new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
-				Setup.startSimulator();
-			}
-		});
+//		addButton(buttonPanel, startButtonName, new ActionListener() {
+//			public void actionPerformed(ActionEvent event) {
+//				Setup.startServer();
+//			}
+//		});
+//		
+//		addButton(buttonPanel, simulatorButtonName, new ActionListener() {
+//			public void actionPerformed(ActionEvent event) {
+//				Setup.startSimulator();
+//			}
+//		});
 
 		JPanel textPanel = new JPanel();
 		goldLabel = new JLabel("Gold: " + Config.gold);
@@ -77,7 +78,7 @@ public class SwingFrame extends JFrame {
 		southPanel.add(buttonPanel, BorderLayout.NORTH);
 		southPanel.add(textPanel, BorderLayout.SOUTH);
 		add(southPanel, BorderLayout.SOUTH);
-
+		LogHelper.debug("start panel");
 	}
 
 

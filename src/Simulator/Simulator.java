@@ -6,14 +6,15 @@ import org.apache.http.message.BasicNameValuePair;
 
 import Controller.HttpManager;
 import Helpers.FilterHelper;
+import Helpers.LogHelper;
 import Wrapper.Parser;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 
 /**
- * Can only get access from here. No concurrency issue. 
- *
+ * Can only get access from here. No concurrency issue.
+ * 
  */
 public class Simulator {
 
@@ -45,6 +46,7 @@ public class Simulator {
 			ballIDs = FilterHelper.randFilterArrayList(ballIDs, 1);
 			this.assignBalls(ballIDs, playerIDs[i], pvpID);
 		}
+		LogHelper.debug("finish seting up forward queue");
 	}
 
 	protected Object assignBalls(ArrayList<String> ballIDs, String playerID,
@@ -57,7 +59,7 @@ public class Simulator {
 		formparams.add(new BasicNameValuePair("pvp_id", pvpID));
 		String json = HttpManager.requestController(formparams, "pvp",
 				"PVPCtrl", "assign_balls");
-		System.out.println("assignball : " + json);
+		LogHelper.info("assignball : " + json);
 		return null;
 	}
 
@@ -67,8 +69,8 @@ public class Simulator {
 		formparams.add(new BasicNameValuePair("pvp_id", pvpID));
 		String json = HttpManager.requestController(formparams, "map",
 				"MapCtrl", "join_pvp_map");
-		System.out.println("joinpvp : " + json);
-		LinkedTreeMap obj = Parser.parseIn(json);
+		LogHelper.info("joinpvp : " + json);
+		LinkedTreeMap obj = (LinkedTreeMap) Parser.parseIn(json);
 		return (String) (obj.get("pvp_id"));
 	}
 
@@ -78,9 +80,9 @@ public class Simulator {
 		formparams.add(new BasicNameValuePair("map_id", mapID));
 		String json = HttpManager.requestController(formparams, "map",
 				"MapCtrl", "load_or_create_map");
-		System.out.println("createPVP" + json);
+		LogHelper.info("createPVP" + json);
 		Gson gson = new Gson();
-		LinkedTreeMap obj = Parser.parseIn(json);
+		LinkedTreeMap obj = (LinkedTreeMap) Parser.parseIn(json);
 		Object pvpID = obj.get("pvp_id");
 		// String pvpID = (String) (obj.get("pvp_id"));
 		return pvpID;
@@ -91,9 +93,9 @@ public class Simulator {
 		formparams.add(new BasicNameValuePair("udid", udid));
 		String json = HttpManager.requestController(formparams, "player",
 				"PlayerCtrl", "add_player");
-		System.out.println("createPlayer" + json);
+		LogHelper.info("createPlayer" + json);
 		Gson gson = new Gson();
-		LinkedTreeMap obj = Parser.parseIn(json);
+		LinkedTreeMap obj = (LinkedTreeMap) Parser.parseIn(json);
 		String playerID = (String) obj.get("player_id");
 		return playerID;
 	}
@@ -106,9 +108,18 @@ public class Simulator {
 				.toJson(ballTypeIDs)));
 		String json = HttpManager.requestController(formparams, "ball",
 				"BallCtrl", "add_balls");
-		System.out.println("addBalls" + json);
-		LinkedTreeMap obj = Parser.parseIn(json);
+		LogHelper.info("addBalls" + json);
+		LinkedTreeMap obj = (LinkedTreeMap) Parser.parseIn(json);
 		ArrayList<String> ballIDs = (ArrayList<String>) obj.get("ball_ids");
 		return ballIDs;
+	}
+
+	public static void clearData() {
+		HttpManager.requestController(new ArrayList<BasicNameValuePair>(),
+				"tests", "AuxCtrl", "clear_db");
+		LogHelper.debug("cleared db");
+		HttpManager.requestController(new ArrayList<BasicNameValuePair>(),
+				"tests", "AuxCtrl", "clear_mem");
+		LogHelper.debug("cleared mem");
 	}
 }

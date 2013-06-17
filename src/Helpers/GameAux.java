@@ -32,7 +32,8 @@ public class GameAux{
 	}
 	
 	public static int mapFullBallType(String fullBallType){
-		String ballType = fullBallType.substring(5);
+		//Because all class name start with "balls."
+		String ballType = fullBallType.substring(6);
 		return mapBallType(ballType);
 	}
 

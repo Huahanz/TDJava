@@ -21,6 +21,7 @@ import balls.TowerBallRunnable;
 import Helpers.AuxRunnable;
 import Helpers.Config;
 import Helpers.GameManager;
+import Helpers.LogHelper;
 import Helpers.MapData;
 import Helpers.TestHelper;
 import Map.ShortPath;
@@ -63,10 +64,30 @@ public class GameInfo {
 		boolean empty = !file.exists() || file.length() == 0;
 		return empty;
 	}
-	private static ShortPath deserialize() throws IOException, ClassNotFoundException{
-		FileInputStream fis = new FileInputStream(filePathPrefix);
+	private static void deserialize() throws IOException, ClassNotFoundException{
+		FileInputStream fis = new FileInputStream(filePathPrefix + "mapDir");
 		ObjectInputStream iis = new ObjectInputStream(fis);
-		return (ShortPath) iis.readObject();
+		mapDir = (byte[][][][]) iis.readObject();
+		
+		fis = new FileInputStream(filePathPrefix + "mapPath");
+		iis = new ObjectInputStream(fis);
+		mapPath= (float[][][][]) iis.readObject();
+		
+		fis = new FileInputStream(filePathPrefix + "breakDir");
+		iis = new ObjectInputStream(fis);
+		breakDir= (byte[][][][]) iis.readObject();
+		
+		fis = new FileInputStream(filePathPrefix + "breakPath");
+		iis = new ObjectInputStream(fis);
+		breakPath= (float[][][][]) iis.readObject();
+		
+		fis = new FileInputStream(filePathPrefix + "TDDirMap");
+		iis = new ObjectInputStream(fis);
+		TDDirMap= (byte[][]) iis.readObject();
+		
+		fis = new FileInputStream(filePathPrefix + "TDPathMap");
+		iis = new ObjectInputStream(fis);
+		TDPathMap= (float[][]) iis.readObject();
 	}
 	
 	private static void serialize() throws IOException{
@@ -133,8 +154,11 @@ public class GameInfo {
 		if(!isSerialized()){
 			calculateMap();
 		}else{
+			LogHelper.debug("Deserialize path from file. ");
 			deserialize();
 		}
+		m = currentMap[0].length;
+		n = currentMap.length;
 		TDDirMap = mapDir[n - 1][m - 1];
 		TDPathMap = mapPath[n - 1][m - 1];
 		shortPathWrapper = new ShortPath();

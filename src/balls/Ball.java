@@ -7,6 +7,7 @@ import swingFrontEnd.GameInfo;
 
 import Helpers.BallCache;
 import Helpers.Config;
+import Helpers.GameAux;
 
 /**
  * Update to monitor pattern with synchronization. 
@@ -32,7 +33,8 @@ public abstract class Ball {
 	}
 
 	public String toString(){
-		return this.getClass().toString();
+		String className = this.getClass().toString();
+		return String.valueOf(GameAux.mapFullBallType(className));
 	}
 
 	public int getId() {

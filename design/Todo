@@ -1,7 +1,12 @@
 TODO 
 
 Java server :
-Performance Log and Test
+
+Performance Log and Test -> T(server response), T(requester/round), T(executer/round), T(postman/round). 
+Adjust parameters as to the result from performance data.  
+
+large scale tests. 
+
 type cast check
 do integration test.
 unit test

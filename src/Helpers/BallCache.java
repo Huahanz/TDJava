@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
+import Wrapper.MapInfo;
 import balls.Ball;
 
 /**
@@ -69,6 +70,11 @@ public class BallCache {
 	
 	public static void clear(){
 		ballMap.clear();
+	}
+	
+	public static void restoreMapInfo(MapInfo mapInfo){
+		Map oldBallMap = mapInfo.getBallMap();
+		ballMap.putAll(oldBallMap);
 	}
 
 }

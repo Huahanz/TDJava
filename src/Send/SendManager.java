@@ -24,7 +24,7 @@ public class SendManager {
 
 	}
 
-	public static void enqueuePost(String rst) {
+	public static void enqueuePost(int rst) {
 		QueueManager.enqueuePVPPost(rst);
 	}
 

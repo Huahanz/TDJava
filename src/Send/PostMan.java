@@ -1,6 +1,7 @@
 package Send;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
@@ -32,6 +33,7 @@ public class Postman implements Runnable {
 			boolean isEmpty = QueueManager.isPVPPostQueueEmpty();
 			if(!isEmpty){
 				PVPPostWrapper first = QueueManager.popupPVPPostWrapper();
+				HashMap<Integer, Vector<Integer>> pvpMap = first.transform();
 				String pvpID = first.getPvpID();
 				int slot = this.getWriteSlot(pvpID);
 				LogHelper.debug("postman get slot" + slot);
@@ -40,16 +42,14 @@ public class Postman implements Runnable {
 				MemcacheManager mem = new MemcacheManager(slot);
 				
 				//set pvp updates 
-				LinkedTreeMap playerMap = this.getPlayers(pvpID);
-				Set entrySet = playerMap.keySet();
+				Set entrySet = pvpMap.keySet();
 				Iterator it = entrySet.iterator();
 				//A waste of loop, because the update normally has just on element 
 				while(it.hasNext()){
-					String playerID = (String) it.next();
-					String pvpPlayerID = (String) playerMap.get(playerID);		
+					int pvpPlayerID = (int) it.next();
 					String key = this.getPVPUpdateKey(pvpID, slot, pvpPlayerID);
-					LogHelper.debug("postman writing pvpupdates to mem key" + key + " val : " + first.getPvpPostQueue().toString());
-					mem.set(key, first.getPvpPostQueue(), 0);
+					LogHelper.debug("postman writing pvpupdates to mem key" + key + " val : " + pvpMap.get(pvpPlayerID).toString());
+					mem.set(key, pvpMap.get(pvpPlayerID), 0);
 				}
 				
 				//set map info
@@ -58,7 +58,7 @@ public class Postman implements Runnable {
 				mem.set(key, first.getMapPostInfo(), 0);
 			}
 			try {
-				Thread.sleep(150);
+				Thread.sleep(15);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -72,7 +72,7 @@ public class Postman implements Runnable {
 	}
 
 	//$prefix . "updates:pvp_id:$pvp_id:slot_num:$slot_num:pvp_player_id:$pvp_player_id";
-	private String getPVPUpdateKey(String pvpID, int slot, String pvpPlayerID) {
+	private String getPVPUpdateKey(String pvpID, int slot, int pvpPlayerID) {
 		String prefix = "PVPBackwardManager:";
 		return prefix +  "updates:pvp_id:" + pvpID + ":slot_num:" + slot + ":pvp_player_id:" + pvpPlayerID;
 	}
@@ -107,20 +107,20 @@ public class Postman implements Runnable {
 		return Boolean.valueOf(rst);
 	}
 	
-	private LinkedTreeMap getPlayers(String pvpID){
-		ArrayList<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
-		formparams.add(new BasicNameValuePair("pvp_id", pvpID));
-		String postURL = this
-				.getByMapPostUrl("pvp", "PVPCtrl", "get_players");
-		String json = HttpManager.sendPostRequest(formparams, postURL);
-		Object obj = Parser.parseIn(json);
-		if(obj == null){
-			LogHelper.error("empty response from pvpctrl.get_players");
-			return null;
-		}
-		LinkedTreeMap player_id_map =  (LinkedTreeMap) obj;
-		return player_id_map;
-	}
+//	private LinkedTreeMap getPlayers(String pvpID){
+//		ArrayList<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
+//		formparams.add(new BasicNameValuePair("pvp_id", pvpID));
+//		String postURL = this
+//				.getByMapPostUrl("pvp", "PVPCtrl", "get_players");
+//		String json = HttpManager.sendPostRequest(formparams, postURL);
+//		Object obj = Parser.parseIn(json);
+//		if(obj == null){
+//			LogHelper.error("empty response from pvpctrl.get_players");
+//			return null;
+//		}
+//		LinkedTreeMap player_id_map =  (LinkedTreeMap) obj;
+//		return player_id_map;
+//	}
 	
 	private String getByMapPostUrl(String dir, String className, String method) {
 		return dir + ":" + className + ":" + method;

@@ -45,8 +45,9 @@ public class Config
 	public static final int ImageWidth = 30;
 	public static final int ImageHeight = 30;
 	public static boolean isWallBuilt = false;
-	public static final int numPerRound = 10000;
+	public static final int numPerRound = 50;
 	public static final String[][] MemServers = {{"127.0.0.1","25001"}, {"127.0.0.1", "11211"}};
+	public static int ballThreadWait = 300;
 	/**
 	 * income queue
 	 */

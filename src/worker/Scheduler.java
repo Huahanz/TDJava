@@ -15,11 +15,15 @@ import Helpers.Config;
  */
 public class Scheduler
 {	
+	/**
+	 * TODO imp load balancer
+	 */
 	public static String getNextPVP(int mapID){
 		ArrayList<String> pvpList = QueueManager.getMapPVPList(mapID);
 		int size = pvpList.size();
 		int ix = (int) (Math.random() * size);
 		String pvpID = pvpList.get(ix);
+		//only for log. 
 		QueueManager.enqueuePVPScheduleQueue(pvpID);
 		return pvpID;
 	}

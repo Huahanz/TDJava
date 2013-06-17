@@ -31,13 +31,9 @@ public abstract class Ball {
 		this.id = id;
 	}
 
-//	public Ball(int xSlotNum, int ySlotNum, String imagePath) {
-//
-//	}
-//
-//	public Ball(int xSlotNum, int ySlotNum) {
-//
-//	}
+	public String toString(){
+		return this.getClass().toString();
+	}
 
 	public int getId() {
 		return id;

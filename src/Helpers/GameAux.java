@@ -30,6 +30,11 @@ public class GameAux{
 		}
 		return i;
 	}
+	
+	public static int mapFullBallType(String fullBallType){
+		String ballType = fullBallType.substring(5);
+		return mapBallType(ballType);
+	}
 
 	public static int mapAction(String action){
 		String[] actions = {};

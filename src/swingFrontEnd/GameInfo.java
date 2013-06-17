@@ -2,7 +2,15 @@ package swingFrontEnd;
 
 import java.awt.BorderLayout;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import balls.ActiveBallRunnable;
 import balls.Ball;
@@ -15,6 +23,7 @@ import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.MapData;
 import Helpers.TestHelper;
+import Map.ShortPath;
 /**
  * TODO concurrency issues. 
  *
@@ -24,23 +33,86 @@ public class GameInfo {
 	public static Rectangle2D Bounds;
 	
 	//TODO change to concurrent Lists -- Vector.  
-	public static ArrayList<Ball> balls = new ArrayList<Ball>();
-	public static ArrayList<Ball> dieBalls = new ArrayList<Ball>();
-	public static ArrayList<BulletBall> bullets = new ArrayList<BulletBall>();
+	public static Vector<Ball> balls = new Vector<Ball>();
+	public static Vector<Ball> dieBalls = new Vector<Ball>();
+	public static Vector<BulletBall> bullets = new Vector<BulletBall>();
 	
 	//TODO move to another class and change type to final 
-	public static byte[][][][] mapDir; // the shortest path move direction
-	public static float[][][][] mapPath; // the shortest path length
+	//belongs to the may static info, won't change during switches of pvps.
+	public static byte[][][][] mapDir; // the shortest path move direction 
+	public static float[][][][] mapPath; // the shortest path length. 
 	public static byte[][][][] breakDir; // the shortest path move direction
 	public static float[][][][] breakPath; // the shortest path length
 	public static byte[][] TDDirMap;
 	public static float[][] TDPathMap;
+	public static String filePathPrefix = "path";
+	public static ShortPath shortPathWrapper;
+	
+	private static boolean isSerialized(){
+		String[] fileNames = {"mapDir", "mapPath", "breakDir", "breakPath", "TDDirMap", "TDPathMap"};
+		for(String fileName : fileNames){
+			boolean isEmpty = isFileEmpty(filePathPrefix + fileName);
+			if(isEmpty){
+				return false;
+			}
+		}
+		return true;
+	}
+	private static boolean isFileEmpty(String fileName){
+		File file = new File(fileName);
+		boolean empty = !file.exists() || file.length() == 0;
+		return empty;
+	}
+	private static ShortPath deserialize() throws IOException, ClassNotFoundException{
+		FileInputStream fis = new FileInputStream(filePathPrefix);
+		ObjectInputStream iis = new ObjectInputStream(fis);
+		return (ShortPath) iis.readObject();
+	}
+	
+	private static void serialize() throws IOException{
+		FileOutputStream fos = new FileOutputStream(filePathPrefix + "mapDir");
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(mapDir);
+		
+		fos = new FileOutputStream(filePathPrefix + "mapPath");
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(mapPath);
+		
+		fos = new FileOutputStream(filePathPrefix + "breakDir");
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(breakDir);
+		
+		fos = new FileOutputStream(filePathPrefix + "breakPath");
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(breakPath);
+		
+		fos = new FileOutputStream(filePathPrefix + "TDDirMap");
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(TDDirMap);
+		
+		fos = new FileOutputStream(filePathPrefix + "TDPathMap");
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(TDPathMap);
+	}
+
+	
+	//This need to change for every pvp. 
 	public static int[][] currentMap; // the map
 	private static boolean[][][][] marks; // temp marks
 	
 	static int m = 0;
 	static int n = 0;
-
+	
+	public static void clearBalls(){
+		balls = new Vector<Ball>();
+		dieBalls = new Vector<Ball>();
+		bullets = new Vector<BulletBall>();
+	}
+	
+	public static void clearMap(){
+		currentMap = MapData.loadMap(Config.defaultTestMapNum);
+	}
+	
 	public static boolean load(SwingFrame swingFrame) {
 		swingFrame.setSize(Config.defaultWidth, Config.defaultHeight);
 		GameInfo.swingPanel = new SwingPanel();
@@ -52,12 +124,21 @@ public class GameInfo {
 		return true;
 	}
 
-	public static void loadMap() {
+	/*
+	 * TODO support multiple maps.
+	 */
+	public static void loadMap() throws IOException, ClassNotFoundException {
 		// if not in db
 		currentMap = MapData.loadMap(Config.defaultTestMapNum);
-		calculateMap();
+		if(!isSerialized()){
+			calculateMap();
+		}else{
+			deserialize();
+		}
 		TDDirMap = mapDir[n - 1][m - 1];
 		TDPathMap = mapPath[n - 1][m - 1];
+		shortPathWrapper = new ShortPath();
+		serialize();
 	}
 
 	public static void calculateTDMap() {
@@ -321,6 +402,9 @@ public class GameInfo {
 		}
 	}
 
+	/**
+	 * Deprecated
+	 */
 	public static void startTD() {
 		//GameInfo.loadMap();
 		if(Config.isWallBuilt){

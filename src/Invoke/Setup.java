@@ -1,5 +1,7 @@
 package Invoke;
 
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 import swingFrontEnd.GameInfo;
@@ -31,7 +33,7 @@ public class Setup
 		sim.setupPVPForwardQueue();
 	}
 	
-	public static void startServer(){
+	public static void startServer() throws IOException, ClassNotFoundException{
 		setEnv();
 		startRequest();
 		startSender();
@@ -44,7 +46,7 @@ public class Setup
 		sendThread.start();
 	}
 
-	public static void setEnv()
+	public static void setEnv() throws IOException, ClassNotFoundException
 	{
 		//calculate map short path
 		GameInfo.loadMap();

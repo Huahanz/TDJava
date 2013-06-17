@@ -14,7 +14,7 @@ public class LogHelper {
 	}
 	
 	public static void debug(String s) {
-//		System.out.println("DEBUG : " + s);
+		System.out.println("DEBUG : " + s);
 	}
 
 	public static void info(String s) {

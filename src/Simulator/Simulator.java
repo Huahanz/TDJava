@@ -22,23 +22,26 @@ public class Simulator {
 
 	}
 
-	public void setupPVPForwardQueue() {
+	public void setupPVPForwardQueue(int playerSize, int ballSize, int pvpSize) {
 		// create player
 		// add balls
-		int playerSize = 10;
+		if(playerSize <= 0 || pvpSize <= 0 || pvpSize > playerSize){
+			return;
+		}
 		String mapID = "0";
 		String[] udids = new String[playerSize];
 		String[] playerIDs = new String[playerSize];
+		int pvpFreq = playerSize / pvpSize;
 		int randBase = Math.max(playerSize,
 				(int) (Math.random() * Integer.MAX_VALUE));
-		String[] balls = { "0", "1", "1" };
+		String[] balls = generateBallIDs(ballSize);
 		String pvpID = null;
 		for (int i = 0; i < playerSize; i++) {
 			udids[i] = String.valueOf(randBase - i);
 			playerIDs[i] = (String) this.createrPlayer(udids[i]);
 			ArrayList<String> ballIDs = (ArrayList<String>) this.addBalls(
 					playerIDs[i], balls);
-			if (i % 5 == 0) {
+			if (i % pvpFreq == 0) {
 				pvpID = (String) this.createPVP(playerIDs[i], mapID);
 			} else {
 				this.joinPVP(playerIDs[i], pvpID);
@@ -49,6 +52,14 @@ public class Simulator {
 		LogHelper.debug("finish seting up forward queue");
 	}
 
+	private String[] generateBallIDs(int ballSize){
+		String[] rst = new String[ballSize];
+		for(int i = 0; i < ballSize; i++){
+			int ballID = Math.random() > 0.5 ? 1 : 0 ;
+			rst[i] = String.valueOf(ballID);
+		}
+		return rst;
+	}
 	protected Object assignBalls(ArrayList<String> ballIDs, String playerID,
 			String pvpID) {
 		Gson gson = new Gson();

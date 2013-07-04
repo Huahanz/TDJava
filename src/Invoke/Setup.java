@@ -30,7 +30,7 @@ public class Setup
 	{
 		Simulator sim = new Simulator();
 		sim.clearData();
-		sim.setupPVPForwardQueue();
+		sim.setupPVPForwardQueue(10, 3, 2);
 	}
 	
 	public static void startServer() throws IOException, ClassNotFoundException{
@@ -69,6 +69,10 @@ public class Setup
 				i--;
 			}
 		}
+	}
+	
+	public static void stopServer(){
+		
 	}
 	
 }

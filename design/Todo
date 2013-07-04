@@ -4,11 +4,8 @@ Java server :
 
 Performance Log and Test -> T(server response), T(requester/round), T(executer/round), T(postman/round). 
 Adjust parameters as to the result from performance data.  
+Do stress test. large scale tests. 
 
-large scale tests. 
-
-type cast check
-do integration test.
 unit test
 
 

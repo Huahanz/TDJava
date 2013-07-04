@@ -3,13 +3,11 @@ package worker;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.BrokenBarrierException;
 
 import swingFrontEnd.GameInfo;
-
 import Data.QueueManager;
 import Helpers.BallCache;
-import Helpers.Config;
 import Helpers.GameAux;
 import Helpers.GameManager;
 import Helpers.LogHelper;
@@ -17,6 +15,7 @@ import Model.PVPStore;
 import Send.SendWrapper;
 import Wrapper.MapInfo;
 import balls.ActiveBallRunnable;
+import balls.BallRunnable;
 import balls.BulletBallRunnable;
 import balls.TowerBallRunnable;
 
@@ -27,7 +26,6 @@ import com.google.gson.internal.LinkedTreeMap;
  * 
  */
 public class Executor {
-//	public static AtomicInteger count = new AtomicInteger(0);
 
 	public Executor() {
 
@@ -51,15 +49,7 @@ public class Executor {
 		ArrayList pvpUpdates = QueueManager.dequeueMapUpdates(currentPVPID);
 		Object rst = this.parseAndExe(pvpUpdates);
 		this.invokeBallThreads();	
-		try {
-			int tmp = SendWrapper.checkSeqNum();
-			while (tmp < Config.numPerRound) {
-				Thread.sleep(5);
-				tmp = SendWrapper.checkSeqNum();
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		this.waitThreads();
 		LogHelper.debug("exe awake");
 		
 		//backup everything
@@ -72,42 +62,6 @@ public class Executor {
 		return rst;
 	}
 	
-//	/**
-//	 * Deprecated 
-//	 */
-//	public Object start() {
-//		SendWrapper.resetSeqNum();
-//		int currentMapID = Scheduler.getNextMap();
-//		// ArrayList pvpUpdates = this.loadNextPVPUpdates(currentMapID);
-//
-//		String currentPVPID = Scheduler.getNextPVP(currentMapID);
-//		LogHelper.debug("start EXE on " + currentPVPID);
-//
-//		ArrayList pvpUpdates = QueueManager.dequeueMapUpdates(currentPVPID);
-//
-//		//Retore the last pvpinfo, put them into the queue. Then create a new pvpinfo for this round. 
-//		MapInfo mapInfo = new MapInfo();
-//		QueueManager.switchPVPPostQueue(mapInfo, currentPVPID); // should before invoke ball threads. 
-//		Object rst = this.parseAndExe(pvpUpdates);
-//		// start delegation
-//		this.invokeBallThreads();
-//		try {
-//			int tmp = SendWrapper.checkSeqNum();
-//			while (tmp < Config.numPerRound) {
-//				Thread.sleep(5);
-//				tmp = SendWrapper.checkSeqNum();
-////				LogHelper.debug("exe still waiting for " + tmp + " < " );
-//			}
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		LogHelper.debug("exe awake");
-//		//add old mapinfo to pvpstore
-//		PVPStore.putPVPStore(currentPVPID, new MapInfo());
-//		this.teardown();
-//		return rst;
-//	}
-
 	private void teardown() {	
 		BallCache.clear();
 		GameInfo.clearBalls();
@@ -115,20 +69,14 @@ public class Executor {
 	}
 
 	private void waitThreads(){
-		while(!activeBallRunnable.isStopped() || !towerBallRunnable.isStopped()|| !bulletBallRunnable.isStopped()){
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		try {
+			BallRunnable.barrier.await();
+			LogHelper.debug("after the first barrier wait");
+		} catch (InterruptedException | BrokenBarrierException e) {
+			e.printStackTrace();
 		}
-		activeBallThread.yield();
-		towerThread.yield();
-		bulletThread.yield();
-		activeBallThread.stop();
-		towerThread.stop();
-		bulletThread.stop();
 	}
+	
 	/**
 	 * TODO imp threadpool
 	 */
@@ -162,11 +110,6 @@ public class Executor {
 		towerThread = new Thread(towerBallRunnable); 
 		bulletThread = new Thread(bulletBallRunnable);
 	}
-	// private ArrayList loadNextPVPUpdates(int mapID) {
-	// String currentPVPID = Scheduler.getNextPVP(mapID);
-	// ArrayList pvpUpdates = QueueManager.dequeueMapUpdates(currentPVPID);
-	// return pvpUpdates;
-	// }
 
 	/**
 	 * pvpUpdates format : { type => {field_type => field_val} }

@@ -1,5 +1,8 @@
 package balls;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 import Helpers.Config;
 import Helpers.LogHelper;
 import Send.SendWrapper;
@@ -8,6 +11,7 @@ import worker.Executor;
 
 public abstract class BallRunnable implements Runnable{
 
+	public static CyclicBarrier barrier = new CyclicBarrier(4);
 	public BallRunnable(){
 	}
 	public void run() {
@@ -22,7 +26,14 @@ public abstract class BallRunnable implements Runnable{
 			count = SendWrapper.checkSeqNum();
 		}
 		LogHelper.debug("arrive the limit, notifing others. ");
-//			notifyAll();
+		
+		this.stop();
+		try {
+			barrier.await();
+		} catch (InterruptedException | BrokenBarrierException e) {
+			e.printStackTrace();
+		}
+		Thread.currentThread().interrupt();
 	}
 	protected boolean stopped = false;
 	private void stop(){

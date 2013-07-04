@@ -32,30 +32,7 @@ public class Postman implements Runnable {
 		while (true) {
 			boolean isEmpty = QueueManager.isPVPPostQueueEmpty();
 			if(!isEmpty){
-				PVPPostWrapper first = QueueManager.popupPVPPostWrapper();
-				HashMap<Integer, Vector<Integer>> pvpMap = first.transform();
-				String pvpID = first.getPvpID();
-				int slot = this.getWriteSlot(pvpID);
-				LogHelper.debug("postman get slot" + slot);
-				this.setWriteSlot(pvpID);
-				//write to memcache directly. 
-				MemcacheManager mem = new MemcacheManager(slot);
-				
-				//set pvp updates 
-				Set entrySet = pvpMap.keySet();
-				Iterator it = entrySet.iterator();
-				//A waste of loop, because the update normally has just on element 
-				while(it.hasNext()){
-					int pvpPlayerID = (int) it.next();
-					String key = this.getPVPUpdateKey(pvpID, slot, pvpPlayerID);
-					LogHelper.debug("postman writing pvpupdates to mem key" + key + " val : " + pvpMap.get(pvpPlayerID).toString());
-					mem.set(key, pvpMap.get(pvpPlayerID), 0);
-				}
-				
-				//set map info
-				String key = this.getMapInfoKey(pvpID, slot);
-				LogHelper.debug("postman writing mapinfo to mem key" + key + "val : " + first.getMapPostInfo().toString());
-				mem.set(key, first.getMapPostInfo(), 0);
+				this.post();
 			}
 			try {
 				Thread.sleep(15);
@@ -63,6 +40,34 @@ public class Postman implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void post(){
+		PVPPostWrapper first = QueueManager.popupPVPPostWrapper();
+		HashMap<Integer, Vector<Integer>> pvpMap = first.transform();
+		String pvpID = first.getPvpID();
+		int slot = this.getWriteSlot(pvpID);
+		LogHelper.debug("postman get slot" + slot);
+		this.setWriteSlot(pvpID);
+		
+		//write to memcache directly.
+		MemcacheManager mem = new MemcacheManager(slot);
+
+		//set pvp updates 
+		Set entrySet = pvpMap.keySet();
+		Iterator it = entrySet.iterator();
+		//A waste of loop, because the update normally has just on element 
+		while(it.hasNext()){
+			int pvpPlayerID = (int) it.next();
+			String key = this.getPVPUpdateKey(pvpID, slot, pvpPlayerID);
+			LogHelper.debug("postman writing pvpupdates to mem key" + key + " val : " + pvpMap.get(pvpPlayerID).toString());
+			mem.set(key, pvpMap.get(pvpPlayerID), 0);
+		}
+		
+		//set map info
+		String key = this.getMapInfoKey(pvpID, slot);
+		LogHelper.debug("postman writing mapinfo to mem key" + key + "val : " + first.getMapPostInfo().toString());
+		mem.set(key, first.getMapPostInfo(), 0);
 	}
 
 	//$prefix . "map_data:pvp_id:$pvp_id:slot_num:$slot_num";

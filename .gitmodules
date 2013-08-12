@@ -1,0 +1,3 @@
+[submodule "TDAI"]
+	path = TDAI
+	url = git@github.com:ZhangHuahan/TDAI.git

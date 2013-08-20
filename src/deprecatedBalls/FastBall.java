@@ -1,4 +1,4 @@
-package balls;
+package deprecatedBalls;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

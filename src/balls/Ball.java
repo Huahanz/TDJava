@@ -1,93 +1,72 @@
-package balls;
+package Balls;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-
-import swingFrontEnd.GameInfo;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import Helpers.BallCache;
 import Helpers.Config;
 import Helpers.GameAux;
 
-/**
- * Update to monitor pattern with synchronization. 
- *
- */
-public abstract class Ball {
-	public final int id;
-	public int x;
-	public int y;
-	public int XSIZE;
-	public int YSIZE;
-	public String imagePath = null;
-	public BufferedImage image = null;
-
+public abstract class Ball
+{
 	public Ball(int id, int x, int y, int XSIZE, int YSIZE, String imagePath) {
-		this.x = x;
-		this.y = y;
+		this.x = new AtomicInteger(x);
+		this.y = new AtomicInteger(y);
 		this.XSIZE = XSIZE;
 		this.YSIZE = YSIZE;
-		this.setImagePath(imagePath);
+		this.imagePath = imagePath;
 		BallCache.addBall(id, this);
 		this.id = id;
 	}
-
+	
 	public String toString(){
 		String className = this.getClass().toString();
 		return String.valueOf(GameAux.mapFullBallType(className));
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public int getXSIZE() {
-		return XSIZE;
-	}
-
-	public void setXSIZE(int xSIZE) {
-		XSIZE = xSIZE;
-	}
-
-	public int getYSIZE() {
-		return YSIZE;
-	}
-
-	public void setYSIZE(int ySIZE) {
-		YSIZE = ySIZE;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
+	
 	public Object getShape() {
-		return new Ellipse2D.Double(getX()-Config.DragonImageSize, getY() - Config.DragonImageSize, XSIZE, YSIZE);
+		return new Ellipse2D.Double(this.x.get()-Config.DragonImageSize, this.y.get() - Config.DragonImageSize, XSIZE, YSIZE);
+	}
+	
+	/**
+	 * The following four functions are just used for convenience. 
+	 */
+	public int getX(){
+		return this.x.get();
+	}
+	
+	public int getY(){
+		return this.y.get();
+	}
+	
+	public int setX(int x){
+		this.x.getAndSet(x);
+		return this.x.get();
+	}
+	
+	public int setY(int y){
+		this.y.getAndSet(y);
+		return this.y.get();
+	}
+	
+	public int addAndGetX(int delta){
+		return this.x.addAndGet(delta);
 	}
 
-	public abstract BufferedImage getImage();
-
-	public void setImage(BufferedImage image) {
-		this.image = image;
+	public int addAndGetY(int delta){
+		return this.y.addAndGet(delta);
 	}
-
-	public String getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
+	
+	public final int id;
+	/*
+	 * The reason we separate x and y instead of using a pos function to update them together is that
+	 * we treat x and y as two independent properties, which actually should be.  
+	 */
+	private AtomicInteger x;
+	private AtomicInteger y;
+	public int XSIZE;
+	public int YSIZE;
+	public String imagePath = null;
+	public BufferedImage image = null;
 }

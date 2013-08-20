@@ -1,4 +1,4 @@
-package balls;
+package deprecatedBalls;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

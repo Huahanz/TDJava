@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Wrapper.MapInfo;
-import balls.Ball;
+import Balls.Ball;
 
 /**
  * Map ballID to ball reference Many reference. Check multithread issues. 

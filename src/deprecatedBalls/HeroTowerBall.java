@@ -1,4 +1,4 @@
-package balls;
+package deprecatedBalls;
 
 import swingFrontEnd.GameInfo;
 

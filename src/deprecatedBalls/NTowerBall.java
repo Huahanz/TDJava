@@ -1,25 +1,23 @@
-package balls;
+package deprecatedBalls;
 
 import swingFrontEnd.GameInfo;
 
-public class STowerBall extends TowerBall {
-	public static int mapID = 30;
-	protected int scope = 400;
-	protected int attack = 10;
-	protected String bulletName = "StalkBulletBall";
-	protected int cost = 500;
-	public STowerBall(int id, int x, int y, int size) {
+public class NTowerBall extends TowerBall{
+	public static int mapID = 40;
+	protected int scope = 26;
+	protected int attack = 4;
+	protected String bulletName = "FastBulletBall";
+	protected int cost = 2000;
+	
+	public NTowerBall(int id, int x, int y, int size) {
 		super(id, x, y, size);
 	}
-
-	public STowerBall(int id, int x, int y) {
+	public NTowerBall(int id, int x, int y){
 		this(id, x, y, 1);
 	}
-
 	public void drawTower() {
-		GameInfo.currentMap[ySlotNum][xSlotNum] = STowerBall.mapID;
+		GameInfo.currentMap[ySlotNum][xSlotNum] = NTowerBall.mapID;
 	}
-
 	public int getScope() {
 		return scope;
 	}
@@ -44,15 +42,12 @@ public class STowerBall extends TowerBall {
 		this.bulletName = bulletName;
 	}
 	public int getMapID() {
-		return STowerBall.mapID;
+		return NTowerBall.mapID;
 	}
-
 	public void setMapID(int mapID) {
-		STowerBall.mapID = mapID;
+		NTowerBall.mapID = mapID;
 	}
-
 	public int getCost() {
 		return this.cost;
 	}
-
 }

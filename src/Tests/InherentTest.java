@@ -14,10 +14,13 @@ public class InherentTest {
 		//Method : To the opposite, the call of a method is decided by the right hand class type. 
 		//Once called, the method will getting executed from where it defined. 
 		//The compiler first checks its local class, if not find, checks the supper class. 
-		//WHen the method trying to read a variable in side it's body, it will use the same rules. 
+		//WHen the method trying to read a variable inside it's body, it will use the same rules. 
 		//It's principal is straightforward - NEVER CHECK ITS SUBCLASS. Because it may have different types of subclass.  
 		//The method first reaches into the lowest level which is the right hand class type, and starts calling from there. 
 		
+		//Memory structure : 
+		// | class_type | super.property0 | sub.property0 | method0.reference (this is static, got initialize by the right hand side) | 
+
 		SubClass sub0 = new SubClass();
 		System.out.println(sub0.x); // 3, this will first checks the x in SubClass, so return 3.
 		System.out.println(sub0.y); // 4, the same thing. 

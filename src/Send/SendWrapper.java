@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 import Helpers.GameAux;
 import Helpers.LogHelper;
-import balls.Ball;
+import Balls.Ball;
 
 /**
  * Thread safe so far. Just wrap the update. 
@@ -44,7 +44,7 @@ public class SendWrapper
 	}
 	
 	public static void sendBallMove(Ball ball, int x, int y, int z){
-		int pvpBallID = ball.getId();
+		int pvpBallID = ball.id;
 		int seq = getAndIncSeqNum();
 		int type = 0;
 		int payload = ((x << 16) + (y << 8) + z);
@@ -52,7 +52,7 @@ public class SendWrapper
 	}
 	
 	public static void sendBallAction(Ball ball, String action){
-		int pvpBallID = ball.getId();
+		int pvpBallID = ball.id;
 		int seq = getAndIncSeqNum();
 		int type = 1;
 		int payload = GameAux.mapAction(action);
@@ -61,7 +61,7 @@ public class SendWrapper
 
 	public static void sendBallUpdate(Ball ball, String updateType,
 			int newVal) {
-		int pvpBallID = ball.getId();
+		int pvpBallID = ball.id;
 		int seq = getAndIncSeqNum();
 		int type = 2;
 		int updateNum = GameAux.mapUpdate(updateType);
@@ -70,7 +70,7 @@ public class SendWrapper
 	}
 	
 	public static void sendAddBall(Ball ball, String ballType) {
-		int pvpBallID = ball.getId();
+		int pvpBallID = ball.id;
 		int seq = getAndIncSeqNum();
 		int type = 3;
 		int payload = GameAux.mapBallType(ballType);
@@ -78,7 +78,7 @@ public class SendWrapper
 	}
 
 	public static void deleteBall(Ball ball) {
-		int pvpBallID = ball.getId();
+		int pvpBallID = ball.id;
 		int seq = getAndIncSeqNum();
 		int type = 4;
 		int payload = 0;

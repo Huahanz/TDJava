@@ -6,7 +6,7 @@ import swingFrontEnd.GameInfo;
 
 import Send.SendWrapper;
 import balls.ActiveBallRunnable;
-import balls.Ball;
+import Balls.Ball;
 import balls.BulletBall;
 import balls.DTowerBall;
 import balls.DragonBall;

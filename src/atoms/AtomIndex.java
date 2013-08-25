@@ -9,21 +9,21 @@ public class AtomIndex {
 	//We assume read numbers is vastly larger than write numbers. 
 	private final CopyOnWriteArrayList<AtomIndexNode> atomRef;
 
-	public AtomIndex(ArrayList<Class> atoms) {
+	public AtomIndex(ArrayList<Atom> atoms) {
 		ArrayList<AtomIndexNode> atomref = new ArrayList<AtomIndexNode>();
-		for(Class atomClass : atoms){
-			atomref.add(new AtomIndexNode(atomClass));
+		for(Atom atom: atoms){
+			atomref.add(new AtomIndexNode(atom));
 		}
 		this.atomRef = new CopyOnWriteArrayList<AtomIndexNode>(atomref);
 	}
 
-	public synchronized int addAtom(Class atom) {
+	public synchronized int addAtom(Atom atom) {
 		AtomIndexNode atomIndexNode = new AtomIndexNode(atom);
 		this.atomRef.add(atomIndexNode);
 		return this.atomRef.size() - 1;
 	}
 
-	public Class get(int id){
+	public Atom get(int id){
 		AtomIndexNode temp = this.atomRef.get(id);
 		for(; temp != null; temp = temp.next){
 			if(temp.next == null){
@@ -43,12 +43,12 @@ public class AtomIndex {
 		}
 		return temp.atom;
 	}
-	
+
 	class AtomIndexNode {
-		private Class atom;
+		private Atom atom;
 		private AtomIndexNode next = null;
 
-		private AtomIndexNode(Class atom) {
+		private AtomIndexNode(Atom atom) {
 			this.atom = atom;
 		}
 

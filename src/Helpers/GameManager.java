@@ -5,18 +5,19 @@ import java.awt.event.MouseEvent;
 import swingFrontEnd.GameInfo;
 
 import Send.SendWrapper;
-import balls.ActiveBallRunnable;
+import Balls.ActiveBall;
+import Balls.AtomBall;
 import Balls.Ball;
-import balls.BulletBall;
-import balls.DTowerBall;
-import balls.DragonBall;
-import balls.FastBall;
-import balls.HeroBall;
-import balls.STowerBall;
-import balls.SilverBulletBall;
-import balls.SlowBall;
-import balls.SoliderBall;
-import balls.StalkBulletBall;
+import Balls.BulletBall;
+import Balls.DTowerBall;
+import Balls.DragonBall;
+import Balls.FastBall;
+import Balls.HeroBall;
+import Balls.STowerBall;
+import Balls.SilverBulletBall;
+import Balls.SlowBall;
+import Balls.SoliderBall;
+import Balls.StalkBulletBall;
 
 import Controller.HttpManager;
 
@@ -215,7 +216,7 @@ public class GameManager {
 		return true;
 	}
 
-	public synchronized boolean reachDestination(DragonBall fastBall) {
+	public synchronized boolean reachDestination(AtomBall fastBall) {
 		SendWrapper.sendBallAction(fastBall, "REACHDEST");	
 		this.killBall(fastBall, true);
 		Config.lostDragon++;

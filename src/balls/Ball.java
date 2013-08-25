@@ -2,11 +2,19 @@ package Balls;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.imageio.ImageIO;
+
+import Data.LocalCache;
+import Data.LocalCacheNode;
+import Data.UnstackLocalCacheNode;
 import Helpers.BallCache;
 import Helpers.Config;
 import Helpers.GameAux;
+import Helpers.ImageHelper;
 
 public abstract class Ball
 {
@@ -56,6 +64,39 @@ public abstract class Ball
 
 	public int addAndGetY(int delta){
 		return this.y.addAndGet(delta);
+	}
+	
+	protected String getCacheKey(Object key){
+		return "Ball:" + this.getClass().toString() + ":BallID:" +  this.id + ":Key" + key.toString();  
+	}
+	
+	protected LocalCacheNode wrapLocalCacheNode(Object key, Object val, int expiration){
+		return new UnstackLocalCacheNode(this.getCacheKey(key), this, expiration);
+	}
+	
+	public boolean putLocalCache(Object key, Object val, int expiration){
+		LocalCacheNode localCacheNode = this.wrapLocalCacheNode(this.getCacheKey(key), val, expiration);
+		return LocalCache.put(key, localCacheNode);
+	}
+	
+	public Object getLocalCache(Object key){
+		return LocalCache.get(this.getCacheKey(key));
+	}
+	
+	public BufferedImage getImage() {
+		if (this.imagePath == null)
+			return null;
+		if (this.image == null) {
+			try {
+				BufferedImage originalImage = ImageIO.read(new File(this.imagePath));
+				this.image = ImageHelper.resizeImage(Config.ImageWidth,
+						Config.ImageHeight, originalImage,
+						originalImage.getType());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return this.image;
 	}
 	
 	public final int id;

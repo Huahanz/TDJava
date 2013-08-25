@@ -1,5 +1,7 @@
 TODO -- stage 2
-move onto stage2. Leave stage as it is until it turns out to be necessary to complete. 
+move onto stage2. Leave stage as it is until it turns out to be necessary to complete.
+run first integration test.  
+add concurrency concern to localcache
 
 
 
@@ -7,11 +9,10 @@ TODO -- stage 1
 
 Java server :
 
-Performance Log and Test -> T(server response), T(requester/round), T(executer/round), T(postman/round). 
-Adjust parameters as to the result from performance data.  
-Do stress test. large scale tests. 
-
-unit test
+0, Performance Log and Test -> T(server response), T(requester/round), T(executer/round), T(postman/round). 
+1, Adjust parameters as to the result from performance data.  
+2, Do stress test. large scale tests. 
+3, unit test
 
 
 PHP server : 

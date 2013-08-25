@@ -3,30 +3,33 @@ package Data;
 import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalCache {
-	HashMap<Object, LocalCacheNode> h = new HashMap<Object, LocalCacheNode>();
+	static ConcurrentHashMap<Object, LocalCacheNode> h = new ConcurrentHashMap<Object, LocalCacheNode>();
 
-	public LocalCache() {
+	private LocalCache() {
 
 	}
 
-	public boolean put(Object key, LocalCacheNode value) {
-		this.h.put(key, value);
+	public static boolean put(Object key, LocalCacheNode value) {
+		h.put(key, value);
 		return true;
 	}
 
-	public Object get(Object key) {
-		LocalCacheNode valNode = this.h.get(key);
-		if (valNode != null) {
-			Time now = Time.now();
-			if (now < valNode.timeExpire) {
+	public static Object get(Object key) {
+		LocalCacheNode valNode = h.get(key);
+		Object val = valNode.valRef;
+		if (val != null) {
+			Date now = new Date();
+			if (now.compareTo( valNode.timeExpire) < 0) {
 				valNode.reconstruct();
 			} else {
 				valNode = null;
-				this.h.put(key, valNode);
+				h.put(key, valNode);
 			}
 		}
-		return valNode;
+		return val;
 	}
 }

@@ -12,11 +12,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import balls.ActiveBallRunnable;
-import balls.Ball;
-import balls.BulletBall;
-import balls.BulletBallRunnable;
-import balls.TowerBallRunnable;
+import Balls.Ball;
+import Balls.BulletBall;
 
 import Helpers.AuxRunnable;
 import Helpers.Config;
@@ -27,7 +24,8 @@ import Helpers.TestHelper;
 import Map.ShortPath;
 /**
  * TODO concurrency issues. 
- *
+ * TODO better global index. 
+ * TODO reconstruct and rewrite this class. 
  */
 public class GameInfo {
 	public static SwingPanel swingPanel;
@@ -116,7 +114,7 @@ public class GameInfo {
 		oos.writeObject(TDPathMap);
 	}
 
-	
+	//TODO rewrite this, remove currentmap. 
 	//This need to change for every pvp. 
 	public static int[][] currentMap; // the map
 	private static boolean[][][][] marks; // temp marks

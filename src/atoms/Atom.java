@@ -2,52 +2,55 @@ package Atoms;
 
 import swingFrontEnd.GameInfo;
 import Balls.ActiveBall;
+import Balls.AtomBall;
 import Balls.Ball;
+import Balls.BulletBall;
+import Balls.DragonBall;
+import Balls.TowerBall;
+import Helpers.BallCache;
 import Helpers.Config;
 import Helpers.GameManager;
 import Helpers.TestHelper;
 import Send.SendWrapper;
 
+/**
+ * TODO null check.
+ * 
+ */
 public abstract class Atom {
-	public abstract Object exe(ActiveBall ball);
-	public final Object exe(ActiveBall ball, int x, int y){
-		//Should never be called. 
-		
-	}
+	public abstract Object exe(AtomBall ball);
 }
 
-class GroupAtom extends Atom {
-	int id; 
-}
-
-class BaseAtom extends Atom {
-	
-}
-
-class MoveAndBreakAtom extends BaseAtom {
-	public Object exe(ActiveBall ball) {
+class MoveWithBreakAtom extends BaseAtom {
+	public Object exe(AtomBall ball) {
 		int x = ball.getTargetX();
 		int y = ball.getTargetY();
-		if ((boolean) IsBlockedAtom.exe(ball, x, y)) {
-			return MoveToBreakBlockAtom.exe(ball, x, y);
+		IsBlockedAtom isBlockedAtom = new IsBlockedAtom();
+		if ((boolean) isBlockedAtom.exe(ball)) {
+			MoveToBreakBlockAtom moveToBreakBlockAtom = new MoveToBreakBlockAtom();
+			return moveToBreakBlockAtom.exe(ball);
 		} else {
-			return MoveAtom.exe(ball);
+			MoveAtom moveAtom = new MoveAtom();
+			return moveAtom.exe(ball);
 		}
 	}
 }
 
 /**
- * Call MoveInSlotAtom. Move level 8. 
- * Move with precalculated Dijkstra table. 
+ * Call MoveInSlotAtom. Move level 8. Move with precalculated Dijkstra table.
  */
 class MoveAtom extends BaseAtom {
+	public Object exe(AtomBall ball){
+		return this.exe((ActiveBall)ball);
+	}
 	public Object exe(ActiveBall ball) {
 		int x = ball.getTargetX();
 		int y = ball.getTargetY();
 		int ballX = ball.getX();
 		int ballY = ball.getY();
-		if (!GameInfo.isValide(x, y) || !GameInfo.isValide(ballX, ballY))
-			return false;
+		if (!GameInfo.isValide(x, y) || !GameInfo.isValide(ballX, ballY)){
+			return 0;
+		}
 		int thisXSlot = ballX / Config.slotWidth;
 		int thisYSlot = ballY / Config.slotHeight;
 		int toXSlot = x / Config.slotWidth;
@@ -82,10 +85,13 @@ class MoveAtom extends BaseAtom {
 }
 
 /**
- * Bottom atom. MoveInSlotAtom level 2. 
- * Move to target directly. Ratio is decide by abs(dx) + abs(dy).
+ * Bottom atom. MoveInSlotAtom level 2. Move to target directly. Ratio is decide
+ * by abs(dx) + abs(dy).
  */
 class MoveInSlotAtom extends BaseAtom {
+	public Object exe(AtomBall ball){
+		return this.exe((ActiveBall)ball);
+	}
 	public Object exe(ActiveBall ball) {
 		int x = ball.getTargetX();
 		int y = ball.getTargetY();
@@ -144,7 +150,7 @@ class MoveInSlotAtom extends BaseAtom {
  * 
  */
 class IsBlockedAtom extends BaseAtom {
-	public Object exe(ActiveBall ball) {
+	public Object exe(AtomBall ball) {
 		int x = ball.getTargetX();
 		int y = ball.getTargetY();
 		int ballX = ball.getX();
@@ -165,6 +171,9 @@ class IsBlockedAtom extends BaseAtom {
 }
 
 class MoveToBreakBlockAtom extends BaseAtom {
+	public Object exe(AtomBall ball){
+		return this.exe((ActiveBall)ball);
+	}
 	public Object exe(ActiveBall ball) {
 		int x = ball.getTargetX();
 		int y = ball.getTargetY();
@@ -181,7 +190,10 @@ class MoveToBreakBlockAtom extends BaseAtom {
 		// return breakBlock(thisXSlot, thisYSlot);
 
 		if (GameInfo.currentMap[thisYSlot][thisXSlot] != 0) {
-			BreakBlockAtom.exe(ball, thisXSlot, thisYSlot);
+			ball.putLocalCache("xSlot", thisXSlot, 0);
+			ball.putLocalCache("ySlot", thisYSlot, 0);
+			BreakBlockAtom breakBlockAtom = new BreakBlockAtom();
+			breakBlockAtom.exe(ball);
 		}
 		byte dir = GameInfo.breakDir[thisYSlot][thisXSlot][toYSlot][toXSlot];
 
@@ -207,7 +219,9 @@ class MoveToBreakBlockAtom extends BaseAtom {
 }
 
 class BreakBlockAtom extends BaseAtom {
-	public static Object exe(ActiveBall ball, int xSlot, int ySlot) {
+	public Object exe(AtomBall ball) {
+		int xSlot = (int) ball.getLocalCache("xSlot");
+		int ySlot = (int) ball.getLocalCache("ySlot");
 		TestHelper.print("Breaking");
 		GameInfo.currentMap[ySlot][xSlot] = 0;
 		SendWrapper.sendBallAction(ball, "BREAKBLOCK");
@@ -216,23 +230,146 @@ class BreakBlockAtom extends BaseAtom {
 }
 
 class AttackAtom extends BaseAtom {
-	public static Object exe(ActiveBall ball, ActiveBall target) {
-		SendWrapper.sendBallAction(ball, "ATTACK");
-		target.health.addAndGet(-ball.attack);
-		if (((ActiveBall) ball).getHealth() <= 0) {
-			GameManager gm = GameManager.getInstance();
-			gm.killBall(target, false);
+	public Object exe(AtomBall ball){
+		return this.exe((ActiveBall)ball);
+	}
+	public Object exe(ActiveBall ball) {
+		AtomBall target = (AtomBall) ball.getTargetBall();
+		if (target == null) {
+
+		} else if (!(target instanceof ActiveBall)) {
+
+		} else {
+			SendWrapper.sendBallAction(ball, "ATTACK");
+			((ActiveBall) target).addAndGetHealth(-ball.attack);
+			if (((ActiveBall) target).getHealth() <= 0) {
+				GameManager gm = GameManager.getInstance();
+				gm.killBall(target, false);
+				return true;
+			}
 		}
 		return false;
 	}
 }
 
 class IsInScopeAtom extends BaseAtom {
-	public static Object exe(ActiveBall ball, int x, int y) {
+	public Object exe(AtomBall ball) {
+		int x = ball.getX();
+		int y = ball.getY();
 		int scope = ball.scope;
 		int ballX = ball.getX();
 		int ballY = ball.getY();
 		return (Math.pow(ballX - x, 2) + Math.pow(ballY - y, 2) <= Math.pow(
 				scope, 2));
 	}
+}
+
+class SilverBulletShoot extends BaseAtom {
+	public Object exe(AtomBall ball) {
+		return this.exe((BulletBall)ball);
+	}
+	public Object exe(BulletBall ball) {
+		if (!(ball instanceof BulletBall)) {
+			return false;
+		}
+		MoveInSlotAtom moveInSlotAtom = new MoveInSlotAtom();
+		boolean hit = (boolean) moveInSlotAtom.exe(ball);
+		if (hit) {
+			Ball target = ball.getTargetBall();
+			if (target instanceof DragonBall) {
+				int health = ((DragonBall) target)
+						.addAndGetHealth(ball.attack);
+				if (health <= 0) {
+					target.imagePath = Config.DieImagePath;
+					GameManager gm = GameManager.getInstance();
+					gm.killBall(target, false);
+					gm.killBullet((BulletBall) ball);
+					return 2;
+				}
+			}
+			return 1;
+		}
+		return 0;
+	}
+}
+
+class MoveToExitAtom extends BaseAtom {
+	public Object exe(AtomBall ball) {
+		int thisXSlot = ball.getX() / Config.slotWidth;
+		int thisYSlot = ball.getY() / Config.slotHeight;
+		int toXSlot = (Config.defaultOneSlotWidth - Config.slotWidth)
+				/ Config.slotWidth;
+		int toYSlot = (Config.defaultOneSlotHeight - Config.slotHeight)
+				/ Config.slotHeight;
+		if (thisXSlot == toXSlot && thisYSlot == toYSlot) {
+			GameManager gm = GameManager.getInstance();
+			gm.reachDestination(ball);
+			return true;
+		} else {
+			ball.setTarget(Config.mapWidth - Config.slotWidth, Config.mapHeight
+					- Config.slotHeight);
+			MoveWithBreakAtom moveWithBreakAtom = new MoveWithBreakAtom();
+			moveWithBreakAtom.exe(ball);
+			return false;
+		}
+	}
+}
+
+class TowerAttckAtom extends BaseAtom {
+	public Object exe(AtomBall ball) {
+		if (!(ball instanceof TowerBall)) {
+			return 0;
+		}
+		GameManager gameManager = GameManager.getInstance();
+		int id = BallCache.generateBallID();
+		String bulletName = ((TowerBall) ball).bulletName;
+		gameManager.addBall(bulletName, ball.getX(), ball.getY(), ball, id);
+		return 1;
+	}
+
+}
+
+class TowerDefendAtom extends BaseAtom {
+	public Object exe(AtomBall ball) {
+		for (int i = 0; i < GameInfo.balls.size(); i++) {
+			//TODO  better global index. 
+			Ball target = GameInfo.balls.get(i);
+			if (target instanceof DragonBall) {
+				IsInScopeAtom isInScopeAtom = new IsInScopeAtom();
+				ball.setTarget(target);
+				if ((boolean) isInScopeAtom.exe(ball)) {
+					TowerAttckAtom towerAttckAtom = new TowerAttckAtom();
+					return towerAttckAtom.exe(ball);
+				}
+			}
+		}
+		return false;
+	}
+}
+
+class DTowerDefendAtom extends BaseAtom {
+	public Object exe(AtomBall ball){
+		if(! (ball instanceof TowerBall)){
+			return 0;
+		}
+		Ball target = ball.getTargetBall();
+		int angle = CalculateAngleAtom.calculateAngle(ball.getX(), ball.getY(), target.getX(),
+				target.getY());
+		GameInfo.currentMap[ball.getY() / Config.slotHeight][ball.getX()
+				/ Config.slotWidth] = ((TowerBall) ball).mapID + angle;
+		GameManager gameManager = GameManager.getInstance();
+		int id = BallCache.generateBallID();
+		gameManager.addBall(((TowerBall) ball).bulletName, ball.getX(), ball.getY(),
+				target, id);
+		SendWrapper.sendBallAction(ball, "TOWERATTACK");
+		return true;
+	}
+}
+
+//TODO 
+class RandomWalkAtom extends BaseAtom {
+	public Object exe(AtomBall ball) {
+		return 0;
+	}
+	
 }

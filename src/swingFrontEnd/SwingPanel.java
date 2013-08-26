@@ -21,10 +21,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import swingFrontEnd.SwingFrame;
-
-import balls.*;
-
+import Balls.*;
 import Helpers.Config;
 import Helpers.ImageHelper;
 import Helpers.MapData;
@@ -76,14 +73,14 @@ public class SwingPanel extends JPanel {
 								Math.min(Config.defaultOneSlotHeight, paintY));
 						((Graphics2D) g).setComposite(AlphaComposite
 								.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-						g.drawOval(paintX - ((TowerBall) ball).getScope(),
-								paintY - ((TowerBall) ball).getScope(),
-								2 * ((TowerBall) ball).getScope(),
-								2 * ((TowerBall) ball).getScope());
-						g.fillOval(paintX - ((TowerBall) ball).getScope(),
-								paintY - ((TowerBall) ball).getScope(),
-								2 * ((TowerBall) ball).getScope(),
-								2 * ((TowerBall) ball).getScope());
+						g.drawOval(paintX - ((TowerBall) ball).scope,
+								paintY - ((TowerBall) ball).scope,
+								2 * ((TowerBall) ball).scope,
+								2 * ((TowerBall) ball).scope);
+						g.fillOval(paintX - ((TowerBall) ball).scope,
+								paintY - ((TowerBall) ball).scope,
+								2 * ((TowerBall) ball).scope,
+								2 * ((TowerBall) ball).scope);
 						((TowerBall) ball).createFlag = 1;
 					}
 				}
@@ -92,8 +89,7 @@ public class SwingPanel extends JPanel {
 
 		SwingFrame.goldLabel.setText("Gold: " + Config.gold);
 		SwingFrame.lostLabel.setText("LostDragons: " + Config.lostDragon);
-		SwingFrame.killDragonLabel
-				.setText("KillDragons: " + Config.killDragons);
+		SwingFrame.killDragonLabel.setText("KillDragons: " + Config.killDragons);
 	}
 
 	private void paintDiedBalls(Graphics g) {
@@ -103,8 +99,7 @@ public class SwingPanel extends JPanel {
 				BufferedImage originalImage;
 				try {
 					originalImage = ImageIO.read(new File(Config.DieImagePath));
-					BufferedImage image = ImageHelper.resizeImage(
-							Config.ImageWidth, Config.ImageHeight,
+					BufferedImage image = ImageHelper.resizeImage(Config.ImageWidth, Config.ImageHeight,
 							originalImage, originalImage.getType());
 					if (image != null) {
 						int paintX = ball.getX() - Config.DragonImageSize;
@@ -121,8 +116,7 @@ public class SwingPanel extends JPanel {
 
 			}
 		}
-		if (GameInfo.dieBalls.size() > 0
-				&& Math.random() < 0.026 * GameInfo.dieBalls.size())
+		if (GameInfo.dieBalls.size() > 0 && Math.random() < 0.026 * GameInfo.dieBalls.size())
 			GameInfo.dieBalls.remove(GameInfo.dieBalls.size() - 1);
 	}
 
@@ -131,14 +125,10 @@ public class SwingPanel extends JPanel {
 		for (int i = 0; i < GameInfo.bullets.size(); i++) {
 			BulletBall ball = GameInfo.bullets.get(i);
 			if (ball != null) {
-				if (ball instanceof SilverBulletBall) {
-					g2.drawLine(ball.getX(), ball.getY()
-							+ Config.DragonImageSize,
-							((SilverBulletBall) ball).getTargetX(),
-							((SilverBulletBall) ball).getTargetY());
-				} else if (ball instanceof StalkBulletBall) {
-					// g2.drawLine(ball.getX(), ball.getY(),
-					// ball.getTarget().getX(), ball.getTarget().getY());
+				if(ball instanceof SilverBulletBall){
+					g2.drawLine(ball.getX(), ball.getY() + Config.DragonImageSize, ((SilverBulletBall)ball).getTargetX(), ((SilverBulletBall)ball).getTargetY());
+				}else if(ball instanceof StalkBulletBall){
+//					g2.drawLine(ball.getX(), ball.getY(), ball.getTarget().getX(), ball.getTarget().getY());
 					g2.fill((Shape) ball.getShape());
 				}
 				if (ball instanceof StalkBulletBall) {

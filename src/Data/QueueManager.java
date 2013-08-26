@@ -23,7 +23,7 @@ import com.google.gson.internal.LinkedTreeMap;
  * Manage three group of queues : income queues, outgoing queues and schedule history.
  * Static class. All fields should be synchronized. 
  * Many references. 
- * The reason we put all the queue here is we want concurrency issues solved more efficiently. 
+ * The reason we put all the queue here is we want concurrency issues solved more efficiently and in the same way. 
  */
 public class QueueManager {
 
@@ -228,7 +228,7 @@ public class QueueManager {
 	}
 
 	/**
-	 * PVPStrore
+	 * PVPStore
 	 */
 
 	private static final ConcurrentHashMap<String, MapInfo> pvpStoreMap = new ConcurrentHashMap<String, MapInfo>();

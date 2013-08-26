@@ -1,9 +1,31 @@
 TODO -- stage 2
+
+40, rewrite this repo. cleanup all the error. 
+
+
+
+30, finish atom part without any testing
+31, finish and rewrite the java server part
+32, test together. 
+
+20, first test client and java server in a same repo. Wrap the necessary unimplemented features as they are done.  
+21, seperate client and java server. 
+22, implement new functionalities to php server.  
+
 move onto stage2. Leave stage as it is until it turns out to be necessary to complete.
-run first integration test.  
-add concurrency concern to localcache
+10, run the client only simulator, run first integration test.
+11, connect the client with the server.   
+12, add concurrency concern to localcache
 
-
+00, Player login (we assume this is the only player) 
+-> client : move to stage 3
+-> server : move to stage 3
+10, player buy balls (we assume player has unlimited money)
+-> send request to server. 
+-> server create balls. 
+-> server return balls info. 
+20, these balls begins to grow
+-> 
 
 TODO -- stage 1
 
@@ -24,5 +46,4 @@ write a sample.
 extend the sample to 3 layers : 1, shop; 2, map picker; 3, main 4, mapview
 Do the 1, 2 and 3 layer, and assemble. 
 Port mapview in. 
-
 

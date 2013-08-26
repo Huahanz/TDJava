@@ -5,4 +5,7 @@
 *.exe
 *.o
 *.so
+.DS_Store
+*.orig
+*.pyc
 bin/*

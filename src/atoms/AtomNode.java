@@ -12,5 +12,4 @@ public class AtomNode {
 		this.ref = ref;
 		this.nibors = nibors;
 	}
-
 }

@@ -13,10 +13,8 @@ import Balls.DTowerBall;
 import Balls.DragonBall;
 import Balls.FastBall;
 import Balls.HeroBall;
-import Balls.STowerBall;
 import Balls.SilverBulletBall;
 import Balls.SlowBall;
-import Balls.SoliderBall;
 import Balls.StalkBulletBall;
 
 import Controller.HttpManager;
@@ -31,6 +29,9 @@ public class GameManager {
 		return gameManager;
 	}
 
+	/**
+	 * Only for testing. 
+	 */
 	public synchronized Object addRandBall(String ballName, int pvpBallID){
 		int width = Config.defaultOneSlotWidth;
 		int height = Config.defaultHeight;

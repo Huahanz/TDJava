@@ -22,116 +22,120 @@ import Helpers.LogHelper;
 import Helpers.MapData;
 import Helpers.TestHelper;
 import Map.ShortPath;
+
 /**
- * TODO concurrency issues. 
- * TODO better global index. 
- * TODO reconstruct and rewrite this class. 
+ * TODO concurrency issues. TODO better global index. TODO reconstruct and
+ * rewrite this class.
  */
 public class GameInfo {
 	public static SwingPanel swingPanel;
 	public static Rectangle2D Bounds;
-	
-	//TODO change to concurrent Lists -- Vector.  
+
+	// TODO change to concurrent Lists -- Vector.
 	public static Vector<Ball> balls = new Vector<Ball>();
 	public static Vector<Ball> dieBalls = new Vector<Ball>();
 	public static Vector<BulletBall> bullets = new Vector<BulletBall>();
-	
-	//TODO move to another class and change type to final 
-	//belongs to the may static info, won't change during switches of pvps.
-	public static byte[][][][] mapDir; // the shortest path move direction 
-	public static float[][][][] mapPath; // the shortest path length. 
+
+	// TODO move to another class and change type to final
+	// belongs to the may static info, won't change during switches of pvps.
+	public static byte[][][][] mapDir; // the shortest path move direction
+	public static float[][][][] mapPath; // the shortest path length.
 	public static byte[][][][] breakDir; // the shortest path move direction
 	public static float[][][][] breakPath; // the shortest path length
 	public static byte[][] TDDirMap;
 	public static float[][] TDPathMap;
 	public static String filePathPrefix = "path";
 	public static ShortPath shortPathWrapper;
-	
-	private static boolean isSerialized(){
-		String[] fileNames = {"mapDir", "mapPath", "breakDir", "breakPath", "TDDirMap", "TDPathMap"};
-		for(String fileName : fileNames){
+
+	private static boolean isSerialized() {
+		String[] fileNames = { "mapDir", "mapPath", "breakDir", "breakPath",
+				"TDDirMap", "TDPathMap" };
+		for (String fileName : fileNames) {
 			boolean isEmpty = isFileEmpty(filePathPrefix + fileName);
-			if(isEmpty){
+			if (isEmpty) {
 				return false;
 			}
 		}
 		return true;
 	}
-	private static boolean isFileEmpty(String fileName){
+
+	private static boolean isFileEmpty(String fileName) {
 		File file = new File(fileName);
 		boolean empty = !file.exists() || file.length() == 0;
 		return empty;
 	}
-	private static void deserialize() throws IOException, ClassNotFoundException{
+
+	private static void deserialize() throws IOException,
+			ClassNotFoundException {
 		FileInputStream fis = new FileInputStream(filePathPrefix + "mapDir");
 		ObjectInputStream iis = new ObjectInputStream(fis);
 		mapDir = (byte[][][][]) iis.readObject();
-		
+
 		fis = new FileInputStream(filePathPrefix + "mapPath");
 		iis = new ObjectInputStream(fis);
-		mapPath= (float[][][][]) iis.readObject();
-		
+		mapPath = (float[][][][]) iis.readObject();
+
 		fis = new FileInputStream(filePathPrefix + "breakDir");
 		iis = new ObjectInputStream(fis);
-		breakDir= (byte[][][][]) iis.readObject();
-		
+		breakDir = (byte[][][][]) iis.readObject();
+
 		fis = new FileInputStream(filePathPrefix + "breakPath");
 		iis = new ObjectInputStream(fis);
-		breakPath= (float[][][][]) iis.readObject();
-		
+		breakPath = (float[][][][]) iis.readObject();
+
 		fis = new FileInputStream(filePathPrefix + "TDDirMap");
 		iis = new ObjectInputStream(fis);
-		TDDirMap= (byte[][]) iis.readObject();
-		
+		TDDirMap = (byte[][]) iis.readObject();
+
 		fis = new FileInputStream(filePathPrefix + "TDPathMap");
 		iis = new ObjectInputStream(fis);
-		TDPathMap= (float[][]) iis.readObject();
+		TDPathMap = (float[][]) iis.readObject();
 	}
-	
-	private static void serialize() throws IOException{
+
+	private static void serialize() throws IOException {
 		FileOutputStream fos = new FileOutputStream(filePathPrefix + "mapDir");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(mapDir);
-		
+
 		fos = new FileOutputStream(filePathPrefix + "mapPath");
 		oos = new ObjectOutputStream(fos);
 		oos.writeObject(mapPath);
-		
+
 		fos = new FileOutputStream(filePathPrefix + "breakDir");
 		oos = new ObjectOutputStream(fos);
 		oos.writeObject(breakDir);
-		
+
 		fos = new FileOutputStream(filePathPrefix + "breakPath");
 		oos = new ObjectOutputStream(fos);
 		oos.writeObject(breakPath);
-		
+
 		fos = new FileOutputStream(filePathPrefix + "TDDirMap");
 		oos = new ObjectOutputStream(fos);
 		oos.writeObject(TDDirMap);
-		
+
 		fos = new FileOutputStream(filePathPrefix + "TDPathMap");
 		oos = new ObjectOutputStream(fos);
 		oos.writeObject(TDPathMap);
 	}
 
-	//TODO rewrite this, remove currentmap. 
-	//This need to change for every pvp. 
+	// TODO rewrite this, remove currentmap.
+	// This need to change for every pvp.
 	public static int[][] currentMap; // the map
 	private static boolean[][][][] marks; // temp marks
-	
+
 	static int m = 0;
 	static int n = 0;
-	
-	public static void clearBalls(){
+
+	public static void clearBalls() {
 		balls = new Vector<Ball>();
 		dieBalls = new Vector<Ball>();
 		bullets = new Vector<BulletBall>();
 	}
-	
-	public static void clearMap(){
+
+	public static void clearMap() {
 		currentMap = MapData.loadMap(Config.defaultTestMapNum);
 	}
-	
+
 	public static boolean load(SwingFrame swingFrame) {
 		swingFrame.setSize(Config.defaultWidth, Config.defaultHeight);
 		GameInfo.swingPanel = new SwingPanel();
@@ -149,9 +153,9 @@ public class GameInfo {
 	public static void loadMap() throws IOException, ClassNotFoundException {
 		// if not in db
 		currentMap = MapData.loadMap(Config.defaultTestMapNum);
-		if(!isSerialized()){
+		if (!isSerialized()) {
 			calculateMap();
-		}else{
+		} else {
 			LogHelper.debug("Deserialize path from file. ");
 			deserialize();
 		}
@@ -422,29 +426,6 @@ public class GameInfo {
 
 			visited[mina][minb] = true;
 		}
-	}
-
-	/**
-	 * Deprecated
-	 */
-	public static void startTD() {
-		//GameInfo.loadMap();
-		if(Config.isWallBuilt){
-			GameInfo.calculateTDMap();
-		}
-		GameManager.getInstance().generateDragons(10);
-		Thread fastBallThread = new Thread(new ActiveBallRunnable());
-		fastBallThread.start();
-
-		Thread towerThread = new Thread(new TowerBallRunnable());
-		towerThread.start();
-
-		Thread bulletThread = new Thread(new BulletBallRunnable());
-		bulletThread.start();
-		
-//		Thread auxThread = new Thread(new AuxRunnable());
-//		auxThread.start();
-		Config.isWallBuilt = false;
 	}
 
 	public static void addWall() {

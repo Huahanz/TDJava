@@ -38,7 +38,7 @@ public class GameAux{
 	}
 
 	public static int mapAction(String action){
-		String[] actions = {};
+		String[] actions = {}; // TODO
 		int i = -1; 
 		for(String ele: actions){
 			i++;
@@ -50,7 +50,7 @@ public class GameAux{
 	}
 
 	public static int mapUpdate(String updateType) {
-		String[] updates = {};
+		String[] updates = {}; // TODO
 		int i = -1; 
 		for(String ele: updates){
 			i++;

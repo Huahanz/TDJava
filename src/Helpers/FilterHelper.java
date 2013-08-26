@@ -3,6 +3,7 @@ package Helpers;
 import java.util.ArrayList;
 
 /**
+ * Made functions for convinence. 
  * Static class. All functions are atomic. 
  *
  */

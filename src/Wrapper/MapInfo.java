@@ -6,8 +6,8 @@ import java.util.Vector;
 
 import swingFrontEnd.GameInfo;
 
-import balls.Ball;
-import balls.BulletBall;
+import Balls.Ball;
+import Balls.BulletBall;
 
 import Helpers.BallCache;
 
@@ -47,7 +47,6 @@ public class MapInfo
 		return ballMap;
 	}
 	public Object serialize() {
-		//TODO 
 		return ballMap.toString();
 	}
 }

@@ -1,6 +1,6 @@
 package Helpers;
 
-import balls.Ball;
+import Balls.Ball;
 
 public class TestHelper {
 

@@ -15,8 +15,8 @@ import Simulator.Simulator;
 public class Main {
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		Setup setup = new Setup();
-//		setup.startSimulator();
-//		setup.startServer();
+		setup.startSimulator();
+		setup.startServer();
 		Setup.startPanel();
 	}
 }

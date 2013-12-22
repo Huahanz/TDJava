@@ -4,11 +4,14 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Timer;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Condition;
 
 public class LocalCache {
 	static ConcurrentHashMap<Object, LocalCacheNode> h = new ConcurrentHashMap<Object, LocalCacheNode>();
-
+	static BlockingQueue bq = new BlockingQueue();
+	static Condition cnd = new Condition();
 	private LocalCache() {
 
 	}
